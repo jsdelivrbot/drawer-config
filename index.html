@@ -2,7 +2,7 @@
 <html ng-app="JSConfigApp">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+
 	</head>
 	<style>
 		.drawer-item {
@@ -48,13 +48,13 @@
     }
 
 	</style>
-	<body ng-controller="JSConfigAppCtrl">	
+	<body ng-controller="JSConfigAppCtrl">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8">
 					<h1>Promo Drawer Configuration Tool</h1>
-				</div>	
-				<div class="col-sm-4">				
+				</div>
+				<div class="col-sm-4">
 				</div>
 			</div>
 			<form name="cellForm" ng-submit="submitForm(cellForm.$valid)" novalidate>
@@ -64,34 +64,34 @@
 						<label for="headerText">Drawer Header Text</label>
 						<input type="text" name="headerText" class="form-control" ng-model="promos.global.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1" ng-maxlength="24">
 						<p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
-						<p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>						
+						<p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
 					</div>
 					<div class="form-group">
 						<label for="headerSubText">Drawer Header Sub Text</label>
 						<input type="text" class="form-control" ng-model="promos.global.subHeaderText" id="headerSubText" placeholder="Enter Header Sub Text" >
 					</div>
-				</div>		
-			</div>	
+				</div>
+			</div>
 			<div class="row" ng-repeat="promo in promos.global.promos track by $index">
 				<div class="col-sm-12">
 					<div class="panel panel-info">
 						<div class="panel-heading">
-							<h2 class="panel-title">Drawer Cell {{$index + 1}} 
-							  <button 
-							    ng-show="promos.global.promos.length > 1" 
-							    style="margin-left:12px;line-height:18px;" 
-							    ng-click="moveCell($index,1)" 
+							<h2 class="panel-title">Drawer Cell {{$index + 1}}
+							  <button
+							    ng-show="promos.global.promos.length > 1"
+							    style="margin-left:12px;line-height:18px;"
+							    ng-click="moveCell($index,1)"
 							    class="btn btn-info btn-xs fa fa-arrow-circle-down">
 							  </button>
-							  <button 
-							    ng-show="promos.global.promos.length > 1" 
-							    style="margin-left:12px;line-height:18px;" 
-							    ng-click="moveCell($index,-1)" 
+							  <button
+							    ng-show="promos.global.promos.length > 1"
+							    style="margin-left:12px;line-height:18px;"
+							    ng-click="moveCell($index,-1)"
 							    class="btn btn-info btn-xs fa fa-arrow-circle-up">
 							  </button>
-                <button 
-                  ng-show="promos.global.promos.length > 1" 
-                  class="btn pull-right btn-info btn-xs fa fa-times" 
+                <button
+                  ng-show="promos.global.promos.length > 1"
+                  class="btn pull-right btn-info btn-xs fa fa-times"
                   ng-click="delete($index)">
 							  </button>
 							</h2>
@@ -100,7 +100,7 @@
 							<div class="col-sm-7">
 								<div class="panel panel-default">
 									<div class="panel-heading">Banner Content</div>
-							
+
 									<div class="panel-body">
 										<div class="col-sm-12">
 											<div class="form-group">
@@ -130,26 +130,26 @@
 													  <h4>Warning!</h4>
 													  <p>{{imgError}}</p>
 													</div>
-												</div>												
+												</div>
 												<div class="form-group" ng-hide="promo.bannerContent.img.images.dataUri">
 													<label for="inputImageUrl">Cell image path</label>
 													<input type="text" ng-model="promo.bannerContent.img.images.path" class="form-control" id="inputImageUrl" placeholder="URL">
-												</div>								
+												</div>
 												<div class="form-group">
 													<label>
 														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link"> Link image
 														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image
 													</label>
 													<textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
-													
+													You did it!
 												</div>
-							
+
 												<div class="form-group" ng-show="promo.bannerContent.img.contentParameters.link == true">
 													<label for="inputUrl">Cell link URL</label>
 													<input ng-model="promo.bannerContent.img.contentParameters.linkUrl" type="text" class="form-control" id="inputUrl" placeholder="URL">
 												</div>
 											</div>
-						
+
 											<div class="HTML-container" ng-show="promo.bannerContent.imgOrHTML == 'html'">
 												<div class="form-group">
 													<label>
@@ -164,19 +164,19 @@
 													<label for="html">HTML Content</label>
 													<text-angular ng-model="promo.bannerContent.HTML.localHTML"  class="html-banner-br"></text-angular>
 												</div>
-												<div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">	
+												<div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
 													<label for="bgcolor">Background Color</label><br>
-													<spectrum-colorpicker name="bgcolor" ng-model="promo.bannerContent.HTML.backgroundColor" format="'hex'" class="bg-colorpicker" on-change="bgColorChange($index)" options="{replacerClassName: 'fa fa-eyedropper', showButtons: true, showInput: true, preferredFormat: 'hex'}"></spectrum-colorpicker>		 			
-												</div>	
-											</div>	
+													<spectrum-colorpicker name="bgcolor" ng-model="promo.bannerContent.HTML.backgroundColor" format="'hex'" class="bg-colorpicker" on-change="bgColorChange($index)" options="{replacerClassName: 'fa fa-eyedropper', showButtons: true, showInput: true, preferredFormat: 'hex'}"></spectrum-colorpicker>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>							
+								</div>
 							</div>
 							<div class="col-sm-5">
 								<div class="panel panel-default">
 									<div class="panel-heading">Banner Footer</div>
-									<div class="panel-body">					
+									<div class="panel-body">
 										<div class="form-group">
 											<div class="radio">
 											  <label class="radio-inline">
@@ -196,7 +196,7 @@
 												<strong>None</strong> - display "No code required"
 											  </label>
 											</div>
-										</div>		
+										</div>
 										<form class="form">
 											<div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
 												<label for="genericCodeId">PPC ID</label>
@@ -207,7 +207,7 @@
 												<label for="genericCode">Generic code</label>
 												<input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
 											</div>
-										</form>						
+										</form>
 										<div class="form-group" ng-hide="promo.tapContent.displayType == 'none'">
 											<label for="inputUrl">Legal popup text override</label>
 											<textarea class="form-control" rows="3" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="If empty, PPC ID will be used to generate legal popup text"></textarea>
@@ -216,14 +216,14 @@
 											<label for="preview">iframe preview</label>
 											<!-- <iframe name="preview" frameborder="0" scrolling="yes" ng-src="{{cleanUrl($index)}}"></iframe> -->
 										</div>
-									</div>	
-								</div>						
+									</div>
+								</div>
 							</div>
-						</div>	
+						</div>
 					</div>
-				</div>	
+				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-sm-12">
 					<button style="margin-bottom: 22px;" class="btn btn-success pull-right" ng-click="addItem()">Add promo cell</button><br>
@@ -273,35 +273,35 @@
                         <div class="control-apply column2">
                           <a href="#normal" class="legal-details">
                             <span class="legal">details</span>
-                          </a>                         
+                          </a>
                         </div>
                       </div>
 										</div>
-									</div>	
+									</div>
 								</div>
-							</div>		
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-3">
-				</div>				
-			</div>		
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
-						<div class="panel-body">	
+						<div class="panel-body">
 							<div class="col-sm-6">
 								<span class="btn btn-default btn-block btn-file">
 									Import config.json file <input id="the-file-input" type="file">
-								</span>	
-							</div>	
-							<div class="col-sm-6">				
+								</span>
+							</div>
+							<div class="col-sm-6">
 								<a download="config.json" class="btn btn-primary btn-block" role="button" ng-href="data:text/json;charset=utf-8,{{myEncodeJson(promos)}}">Export config.json file</a>
 							</div>
 						</div>
-					</div>	
+					</div>
 				</div>
-			</div>	
+			</div>
 
       <!--
 			<div class="row">
@@ -309,11 +309,11 @@
 					<div class="panel panel-default">
 					<div class="panel-heading">Output</div>
 					<div class="panel-body"><code>{{promos}}</code></div>
-				</div>	
+				</div>
 				</div>
 			</div>
       -->
-      
+
 			<div class="row">
 				<div class="col-sm-12"></div>
 			</div>
@@ -322,10 +322,10 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-- inportant: this css should remain linked by brand -->
-		<link rel="stylesheet" href="css/spotlight-drawer.css">	
-		<link rel="stylesheet" type="text/css" href="brand-css-files/br-style.css">	
+		<link rel="stylesheet" href="css/spotlight-drawer.css">
+		<link rel="stylesheet" type="text/css" href="brand-css-files/br-style.css">
 
-		<link rel="stylesheet" href="css/textAngular.css">	
+		<link rel="stylesheet" href="css/textAngular.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="css/spectrum.min.css" />
 		<script src="js/jquery.min.js"></script>
@@ -347,14 +347,14 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
     </script>
     <script src="js/textAngularSetup.js"></script>
 		<script src='js/textAngular.js'></script>
-		<script>		
+		<script>
       var JSConfigApp = angular.module('JSConfigApp', ['textAngular']).controller('JSConfigAppCtrl', ['$scope', '$sce', function ($scope, $sce) {
-  
+
         //globals
         var cellOuterWidth;
         var fullSliderContainerWidth;
         $scope.pageNumber = 0;
-        $scope.setPageNumber = function(index) {       
+        $scope.setPageNumber = function(index) {
           $scope.pageNumber = index;
         }
 
@@ -380,7 +380,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
                   }
                 },
                 HTML : {
-                  useLocal: false,						
+                  useLocal: false,
                   localHTML: '<h1 style="text-align: center;">Headline</h1>\
     <h4 style="text-align: center;">Subheader</h4>\
     <p style="text-align: center;">Some optional info</p>\
@@ -407,7 +407,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
           fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
           jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth+"px");
         };
-        
+
         $scope.moveCell = function ( old_index, dir ) {
           var new_index = old_index + dir;
           if (new_index >= $scope.promos.global.promos.length) {
@@ -419,7 +419,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
           $scope.promos.global.promos.splice(new_index, 0, $scope.promos.global.promos.splice(old_index, 1)[0]);
           //return this; // for testing purposes
         };
-        
+
 
         $scope.addItem = function () {
           $scope.promos.global.promos.push({
@@ -466,12 +466,12 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
         $scope.cleanUrl = function(index) {
            return $sce.trustAsResourceUrl("https://secure.www.brol.wip.gidapps.com/buy/promo_legal_details.do?promoId=" + $scope.promos.global.promos[index].tapContent.genericCodeId);
         }
-    
-    
+
+
         // This section deals with importing a json file and then building out our global
         // configuration and updating the view.
-      
-        jQuery("#the-file-input").change(function() {    
+
+        jQuery("#the-file-input").change(function() {
           $scope.renderJSON(this.files[0]);
         });
 
@@ -491,13 +491,13 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
           }
           fr.readAsText(file);
         }
-      
+
         // JSON export function
         $scope.myEncodeJson = function(obj){
           newObj = this.stripClone(obj);
           return JSON.stringify(newObj);
         };
-      
+
         $scope.stripClone = function(obj) {
           if (null == obj || "object" != typeof obj) return obj;
           var copy = obj.constructor();
@@ -505,7 +505,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
           if (obj.hasOwnProperty(attr) && attr != '$$hashKey') {
             var obj_attr = obj[attr];
             if (typeof obj_attr == "object"){
-            copy[attr] = this.stripClone(obj_attr); 
+            copy[attr] = this.stripClone(obj_attr);
             } else if (typeof obj_attr == "array"){
             copy[attr] =[];
             for(var i =0; i<obj_attr.length; i++){
@@ -522,19 +522,19 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
 
 
 
-        // load up an image and convert it to a dataURI  
-        jQuery(document).on('change','#the-img-input' , function(){ 	
+        // load up an image and convert it to a dataURI
+        jQuery(document).on('change','#the-img-input' , function(){
           $scope.renderURI(this, function( dataUri ) {
             $scope.$apply( $scope.promos.global.promos[$scope.pageNumber].bannerContent.img.images.dataUri = dataUri);
           });
         });
-      
-        $scope.renderURI = function (input, callback) {	
+
+        $scope.renderURI = function (input, callback) {
           var image = new Image();
           image.onload = function () {
             var canvas = document.createElement('canvas');
             canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-            canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size	
+            canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
             canvas.getContext('2d').drawImage(this, 0, 0);
             $scope.imgError = "";
             if ( canvas.width != 331 && canvas.height != 183 ) {
@@ -544,7 +544,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
             callback(canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg);base64,/, ''));
 
           };
-  
+
           if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -552,16 +552,16 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
             }
             reader.readAsDataURL(input.files[0]);
           }
-        }      
-      
-        $scope.erasePic = function(index) {       
+        }
+
+        $scope.erasePic = function(index) {
            $scope.promos.global.promos[index].bannerContent.img.images.dataUri = "";
         }
 
-      
-      
-      
-        // handle the changing of the background in editor and preview  
+
+
+
+        // handle the changing of the background in editor and preview
         $scope.bgColorChange = function(index) {
           jQuery('.ta-text:eq("'+index+'"), .html-preview:eq("'+index+'")').css('background-color',$scope.promos.global.promos[index].bannerContent.HTML.backgroundColor);
         }
@@ -573,7 +573,7 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
               jQuery(this).toggleText('Applied At Bag' , 'TAP TO APPLY')
               return false;
           });
-        }		
+        }
       }]);
 
       JSConfigApp.config(['$compileProvider', function ($compileProvider) {
@@ -585,6 +585,6 @@ function(a,b,c){"use strict";function d(){this.$get=["$$sanitizeUri",function(a)
         else                   this.text(t1);
         return this;
       };
-		</script>		
+		</script>
 	</body>
-</html>			
+</html>
