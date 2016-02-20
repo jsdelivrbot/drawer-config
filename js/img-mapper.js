@@ -1131,6 +1131,7 @@ function SummerHtmlImageMapCreator() {
 		};
 
 		/* Selected image loading */
+		//app.loadImage(promo.bannerContent.img.images.dataUri)
 		function onButtonClick(e) {
 			if (last_changed === url_input && url_input.test()) {
 				app.loadImage(url_input.getImage()).setFilename(filename);

@@ -138,11 +138,11 @@
 												<div class="form-group">
 													<label>
 														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link"> Link image
-														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image
+														<input type="checkbox" ng-show="promo.bannerContent.img.images.dataUri" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image
 													</label>
 													<textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
 													<br>
-													<button ng-show="promo.bannerContent.img.contentParameters.useMap" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Map Image</button>
+													<button ng-show="promo.bannerContent.img.contentParameters.useMap" onclick="app.loadImage(promo.bannerContent.img.images.dataUri)" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Map Image</button>
 													<div id="myModal" class="modal fade" role="dialog">
 													  <div class="modal-dialog modal-lg">
 
@@ -238,7 +238,7 @@
 																				<label>Drag an image</label>
 																				<div id="dropzone">
 																					<span class="clear_button" title="clear">x</span>
-																					<img src="" alt="preview" id="sm_img" />
+																					<img src="promo.bannerContent.img.images.dataUri" alt="preview" id="sm_img" />
 																				</div>
 																			</div>
 																			<label for="url">type a url</label>
