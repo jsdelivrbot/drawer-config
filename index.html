@@ -107,7 +107,7 @@
 												<div class="radio">
 												  <label class="radio-inline">
 													<input type="radio" ng-model="promo.bannerContent.imgOrHTML" value="img" name="group_{{$index}}">
-													<strong>Image</strong> - Cell loads an image with options for a single link, image mapping lings or no link.
+													<strong>Image</strong> - Cell loads an image with options for a single link, image mapping or no link.
 												  </label>
 												</div>
 												<div class="radio">
@@ -140,6 +140,8 @@
 														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link"> Link image
 														<input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image
 													</label>
+													<textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
+													
 												</div>
 							
 												<div class="form-group" ng-show="promo.bannerContent.img.contentParameters.link == true">
