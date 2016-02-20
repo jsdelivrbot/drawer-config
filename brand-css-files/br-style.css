@@ -1,0 +1,69 @@
+  
+.html-banner-br h1, h2, h3, h4, h5 {
+    line-height: 1.1;
+    font-weight: 300;
+}
+.html-banner-br h1 {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1.75em;
+  color: #000000;
+  padding-top: 12px;
+  padding-bottom: 9px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+.html-banner-br h2 {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1.55em;
+  color: #000000;
+  padding-top: 12px;
+  padding-bottom: 9px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  font-weight: 600;
+}
+.html-banner-br h3 {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:18px;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;			
+}
+.html-banner-br h4 {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1.25em;
+  color: #000000;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+.html-banner-br h5 {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1em;
+  color: #929292;
+  text-transform: uppercase;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;  
+}
+.html-banner-br p {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1em;
+  color: #000000;
+  margin: 0 0 9px;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  padding: .07em 0;
+}
+.html-banner-br a, .html-banner-br a:link, .html-banner-br a:visited {
+  font-family: Futura, "Avant Garde", sans-serif;
+  font-size:1em;
+  color: #000000;
+  text-decoration: underline;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;  
+}
