@@ -1131,18 +1131,26 @@ function SummerHtmlImageMapCreator() {
 		};
 
 		/* Selected image loading */
-		//app.loadImage(promo.bannerContent.img.images.dataUri)
 		function onButtonClick(e) {
-			if (last_changed === url_input && url_input.test()) {
+			app.loadImage(urlImage()).setFilename(filename);
+
+		/*	if (last_changed === url_input && url_input.test()) {
 				app.loadImage(url_input.getImage()).setFilename(filename);
 			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
 				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
-			}
-
+			} */
 			e.preventDefault();
 		};
 
-		button.addEventListener('click', onButtonClick, false);
+		function urlImage() {
+			var mapButton = document.getElementById('mapButton');
+			var imgUri = mapButton.getAttribute("dataUri")
+			return imgUri
+		}
+
+
+
+		mapButton.addEventListener('click', onButtonClick, false);
 
 		/* Returned object */
 		return {
