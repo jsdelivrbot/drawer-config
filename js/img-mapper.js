@@ -1319,18 +1319,18 @@ function SummerHtmlImageMapCreator() {
 			e.preventDefault();
 		}
 
-		save.addEventListener('click', onSaveButtonClick, false);
-		load.addEventListener('click', onLoadButtonClick, false);
+		//save.addEventListener('click', onSaveButtonClick, false);
+		//load.addEventListener('click', onLoadButtonClick, false);
 		rectangle.addEventListener('click', onShapeButtonClick, false);
 		circle.addEventListener('click', onShapeButtonClick, false);
 		polygon.addEventListener('click', onShapeButtonClick, false);
 		clear.addEventListener('click', onClearButtonClick, false);
-		from_html.addEventListener('click', onFromHtmlButtonClick, false);
+		//from_html.addEventListener('click', onFromHtmlButtonClick, false);
 		to_html.addEventListener('click', onToHtmlButtonClick, false);
-		preview.addEventListener('click', onPreviewButtonClick, false);
+		//preview.addEventListener('click', onPreviewButtonClick, false);
 		edit.addEventListener('click', onEditButtonClick, false);
-		new_image.addEventListener('click', onNewImageButtonClick, false);
-		show_help.addEventListener('click', onShowHelpButtonClick, false);
+		//new_image.addEventListener('click', onNewImageButtonClick, false);
+		//show_help.addEventListener('click', onShowHelpButtonClick, false);
 	})();
 
 
