@@ -23,7 +23,7 @@ function SummerHtmlImageMapCreator() {
 		offsetY : function(node) {
 			var box = node.getBoundingClientRect(),
 				scroll = window.pageYOffset;
-
+				scroll = -250;
 			return Math.round(box.top + scroll);
 		},
 		rightX : function(x) {
