@@ -860,7 +860,8 @@
       // JSON export function
       $scope.myEncodeJson = function(obj) {
         newObj = this.stripClone(obj);
-        return JSON.stringify(newObj);
+        var stringedJSON = "promoObjCallback(" + JSON.stringify(newObj) + ");";
+        return stringedJSON;
       };
 
       $scope.stripClone = function(obj) {
