@@ -162,144 +162,14 @@
                           </div>
                           <textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
                           <br>
-                          <button id="mapButton" dataUri="{{promo.bannerContent.img.images.dataUri}}" ng-show="promo.bannerContent.img.contentParameters.useMap" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Map Image</button>
-                          <div id="myModal" class="modal fade" role="dialog">
-                            <div class="modal-dialog modal-lg">
+                          <button
+                            ng-show="promo.bannerContent.img.contentParameters.useMap"
+                            type="button"
+                            class="btn btn-info mapButton"
 
-                              <!-- Modal content-->
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                  <h4 class="modal-title">Image Mapping Tool</h4>
-                                </div>
-                                <div class="modal-body">
-                                  <div id="wrapper">
-                                    <header id="header">
-                                      <nav id="nav" class="clearfix">
-                                        <ul>
-                                          <li id="rect"><a href="#">rectangle</a></li>
-                                          <li id="circle"><a href="#">circle</a></li>
-                                          <li id="polygon"><a href="#">polygon</a></li>
-                                          <li id="edit"><a href="#">edit</a></li>
-                                          <li id="to_html"><a href="#">to html</a></li>
+                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri)"
+                            >Map Image</button>
 
-                                          <li id="clear"><a href="#">clear</a></li>
-
-
-                                        </ul>
-                                      </nav>
-                                      <div id="coords"></div>
-                                      <div id="debug"></div>
-                                    </header>
-                                    <div id="image_wrapper">
-                                      <div id="image">
-                                        <img src="" alt="#" id="img" />
-                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg"></svg>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <!-- For html image map code -->
-                                  <div id="code">
-                                    <span class="close_button" title="close"></span>
-                                    <div id="code_content"></div>
-                                  </div>
-
-                                  <!-- Edit details block -->
-                                  <div id="edit_details">
-                                    <h5 id="h5">Attrubutes</h5>
-                                    <span id="close_button" class="close_button" title="close"></span>
-                                    <p>
-                                      <label for="href_attr">href</label>
-                                      <input type="text" id="href_attr" />
-                                    </p>
-                                    <p>
-                                      <label for="alt_attr">alt</label>
-                                      <input type="text" id="alt_attr" />
-                                    </p>
-                                    <p>
-                                      <label for="title_attr">title</label>
-                                      <input type="text" id="title_attr" />
-                                    </p>
-                                    <button id="save_details">Save</button>
-                                  </div>
-
-                                  <!-- From html block -->
-                                  <div id="from_html_wrapper">
-                                    <form id="from_html_form">
-                                      <h5>Loading areas</h5>
-                                      <span class="close_button" title="close"></span>
-                                      <p>
-                                        <label for="code_input">Enter your html code:</label>
-                                        <textarea id="code_input"></textarea>
-                                      </p>
-                                      <button id="load_code_button">Load</button>
-                                    </form>
-                                  </div>
-
-                                  <!-- Get image form -->
-                                  <div id="get_image_wrapper">
-                                    <div id="get_image">
-                                      <div id="loading">Loading</div>
-                                      <div id="file_reader_support">
-                                        <div id="dropzone">
-                                          <span class="clear_button" title="clear">x</span>
-                                          <img src alt="preview" id="sm_img" />
-                                        </div>
-                                      </div>
-                                      <label for="url">type a url</label>
-                                      <span id="url_wrapper">
-																				<span class="clear_button" title="clear">x</span>
-                                      <input type="text" id="url" />
-                                      </span>
-                                      <button id="button" dataUri="promo.bannerContent.img.images.dataUri">OK</button>
-                                    </div>
-                                  </div>
-
-                                  <!-- Help block -->
-                                  <div id="overlay"></div>
-                                  <div id="help">
-                                    <span class="close_button" title="close"></span>
-                                    <div class="txt">
-                                      <section>
-                                        <h2>Main</h2>
-                                        <p><span class="key">F5</span> &mdash; reload the page and display the form for loading image again</p>
-                                        <p><span class="key">S</span> &mdash; save map params in localStorage</p>
-                                      </section>
-                                      <section>
-                                        <h2>Drawing mode (rectangle / circle / polygon)</h2>
-                                        <p><span class="key">ENTER</span> &mdash; stop polygon drawing (or click on first helper)</p>
-                                        <p><span class="key">ESC</span> &mdash; cancel drawing of a new area</p>
-                                        <p><span class="key">SHIFT</span> &mdash; square drawing in case of a rectangle and right angle drawing in case of a polygon</p>
-                                      </section>
-                                      <section>
-                                        <h2>Editing mode</h2>
-                                        <p><span class="key">DELETE</span> &mdash; remove a selected area</p>
-                                        <p><span class="key">ESC</span> &mdash; cancel editing of a selected area</p>
-                                        <p><span class="key">SHIFT</span> &mdash; edit and save proportions for rectangle</p>
-                                        <p><span class="key">I</span> &mdash; edit attributes of a selected area (or dblclick on an area)</p>
-                                        <p><span class="key">CTRL</span> + <span class="key">C</span> &mdash; a copy of the selected area</p>
-                                        <p><span class="key">&uarr;</span> &mdash; move a selected area up</p>
-                                        <p><span class="key">&darr;</span> &mdash; move a selected area down</p>
-                                        <p><span class="key">&larr;</span> &mdash; move a selected area to the left</p>
-                                        <p><span class="key">&rarr;</span> &mdash; move a selected area to the right</p>
-                                      </section>
-                                    </div>
-                                    <footer>
-                                      <a href="http://github.com/summerstyle/summer">Summer html image map creator 0.5</a>
-                                      <br /> &copy; 2014 Vera Lobatcheva
-                                      <br /> GPL3 License
-                                    </footer>
-                                  </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
                         </div>
 
                         <div class="form-group" ng-show="promo.bannerContent.img.contentParameters.link == true">
@@ -470,7 +340,7 @@
         </div>
       </div>
 
-<!-- 
+<!--
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
@@ -488,10 +358,162 @@
   </div>
   </form>
 
+  <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Im a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myMapperContent.html">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="ok()">&times;</button>
+        <h4 class="modal-title">Image Mapping Tool</h4>
+      </div>
+      <div class="modal-body">
+        <div id="wrapper" class="wrapper">
+          <header id="header" class="header">
+            <nav id="nav" class="clearfix nav">
+              <ul>
+                <li id="rect" class="rect"><a href="#">rectangle</a></li>
+                <li id="circle" class="circle"><a href="#">circle</a></li>
+                <li id="polygon" class="polygon"><a href="#">polygon</a></li>
+                <li id="edit" class="edit"><a href="#">edit</a></li>
+                <li id="to_html" class="to_html"><a href="#">to html</a></li>
+
+                <li id="clear" class="clear"><a href="#">clear</a></li>
+
+
+              </ul>
+            </nav>
+            <div id="coords" class="coords"></div>
+            <div id="debug" class="debug"></div>
+          </header>
+          <div id="image_wrapper" class="image_wrapper">
+            <div id="image_$index" class="img-map-container">
+              <img src="" alt="#" id="img" class="img"/>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg" class="svg"></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- For html image map code -->
+        <div id="code" class="code">
+          <span class="close_button" title="close"></span>
+          <div id="code_content" class="code_content"></div>
+        </div>
+
+        <!-- Edit details block -->
+        <div id="edit_details" class="edit_details">
+          <h5 id="h5" class="h5">Attrubutes</h5>
+          <span id="close_button" class="close_button" title="close"></span>
+          <p>
+            <label for="href_attr">href</label>
+            <input type="text" id="href_attr" class="href_attr" />
+          </p>
+          <p>
+            <label for="alt_attr">alt</label>
+            <input type="text" id="alt_attr" class="alt_attr"/>
+          </p>
+          <p>
+            <label for="title_attr">title</label>
+            <input type="text" id="title_attr" class="title_attr"/>
+          </p>
+          <button id="save_details" class="save_details">Save</button>
+        </div>
+
+        <!-- From html block -->
+        <div id="from_html_wrapper" class="from_html_wrapper">
+          <form id="from_html_form" class="from_html_form">
+            <h5>Loading areas</h5>
+            <span class="close_button" title="close"></span>
+            <p>
+              <label for="code_input">Enter your html code:</label>
+              <textarea id="code_input" class="code_input"></textarea>
+            </p>
+            <button id="load_code_button" class="load_code_button">Load</button>
+          </form>
+        </div>
+
+        <!-- Get image form -->
+        <div id="get_image_wrapper" class="get_image_wrapper">
+          <div id="get_image" class="get_image">
+            <div id="loading" class="loading">Loading</div>
+            <div id="file_reader_support" class="file_reader_support">
+              <div id="dropzone" class="dropzone">
+                <span class="clear_button" title="clear">x</span>
+                <img src alt="preview" id="sm_img" class="sm_img" />
+              </div>
+            </div>
+            <label for="url">type a url</label>
+            <span id="url_wrapper" class="url_wrapper">
+              <span class="clear_button" title="clear">x</span>
+            <input type="text" id="url" class="url" />
+            </span>
+            <button id="button" class="button" dataUri="promo.bannerContent.img.images.dataUri">OK</button>
+          </div>
+        </div>
+
+        <!-- Help block -->
+        <div id="overlay" class="overlay"></div>
+        <div id="help" class="help">
+          <span class="close_button" title="close"></span>
+          <div class="txt">
+            <section>
+              <h2>Main</h2>
+              <p><span class="key">F5</span> &mdash; reload the page and display the form for loading image again</p>
+              <p><span class="key">S</span> &mdash; save map params in localStorage</p>
+            </section>
+            <section>
+              <h2>Drawing mode (rectangle / circle / polygon)</h2>
+              <p><span class="key">ENTER</span> &mdash; stop polygon drawing (or click on first helper)</p>
+              <p><span class="key">ESC</span> &mdash; cancel drawing of a new area</p>
+              <p><span class="key">SHIFT</span> &mdash; square drawing in case of a rectangle and right angle drawing in case of a polygon</p>
+            </section>
+            <section>
+              <h2>Editing mode</h2>
+              <p><span class="key">DELETE</span> &mdash; remove a selected area</p>
+              <p><span class="key">ESC</span> &mdash; cancel editing of a selected area</p>
+              <p><span class="key">SHIFT</span> &mdash; edit and save proportions for rectangle</p>
+              <p><span class="key">I</span> &mdash; edit attributes of a selected area (or dblclick on an area)</p>
+              <p><span class="key">CTRL</span> + <span class="key">C</span> &mdash; a copy of the selected area</p>
+              <p><span class="key">&uarr;</span> &mdash; move a selected area up</p>
+              <p><span class="key">&darr;</span> &mdash; move a selected area down</p>
+              <p><span class="key">&larr;</span> &mdash; move a selected area to the left</p>
+              <p><span class="key">&rarr;</span> &mdash; move a selected area to the right</p>
+            </section>
+          </div>
+          <footer>
+            <a href="http://github.com/summerstyle/summer">Summer html image map creator 0.5</a>
+            <br /> &copy; 2014 Vera Lobatcheva
+            <br /> GPL3 License
+          </footer>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="ok()">Close</button>
+      </div>
+
+      </script>
+
 
   <script src="js/jquery-2.2.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/angular.min.js"></script>
+  <script src="js/angular-1.5.0.js"></script>
+  <script src="js/angular-animate-1.5.0.js"></script>
+  <script src="js/angular-touch-1.5.0.js"></script>
   <script src="js/angular-spectrum-colorpicker.min.js"></script>
   <script src="js/spectrum.js"></script>
   <script src="js/textAngular-dropdownToggle.js"></script>
@@ -499,11 +521,34 @@
   <script src='js/textAngular-sanitize.min.js'></script>
   <script src="js/textAngularSetup.js"></script>
   <script src='js/textAngular.js'></script>
-  <script src='js/img-mapper.js'></script>
+  <script src='js/ui-bootstrap-tpls-1.2.0.js'></script>
+
+  <script src='js/img-mapper-beta.js'></script>
 
 
   <script>
-    var JSConfigApp = angular.module('JSConfigApp', ['textAngular']).controller('JSConfigAppCtrl', ['$scope', '$sce', function($scope, $sce) {
+    //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
+    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
+
+      $scope.mapImgModal = function(index, dataURI){
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myMapperContent.html',
+          controller: 'ModalInstanceCtrl',
+          size: 'lg',
+          resolve: {
+            items: function () {
+              return $scope.items;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+            console.log("fired");
+            imageMapper(0, dataURI);
+          });
+      }
+
 
       //globals
       var cellOuterWidth;
@@ -715,8 +760,6 @@
       }
 
 
-
-
       // handle the changing of the background in editor and preview
       $scope.bgColorChange = function(index) {
         jQuery('.ta-text:eq("' + index + '"), .html-preview:eq("' + index + '")').css('background-color', $scope.promos.global.promos[index].bannerContent.HTML.backgroundColor);
@@ -735,6 +778,20 @@
     JSConfigApp.config(['$compileProvider', function($compileProvider) {
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
     }]);
+
+    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+
+
+      $scope.ok = function () {
+        $uibModalInstance.close();
+      };
+
+
+      $scope.cancel = function () {
+        $uibModalInstance.dismiss();
+      };
+    });
+
 
     jQuery.fn.toggleText = function(t1, t2) {
       if (this.text() == t1) this.text(t2);

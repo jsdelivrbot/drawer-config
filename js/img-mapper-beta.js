@@ -10,7 +10,11 @@
 
 "use strict";
 
-function SummerHtmlImageMapCreator() {
+//onclick="imageMapper(image_$index, {{promo.bannerContent.img.images.dataUri}})"
+
+
+
+function imageMapper(index, dataUri) {
 
 	/* Utilities */
 	var utils = {
@@ -35,9 +39,14 @@ function SummerHtmlImageMapCreator() {
 		trim : function(str) {
 			return str.replace(/^\s+|\s+$/g, '');
 		},
+		id : function(str){
+			return document.getElementsByClassName(str)[index];
+		},
+		/*
 		id : function (str) {
 			return document.getElementById(str);
 		},
+		*/
 		hide : function(node) {
 			node.style.display = 'none';
 
@@ -149,8 +158,8 @@ function SummerHtmlImageMapCreator() {
 			svg = utils.id('svg'),
 			img = utils.id('img'),
 			img_src = null,
-			container = utils.id('image'),
 			about = utils.id('about'),
+			container = utils.id('img-map-container'),
 			coords_info = utils.id('coords'),
 			offset = {x: 0, y: 0},
 			shape = null,
@@ -652,7 +661,7 @@ function SummerHtmlImageMapCreator() {
 					if (!objects.length) {
 						return '0 objects';
 					}
-					html_code += utils.encode('<img src="' + filename + '" alt="" usemap="#map" />') +
+					html_code += utils.encode('<img alt="" usemap="#map" />') +
 						'<br />' + utils.encode('<map name="map">') + '<br />';
 					utils.foreachReverse(objects, function(x) {
 						html_code += '&nbsp;&nbsp;&nbsp;&nbsp;' + utils.encode(x.toString()) + '<br />';
@@ -1130,27 +1139,13 @@ function SummerHtmlImageMapCreator() {
 			last_changed = null;
 		};
 
-		/* Selected image loading */
-		function onButtonClick(e) {
-			app.loadImage(urlImage()).setFilename(filename);
-
-		/*	if (last_changed === url_input && url_input.test()) {
-				app.loadImage(url_input.getImage()).setFilename(filename);
-			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
-				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
-			} */
-			e.preventDefault();
-		};
-
-		function urlImage() {
-			var mapButton = document.getElementById('mapButton');
-			var imgUri = mapButton.getAttribute("dataUri")
-			return imgUri
-		}
+		/* dataUri is passed to the primary function - this is where
+		the action starts */
 
 
 
-		mapButton.addEventListener('click', onButtonClick, false);
+
+		//mapButton.addEventListener('click', onButtonClick, false);
 
 		/* Returned object */
 		return {
@@ -2303,6 +2298,5 @@ function SummerHtmlImageMapCreator() {
 		}
 	};
 
+	app.loadImage(dataUri);
 };
-
-document.addEventListener("DOMContentLoaded", SummerHtmlImageMapCreator, false);
