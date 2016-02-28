@@ -418,13 +418,13 @@
         </div>
 
         <!-- From html block -->
-        <div id="from_html_wrapper" class="from_html_wrapper">
+        <div id="from_html_wrapper" class="from_html_wrapper" ng-app="JSConfigApp">
           <form id="from_html_form" class="from_html_form">
             <h5>Loading areas</h5>
             <span class="close_button" title="close"></span>
             <p>
               <label for="code_input">Enter your html code:</label>
-              <textarea id="code_input" class="code_input"></textarea>
+              <textarea id="code_input" class="code_input" ng-model="imageMap">{{imageMap}}</textarea>
             </p>
             <button id="load_code_button" class="load_code_button">Load</button>
           </form>
@@ -513,31 +513,6 @@
   <script>
     //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
     var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
-
-      $scope.mapImgModal = function(index, dataURI, mapHTML){
-        var modalInstance = $uibModal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'myMapperContent.html',
-          controller: 'ModalInstanceCtrl',
-          size: 'lg',
-          resolve: {
-            imageMap: function () {
-              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
-            }
-          }
-        })
-        modalInstance.rendered
-          .then(function() {
-            imageMapper(index, dataURI, mapHTML);
-          })
-        modalInstance.result
-          .then(function (imageMap) {
-        $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = imageMap;
-      }, function () {
-        
-      })
-      }
-
 
       //globals
       var cellOuterWidth;
@@ -762,25 +737,51 @@
           return false;
         });
       }
+      $scope.mapImgModal = function(index, dataURI, mapHTML){
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myMapperContent.html',
+          controller: 'ModalInstanceCtrl',
+          size: 'lg',
+          resolve: {
+            imageMap: function () {
+              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+            imageMapper(index, dataURI, mapHTML);
+          })
+        modalInstance.result
+          .then(function () {
+            $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+      }, function () {
+
+      })
+      }
+
+
     }]);
+
+    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, imageMap) {
+
+      $scope.imageMap = imageMap;
+      console.log("this might work: " + $scope.imageMap);
+      $scope.ok = function () {
+        $uibModalInstance.close($scope.imageMap);
+      };
+      $scope.cancel = function () {
+        $uibModalInstance.dismiss();
+      };
+    });
 
     JSConfigApp.config(['$compileProvider', function($compileProvider) {
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
     }]);
 
-    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
 
 
-      $scope.ok = function () {
-        $uibModalInstance.close();
-
-      };
-
-
-      $scope.cancel = function () {
-        $uibModalInstance.dismiss();
-      };
-    });
 
 
     jQuery.fn.toggleText = function(t1, t2) {

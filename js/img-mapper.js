@@ -300,6 +300,7 @@ function imageMapper(index, dataUri, imageMap) {
 			if (mode === 'editing') {
 				if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
 					selected_area = e.target.parentNode.obj;
+					console.log(e.pageX, e.pageY)
 					info.load(selected_area, e.pageX, e.pageY);
 				};
 			};
@@ -767,8 +768,8 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		function setCoords(x, y) {
-			form.style.left = (x + 5) + 'px';
-			form.style.top = (y + 5) + 'px';
+			//form.style.left = (x + 5) + 'px';
+			//	form.style.top = (y + 5) + 'px';
 		}
 
 		function moveEditBlock(e) {
@@ -933,7 +934,9 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		function load(e) {
-			setTimeout(function(){ test(imageMap); }, 100);
+			setTimeout(function(){
+				var str = utils.id('code_input')
+				test(str.value); }, 100);
 			//e.preventDefault();
 		};
 
