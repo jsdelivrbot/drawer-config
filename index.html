@@ -160,7 +160,7 @@
                               <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image</input>
                             </label>
                           </div>
-                          <textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
+                          <textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control mapCode" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
                           <br>
                           <button
                             ng-show="promo.bannerContent.img.contentParameters.useMap"
@@ -374,7 +374,7 @@
                 <li id="circle" class="circle"><a href="#">circle</a></li>
                 <li id="polygon" class="polygon"><a href="#">polygon</a></li>
                 <li id="edit" class="edit"><a href="#">edit</a></li>
-                <li id="to_html" class="to_html"><a href="#">to html</a></li>
+                <li id="to_html" class="to_html"><a href="#">view html</a></li>
 
                 <li id="clear" class="clear"><a href="#">clear</a></li>
 
@@ -738,20 +738,25 @@
         });
       }
       $scope.mapImgModal = function(index, dataURI, mapHTML){
+        var el = document.getElementsByClassName('mapCode')[index];
+        mapHTML = el.value;
         var modalInstance = $uibModal.open({
           animation: $scope.animationsEnabled,
           templateUrl: 'myMapperContent.html',
           controller: 'ModalInstanceCtrl',
           size: 'lg',
           resolve: {
+            index : function() {
+              return index;
+            },
             imageMap: function () {
-              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+              return mapHTML;
             }
           }
         })
         modalInstance.rendered
           .then(function() {
-            imageMapper(index, dataURI, mapHTML);
+            imageMapper(index, dataURI);
           })
         modalInstance.result
           .then(function () {
@@ -764,11 +769,17 @@
 
     }]);
 
-    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, imageMap) {
+    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, imageMap, index) {
 
       $scope.imageMap = imageMap;
       console.log("this might work: " + $scope.imageMap);
       $scope.ok = function () {
+        var code_content = document.getElementById('code_content');
+        var localEdit = document.getElementsByClassName('mapCode');
+        localEdit[index].innerHTML = code_content.innerHTML;
+        var jqE = localEdit[index];
+        $("#mapCode").trigger("blur");
+        $scope.imageMap = code_content.innerHTML;
         $uibModalInstance.close($scope.imageMap);
       };
       $scope.cancel = function () {

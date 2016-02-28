@@ -662,9 +662,9 @@ function imageMapper(index, dataUri, imageMap) {
 					if (!objects.length) {
 						return '0 objects';
 					}
-					html_code += utils.encode('<map name="map">') + '<br />';
+					html_code += utils.encode('<map name="map">');
 					utils.foreachReverse(objects, function(x) {
-						html_code += '&nbsp;&nbsp;&nbsp;&nbsp;' + utils.encode(x.toString());
+						html_code += utils.encode(x.toString());
 					});
 					html_code += utils.encode('</map>');
 				} else {
@@ -733,6 +733,7 @@ function imageMapper(index, dataUri, imageMap) {
 			href_attr = utils.id('href_attr'),
 			alt_attr = utils.id('alt_attr'),
 			title_attr = utils.id('title_attr'),
+			content = utils.id('code_content'),
 			save_button = utils.id('save_details'),
 			close_button = utils.idReal('close_button'),
 			sections = form.querySelectorAll('p'),
@@ -757,7 +758,7 @@ function imageMapper(index, dataUri, imageMap) {
 			obj.href ? obj.with_href() : obj.without_href();
 
 			changedReset();
-
+			content.innerHTML = app.getHTMLCode(true);
 			e.preventDefault();
 		};
 
