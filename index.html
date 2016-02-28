@@ -120,23 +120,37 @@
                       <div class="form-group">
                         <div class="radio">
                           <label class="radio-inline">
-                            <input type="radio" ng-model="promo.bannerContent.imgOrHTML" value="img" name="group_{{$index}}">
+                            <input
+                              type="radio"
+                              ng-model="promo.bannerContent.imgOrHTML"
+                              value="img"
+                              name="group_{{$index}}">
                             <strong>Image</strong> - Cell loads an image with options for a single link, image mapping or no link.
                           </label>
                         </div>
                         <div class="radio">
                           <label class="radio-inline">
-                            <input type="radio" ng-model="promo.bannerContent.imgOrHTML" value="html" name="group_{{$index}}">
+                            <input
+                              type="radio"
+                              ng-model="promo.bannerContent.imgOrHTML"
+                              value="html"
+                              name="group_{{$index}}">
                             <strong>HTML</strong> - cell loads HTML content or iframe to display advanced messaging
                           </label>
                         </div>
                       </div>
                       <div class="img-container" ng-show="promo.bannerContent.imgOrHTML == 'img'">
                         <div class="form-group">
-                          <span class="btn btn-success btn-file" ng-hide="promo.bannerContent.img.images.dataUri">
-														Import jpg (331w x 183h, 48kb max) <input id="the-img-input" ng-click="setPageNumber($index)" type="file" >
+                          <span
+                            class="btn btn-success btn-file"
+                            ng-hide="promo.bannerContent.img.images.dataUri">
+														Import jpg (331w x 183h, 48kb max)
+                            <input id="the-img-input" ng-click="setPageNumber($index)" type="file" >
 													</span>
-                          <button class="btn btn-danger" ng-click="erasePic($index)" ng-show="promo.bannerContent.img.images.dataUri">Delete image</button>
+                          <button
+                            class="btn btn-danger"
+                            ng-click="erasePic($index)"
+                            ng-show="promo.bannerContent.img.images.dataUri">Delete image</button>
                         </div>
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
                           <img data-ng-src="{{promo.bannerContent.img.images.dataUri}}" class="img-responsive">
@@ -147,29 +161,37 @@
                         </div>
                         <div class="form-group" ng-hide="promo.bannerContent.img.images.dataUri">
                           <label for="inputImageUrl">Cell image path</label>
-                          <input type="text" ng-model="promo.bannerContent.img.images.path" class="form-control" id="inputImageUrl" placeholder="URL">
+                          <input
+                            type="text"
+                            ng-model="promo.bannerContent.img.images.path"
+                            class="form-control"
+                            id="inputImageUrl"
+                            placeholder="URL">
                         </div>
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link"> Link image</input>
+                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link">Single link image</input>
                             </label>
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap"> Map image</input>
+                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap">Image mapped</input>
                             </label>
                           </div>
-                          <textarea ng-show="promo.bannerContent.img.contentParameters.useMap" class="form-control mapCode" rows="3" id="textArea" ng-model="promo.bannerContent.img.contentParameters.imageMap" placeholder="paste image map data here"></textarea>
-                          <br>
                           <button
                             ng-show="promo.bannerContent.img.contentParameters.useMap"
                             type="button"
                             class="btn btn-info mapButton"
-
                             ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap)"
-                            >Map Image</button>
-
+                            >Edit Image Map</button>
+                            <br /><br />
+                            <textarea
+                              ng-show="promo.bannerContent.img.contentParameters.useMap"
+                              class="form-control mapCode"
+                              rows="5" id="textArea"
+                              ng-model="promo.bannerContent.img.contentParameters.imageMap"
+                              ></textarea>
                         </div>
 
                         <div class="form-group" ng-show="promo.bannerContent.img.contentParameters.link == true">
@@ -340,7 +362,7 @@
         </div>
       </div>
 
-<!--
+
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
@@ -349,8 +371,6 @@
 				</div>
 				</div>
 			</div>
-
--->
 
       <div class="row">
         <div class="col-sm-12"></div>
@@ -487,8 +507,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="ok()">Save</button>
-        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-default" ng-click="ok()">Close</button>
       </div>
 
       </script>
@@ -770,13 +789,26 @@
     }]);
 
     angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, imageMap, index) {
+      $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if(phase == '$apply' || phase == '$digest') {
+          if(fn && (typeof(fn) === 'function')) {
+            fn();
+          }
+        } else {
+          this.$apply(fn);
+        }
+      };
+
 
       $scope.imageMap = imageMap;
       console.log("this might work: " + $scope.imageMap);
       $scope.ok = function () {
         var code_content = document.getElementById('code_content');
         var localEdit = document.getElementsByClassName('mapCode');
-        localEdit[index].innerHTML = code_content.innerHTML;
+        $scope.safeApply(function() {
+          localEdit[index].innerHTML = code_content.innerHTML;
+        });  
         var jqE = localEdit[index];
         $("#mapCode").trigger("blur");
         $scope.imageMap = code_content.innerHTML;
