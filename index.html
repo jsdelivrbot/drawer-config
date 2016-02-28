@@ -394,7 +394,7 @@
                 <li id="circle" class="circle"><a href="#">circle</a></li>
                 <li id="polygon" class="polygon"><a href="#">polygon</a></li>
                 <li id="edit" class="edit"><a href="#">edit</a></li>
-                <li id="to_html" class="to_html"><a href="#">view html</a></li>
+                <li id="to_html" class="to_html"><a href="#">save</a></li>
 
                 <li id="clear" class="clear"><a href="#">clear</a></li>
 
@@ -768,18 +768,24 @@
             index : function() {
               return index;
             },
-            imageMap: function () {
-              return mapHTML;
+            imageMapCode: function () {
+              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
             }
           }
         })
         modalInstance.rendered
           .then(function() {
-            imageMapper(index, dataURI);
+
+            var imageMap = $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+
+            imageMapper(index, dataURI, imageMap);
           })
         modalInstance.result
-          .then(function () {
-            $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+          .then(function (result) {
+            index = results[1];
+            mapValue = results[0];
+            console.log(results);
+            $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = mapValue;
       }, function () {
 
       })
@@ -788,31 +794,16 @@
 
     }]);
 
-    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, imageMap, index) {
-      $scope.safeApply = function(fn) {
-        var phase = this.$root.$$phase;
-        if(phase == '$apply' || phase == '$digest') {
-          if(fn && (typeof(fn) === 'function')) {
-            fn();
-          }
-        } else {
-          this.$apply(fn);
-        }
-      };
+    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, index, imageMapCode) {
 
+      $scope.imageMap = imageMapCode;
 
-      $scope.imageMap = imageMap;
-      console.log("this might work: " + $scope.imageMap);
       $scope.ok = function () {
-        var code_content = document.getElementById('code_content');
-        var localEdit = document.getElementsByClassName('mapCode');
-        $scope.safeApply(function() {
-          localEdit[index].innerHTML = code_content.innerHTML;
-        });  
-        var jqE = localEdit[index];
-        $("#mapCode").trigger("blur");
-        $scope.imageMap = code_content.innerHTML;
-        $uibModalInstance.close($scope.imageMap);
+        map = document.getElementsByClassName('code_content');
+        $scope.imageMap = map[0].innerHTML//.replace('&lt;',/</).replace('&gt;',/>/);
+
+        results = [$scope.imageMap, index]
+        $uibModalInstance.close(results);
       };
       $scope.cancel = function () {
         $uibModalInstance.dismiss();

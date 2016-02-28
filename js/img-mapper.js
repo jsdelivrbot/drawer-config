@@ -57,7 +57,7 @@ function imageMapper(index, dataUri, imageMap) {
 			return this;
 		},
 		encode : function(str) {
-			return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			return str//.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		},
 		foreach : function(arr, func) {
 			for(var i = 0, count = arr.length; i < count; i++) {
@@ -300,7 +300,7 @@ function imageMapper(index, dataUri, imageMap) {
 			if (mode === 'editing') {
 				if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
 					selected_area = e.target.parentNode.obj;
-					console.log(e.pageX, e.pageY)
+
 					info.load(selected_area, e.pageX, e.pageY);
 				};
 			};
@@ -523,7 +523,7 @@ function imageMapper(index, dataUri, imageMap) {
 			preview : (function() {
 				img.setAttribute('usemap', '#map');
 				map = document.createElement('map');
-				map.setAttribute('name', 'map');
+				map.setAttribute('name', 'map_'+index);
 				container.appendChild(map);
 
 				return function() {
@@ -662,7 +662,7 @@ function imageMapper(index, dataUri, imageMap) {
 					if (!objects.length) {
 						return '0 objects';
 					}
-					html_code += utils.encode('<map name="map">');
+					html_code += utils.encode('<map name="map_'+index+'">');
 					utils.foreachReverse(objects, function(x) {
 						html_code += utils.encode(x.toString());
 					});
@@ -717,7 +717,7 @@ function imageMapper(index, dataUri, imageMap) {
 		return {
 			print: function() {
 				content.innerHTML = app.getHTMLCode(true);
-				utils.show(block);
+				//utils.show(block);
 			},
 			hide: function() {
 				utils.hide(block);
@@ -758,13 +758,14 @@ function imageMapper(index, dataUri, imageMap) {
 			obj.href ? obj.with_href() : obj.without_href();
 
 			changedReset();
-			content.innerHTML = app.getHTMLCode(true);
+
 			e.preventDefault();
 		};
 
 		function unload() {
 			obj = null;
 			changedReset();
+			content.innerHTML = app.getHTMLCode(true);
 			utils.hide(form);
 		}
 
@@ -834,6 +835,7 @@ function imageMapper(index, dataUri, imageMap) {
 	var from_html_form = (function() {
 		var form = utils.id('from_html_wrapper'),
 			code_input = utils.id('code_input'),
+			content = utils.id('code_content'),
 			load_button = utils.id('load_code_button'),
 			close_button = form.querySelector('.close_button'),
 			regexp_area = /<area(?=.*? shape="(rect|circle|poly)")(?=.*? coords="([\d ,]+?)")[\s\S]*?>/gmi,
@@ -935,10 +937,11 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		function load(e) {
+			//test(imageMap);
 			setTimeout(function(){
-				var str = utils.id('code_input')
-				test(str.value); }, 100);
-			//e.preventDefault();
+				test(imageMap);content.innerHTML = app.getHTMLCode(true); }, 100);
+
+
 		};
 
 		function hide() {
@@ -2302,5 +2305,4 @@ function imageMapper(index, dataUri, imageMap) {
 	};
 
 	app.loadImage(dataUri);
-	//app.loadImage(imageMap);
 };
