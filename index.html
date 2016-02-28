@@ -167,7 +167,7 @@
                             type="button"
                             class="btn btn-info mapButton"
 
-                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri)"
+                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap)"
                             >Map Image</button>
 
                         </div>
@@ -358,23 +358,7 @@
   </div>
   </form>
 
-  <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Im a modal!</h3>
-        </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">
-                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ selected.item }}</b>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+
 
     <script type="text/ng-template" id="myMapperContent.html">
       <div class="modal-header">
@@ -401,7 +385,7 @@
             <div id="debug" class="debug"></div>
           </header>
           <div id="image_wrapper" class="image_wrapper">
-            <div id="image_$index" class="img-map-container">
+            <div id="image" class="img-map-container">
               <img src="" alt="#" id="img" class="img"/>
               <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg" class="svg"></svg>
             </div>
@@ -416,7 +400,7 @@
 
         <!-- Edit details block -->
         <div id="edit_details" class="edit_details">
-          <h5 id="h5" class="h5">Attrubutes</h5>
+          <h5 id="h5" class="h5">Attributes</h5>
           <span id="close_button" class="close_button" title="close"></span>
           <p>
             <label for="href_attr">href</label>
@@ -503,7 +487,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="ok()">Close</button>
+        <button type="button" class="btn btn-default" ng-click="ok()">Save</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
       </div>
 
       </script>
@@ -522,31 +507,35 @@
   <script src="js/textAngularSetup.js"></script>
   <script src='js/textAngular.js'></script>
   <script src='js/ui-bootstrap-tpls-1.2.0.js'></script>
-
-  <script src='js/img-mapper-beta.js'></script>
+  <script src='js/img-mapper.js'></script>
 
 
   <script>
     //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
     var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
 
-      $scope.mapImgModal = function(index, dataURI){
+      $scope.mapImgModal = function(index, dataURI, mapHTML){
         var modalInstance = $uibModal.open({
           animation: $scope.animationsEnabled,
           templateUrl: 'myMapperContent.html',
           controller: 'ModalInstanceCtrl',
           size: 'lg',
           resolve: {
-            items: function () {
-              return $scope.items;
+            imageMap: function () {
+              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
             }
           }
         })
         modalInstance.rendered
           .then(function() {
-            console.log("fired");
-            imageMapper(0, dataURI);
-          });
+            imageMapper(index, dataURI, mapHTML);
+          })
+        modalInstance.result
+          .then(function (imageMap) {
+        $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = imageMap;
+      }, function () {
+        
+      })
       }
 
 
@@ -784,6 +773,7 @@
 
       $scope.ok = function () {
         $uibModalInstance.close();
+
       };
 
 

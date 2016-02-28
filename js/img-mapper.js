@@ -10,7 +10,11 @@
 
 "use strict";
 
-function SummerHtmlImageMapCreator() {
+//onclick="imageMapper(image_$index, {{promo.bannerContent.img.images.dataUri}})"
+
+
+
+function imageMapper(index, dataUri, imageMap) {
 
 	/* Utilities */
 	var utils = {
@@ -35,7 +39,11 @@ function SummerHtmlImageMapCreator() {
 		trim : function(str) {
 			return str.replace(/^\s+|\s+$/g, '');
 		},
-		id : function (str) {
+		id : function(str){
+			return document.getElementsByClassName(str)[0];
+		},
+
+		idReal : function (str) {
 			return document.getElementById(str);
 		},
 		hide : function(node) {
@@ -149,8 +157,8 @@ function SummerHtmlImageMapCreator() {
 			svg = utils.id('svg'),
 			img = utils.id('img'),
 			img_src = null,
-			container = utils.id('image'),
 			about = utils.id('about'),
+			container = utils.id('img-map-container'),
 			coords_info = utils.id('coords'),
 			offset = {x: 0, y: 0},
 			shape = null,
@@ -371,6 +379,7 @@ function SummerHtmlImageMapCreator() {
 							x = params.x || params.cx || params[0],
 							y = params.y || params.cy || params[1];
 
+						//info.load(selected_area, x + app.getOffset('x'), y + app.getOffset('y'));
 						info.load(selected_area, x + app.getOffset('x'), y + app.getOffset('y'));
 					}
 
@@ -652,10 +661,9 @@ function SummerHtmlImageMapCreator() {
 					if (!objects.length) {
 						return '0 objects';
 					}
-					html_code += utils.encode('<img src="' + filename + '" alt="" usemap="#map" />') +
-						'<br />' + utils.encode('<map name="map">') + '<br />';
+					html_code += utils.encode('<map name="map">') + '<br />';
 					utils.foreachReverse(objects, function(x) {
-						html_code += '&nbsp;&nbsp;&nbsp;&nbsp;' + utils.encode(x.toString()) + '<br />';
+						html_code += '&nbsp;&nbsp;&nbsp;&nbsp;' + utils.encode(x.toString());
 					});
 					html_code += utils.encode('</map>');
 				} else {
@@ -725,7 +733,7 @@ function SummerHtmlImageMapCreator() {
 			alt_attr = utils.id('alt_attr'),
 			title_attr = utils.id('title_attr'),
 			save_button = utils.id('save_details'),
-			close_button = utils.id('close_button'),
+			close_button = utils.idReal('close_button'),
 			sections = form.querySelectorAll('p'),
 			obj,
 			x,
@@ -925,9 +933,8 @@ function SummerHtmlImageMapCreator() {
 		}
 
 		function load(e) {
-			test(code_input.value);
-
-			e.preventDefault();
+			setTimeout(function(){ test(imageMap); }, 100);
+			//e.preventDefault();
 		};
 
 		function hide() {
@@ -935,6 +942,7 @@ function SummerHtmlImageMapCreator() {
 		}
 
 		load_button.addEventListener('click', load, false);
+		load();
 
 		close_button.addEventListener('click', hide, false);
 
@@ -1130,27 +1138,13 @@ function SummerHtmlImageMapCreator() {
 			last_changed = null;
 		};
 
-		/* Selected image loading */
-		function onButtonClick(e) {
-			app.loadImage(urlImage()).setFilename(filename);
-
-		/*	if (last_changed === url_input && url_input.test()) {
-				app.loadImage(url_input.getImage()).setFilename(filename);
-			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
-				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
-			} */
-			e.preventDefault();
-		};
-
-		function urlImage() {
-			var mapButton = document.getElementById('mapButton');
-			var imgUri = mapButton.getAttribute("dataUri")
-			return imgUri
-		}
+		/* dataUri is passed to the primary function - this is where
+		the action starts */
 
 
 
-		mapButton.addEventListener('click', onButtonClick, false);
+
+		//mapButton.addEventListener('click', onButtonClick, false);
 
 		/* Returned object */
 		return {
@@ -2303,6 +2297,6 @@ function SummerHtmlImageMapCreator() {
 		}
 	};
 
+	app.loadImage(dataUri);
+	//app.loadImage(imageMap);
 };
-
-document.addEventListener("DOMContentLoaded", SummerHtmlImageMapCreator, false);
