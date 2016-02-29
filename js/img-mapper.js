@@ -157,6 +157,7 @@ function imageMapper(index, dataUri, imageMap) {
 			svg = utils.id('svg'),
 			img = utils.id('img'),
 			img_src = null,
+			del_btn = utils.id('del_btn'),
 			about = utils.id('about'),
 			container = utils.id('img-map-container'),
 			coords_info = utils.id('coords'),
@@ -307,6 +308,17 @@ function imageMapper(index, dataUri, imageMap) {
 		};
 
 		container.addEventListener('dblclick', onAreaDblClick, false);
+
+		function onDeleteButtonClick(e) {
+			if (mode === 'editing' && selected_area) {
+				app.removeObject(selected_area);
+				selected_area = null;
+				info.unload();
+			}
+		}
+
+		del_btn.addEventListener('click', onDeleteButtonClick, false);
+
 
 
 		/* Add keydown event for document */
@@ -735,6 +747,7 @@ function imageMapper(index, dataUri, imageMap) {
 			title_attr = utils.id('title_attr'),
 			content = utils.id('code_content'),
 			save_button = utils.id('save_details'),
+			delete_button = utils.id('delete_details'),
 			close_button = utils.idReal('close_button'),
 			sections = form.querySelectorAll('p'),
 			obj,
@@ -758,9 +771,17 @@ function imageMapper(index, dataUri, imageMap) {
 			obj.href ? obj.with_href() : obj.without_href();
 
 			changedReset();
-
+			code.print();
 			e.preventDefault();
-		};
+		}
+
+	/*	function deleteArea(e) {
+			app.removeObject(selected_area);
+			selected_area = null;
+			info.unload();
+			e.preventDefault();
+			code.print();
+		} */
 
 		function unload() {
 			obj = null;
@@ -792,6 +813,7 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		save_button.addEventListener('click', save, false);
+	//	delete_button.addEventListener('click', deleteArea, false);
 
 		href_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
 		alt_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
@@ -1327,7 +1349,7 @@ function imageMapper(index, dataUri, imageMap) {
 		polygon.addEventListener('click', onShapeButtonClick, false);
 		clear.addEventListener('click', onClearButtonClick, false);
 		//from_html.addEventListener('click', onFromHtmlButtonClick, false);
-		to_html.addEventListener('click', onToHtmlButtonClick, false);
+		//to_html.addEventListener('click', onToHtmlButtonClick, false);
 		//preview.addEventListener('click', onPreviewButtonClick, false);
 		edit.addEventListener('click', onEditButtonClick, false);
 		//new_image.addEventListener('click', onNewImageButtonClick, false);
@@ -1433,6 +1455,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 		/* Add this object to array of all objects */
 		app.addObject(this);
+
 	};
 
 	Rect.prototype.setCoords = function(params){
@@ -1465,7 +1488,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 	Rect.prototype.redraw = function() {
 		this.setCoords(this.params);
-
+		code.print();
 		return this;
 	};
 
@@ -1537,6 +1560,7 @@ function imageMapper(index, dataUri, imageMap) {
 		app.removeAllEvents()
 		   .setIsDraw(false)
 		   .resetNewArea();
+			 code.print();
 	};
 
 	Rect.prototype.move = function(dx, dy) { //offset x and y
@@ -1544,8 +1568,9 @@ function imageMapper(index, dataUri, imageMap) {
 
 		temp_params.x += dx;
 		temp_params.y += dy;
-
+	code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editLeft = function(dx, dy) { //offset x and y
@@ -1553,16 +1578,18 @@ function imageMapper(index, dataUri, imageMap) {
 
 		temp_params.x += dx;
 		temp_params.width -= dx;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editRight = function(dx, dy) { //offset x and y
 		var temp_params = Object.create(this.params);
 
 		temp_params.width += dx;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editTop = function(dx, dy) { //offset x and y
@@ -1570,16 +1597,18 @@ function imageMapper(index, dataUri, imageMap) {
 
 		temp_params.y += dy;
 		temp_params.height -= dy;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editBottom = function(dx, dy) { //offset x and y
 		var temp_params = Object.create(this.params);
 
 		temp_params.height += dy;
-
+	code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editTopLeft = function(dx, dy) { //offset x and y
@@ -1589,8 +1618,9 @@ function imageMapper(index, dataUri, imageMap) {
 		temp_params.y += dy;
 		temp_params.width -= dx;
 		temp_params.height -= dy;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editTopRight = function(dx, dy) { //offset x and y
@@ -1599,8 +1629,9 @@ function imageMapper(index, dataUri, imageMap) {
 		temp_params.y += dy;
 		temp_params.width += dx;
 		temp_params.height -= dy;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editBottomLeft = function(dx, dy) { //offset x and y
@@ -1609,8 +1640,9 @@ function imageMapper(index, dataUri, imageMap) {
 		temp_params.x += dx;
 		temp_params.width -= dx;
 		temp_params.height += dy;
-
+code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.editBottomRight = function(dx, dy) { //offset x and y
@@ -1618,19 +1650,22 @@ function imageMapper(index, dataUri, imageMap) {
 
 		temp_params.width += dx;
 		temp_params.height += dy;
-
+		code.print();
 		return temp_params;
+
 	};
 
 	Rect.prototype.dynamicEdit = function(temp_params, save_proportions) {
 		if (temp_params.width < 0) {
 			temp_params.width = Math.abs(temp_params.width);
 			temp_params.x -= temp_params.width;
+			code.print();
 		}
 
 		if (temp_params.height < 0) {
 			temp_params.height = Math.abs(temp_params.height);
 			temp_params.y -= temp_params.height;
+			code.print();
 		}
 
 		if (save_proportions) {
@@ -1651,6 +1686,7 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		this.setCoords(temp_params);
+		code.print();
 
 		return temp_params;
 
@@ -1671,10 +1707,12 @@ function imageMapper(index, dataUri, imageMap) {
 
 		_s_f.setParams(_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y), save_proportions));
 		app.removeAllEvents();
+		code.print();
 	};
 
 	Rect.prototype.remove = function() {
 		app.removeNodeFromSvg(this.g);
+		code.print();
 	};
 
 	Rect.prototype.select = function() {
@@ -1714,6 +1752,7 @@ function imageMapper(index, dataUri, imageMap) {
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
 			+ ' />';
+			code.print();
 	};
 
 	Rect.createFromSaved = function(params) {
@@ -1821,7 +1860,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 	Circle.prototype.redraw = function() {
 		this.setCoords(this.params);
-
+		code.print();
 		return this;
 	};
 
@@ -1847,7 +1886,7 @@ function imageMapper(index, dataUri, imageMap) {
 		};
 
 		this.setCoords(temp_params);
-
+			code.print();
 		return temp_params;
 	};
 
@@ -1863,6 +1902,7 @@ function imageMapper(index, dataUri, imageMap) {
 		app.removeAllEvents()
 		   .setIsDraw(false)
 		   .resetNewArea();
+			 code.print();
 	};
 
 	Circle.prototype.move = function(dx, dy){ //offset x and y
@@ -1871,6 +1911,7 @@ function imageMapper(index, dataUri, imageMap) {
 		temp_params.cx += dx;
 		temp_params.cy += dy;
 
+		code.print();
 		return temp_params;
 	};
 
@@ -1878,7 +1919,7 @@ function imageMapper(index, dataUri, imageMap) {
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius -= dy;
-
+code.print();
 		return temp_params;
 	};
 
@@ -1886,7 +1927,7 @@ function imageMapper(index, dataUri, imageMap) {
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius += dy;
-
+code.print();
 		return temp_params;
 	};
 
@@ -1894,7 +1935,7 @@ function imageMapper(index, dataUri, imageMap) {
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius -= dx;
-
+code.print();
 		return temp_params;
 	};
 
@@ -1902,7 +1943,7 @@ function imageMapper(index, dataUri, imageMap) {
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius += dx;
-
+	code.print();
 		return temp_params;
 	};
 
@@ -1912,7 +1953,7 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		this.setCoords(temp_params);
-
+	code.print();
 		return temp_params;
 	};
 
@@ -1928,12 +1969,13 @@ function imageMapper(index, dataUri, imageMap) {
 			edit_type = app.getEditType();
 
 		_s_f.setParams(_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y)));
-
+	code.print();
 		app.removeAllEvents();
 	};
 
 	Circle.prototype.remove = function(){
 		app.removeNodeFromSvg(this.g);
+			code.print();
 	};
 
 	Circle.prototype.select = function() {
@@ -1944,7 +1986,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 	Circle.prototype.deselect = function() {
 		utils.removeClass(this.circle, 'selected');
-
+	code.print();
 		return this;
 	};
 
@@ -1970,6 +2012,7 @@ function imageMapper(index, dataUri, imageMap) {
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
 			+ ' />';
+				code.print();
 	};
 
 	Circle.createFromSaved = function(params) {
@@ -1983,7 +2026,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 		app.setIsDraw(false)
 		   .resetNewArea();
-
+			 	code.print();
 		if (href) {
 			area.href = href;
 		}
@@ -2048,7 +2091,7 @@ function imageMapper(index, dataUri, imageMap) {
 		utils.foreach(this.helpers, function(x, i) {
 			x.setCoords(params[2*i], params[2*i+1]);
 		});
-
+			code.print();
 		return this;
 	};
 
@@ -2064,13 +2107,13 @@ function imageMapper(index, dataUri, imageMap) {
 		this.helpers.push(helper);
 		this.params.push(x, y);
 		this.redraw();
-
+			code.print();
 		return this;
 	};
 
 	Polygon.prototype.redraw = function() {
 		this.setCoords(this.params);
-
+			code.print();
 		return this;
 	};
 
@@ -2156,6 +2199,7 @@ function imageMapper(index, dataUri, imageMap) {
 			y = right_coords.y;
 		}
 		_n_f.addPoint(x, y);
+			code.print();
 	};
 
 	Polygon.prototype.onDrawStop = function(e) {
@@ -2174,6 +2218,7 @@ function imageMapper(index, dataUri, imageMap) {
 			}
 		};
 		e.stopPropagation();
+			code.print();
 	};
 
 	Polygon.prototype.move = function(x, y){ //offset x and y
@@ -2182,20 +2227,20 @@ function imageMapper(index, dataUri, imageMap) {
 		for (var i = 0, count = this.params.length; i < count; i++) {
 			i % 2 ? this.params[i] += y : this.params[i] += x;
 		}
-
+			code.print();
 		return temp_params;
 	};
 
 	Polygon.prototype.pointMove = function(x, y){ //offset x and y
 		this.params[2 * this.selected_point] += x;
 		this.params[2 * this.selected_point + 1] += y;
-
+			code.print();
 		return this.params;
 	};
 
 	Polygon.prototype.dynamicEdit = function(temp_params) {
 		this.setCoords(temp_params);
-
+			code.print();
 		return temp_params;
 	};
 
@@ -2206,6 +2251,7 @@ function imageMapper(index, dataUri, imageMap) {
 		_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y));
 		_s_f.delta.x = e.pageX;
 		_s_f.delta.y = e.pageY;
+			code.print();
 	};
 
 	Polygon.prototype.onEditStop = function(e) {
@@ -2213,12 +2259,13 @@ function imageMapper(index, dataUri, imageMap) {
 			edit_type = app.getEditType();
 
 		_s_f.setParams(_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y)));
-
+			code.print();
 		app.removeAllEvents();
 	};
 
 	Polygon.prototype.remove = function(){
 		app.removeNodeFromSvg(this.g);
+			code.print();
 	};
 
 	Polygon.prototype.select = function() {
@@ -2229,7 +2276,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 	Polygon.prototype.deselect = function() {
 		utils.removeClass(this.polygon, 'selected');
-
+			code.print();
 		return this;
 	};
 
@@ -2259,6 +2306,7 @@ function imageMapper(index, dataUri, imageMap) {
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
 			+ ' />';
+				code.print();
 	};
 
 	Polygon.createFromSaved = function(params) {

@@ -390,13 +390,12 @@
           <header id="header" class="header">
             <nav id="nav" class="clearfix nav">
               <ul>
-                <li id="rect" class="rect"><a href="#">rectangle</a></li>
-                <li id="circle" class="circle"><a href="#">circle</a></li>
-                <li id="polygon" class="polygon"><a href="#">polygon</a></li>
-                <li id="edit" class="edit"><a href="#">edit</a></li>
-                <li id="to_html" class="to_html"><a href="#">save</a></li>
-
-                <li id="clear" class="clear"><a href="#">clear</a></li>
+                <li id="rect" class="rect"><a class="btn btn-default" href="#">rectangle</a></li>
+                <li id="circle" class="circle"><a class="btn btn-default" href="#">circle</a></li>
+                <li id="polygon" class="polygon"><a class="btn btn-default" href="#">polygon</a></li>
+                <li id="edit" class="edit"><a class="btn btn-default" href="#">edit</a></li>
+                <li id="del_btn" class="del_btn"><a class="btn btn-warning" href="#">delete</a></li>
+                <li id="clear" class="clear"><a class="btn btn-primary" href="#">clear</a></li>
 
 
               </ul>
@@ -434,7 +433,8 @@
             <label for="title_attr">title</label>
             <input type="text" id="title_attr" class="title_attr"/>
           </p>
-          <button id="save_details" class="save_details">Save</button>
+          <button id="save_details" class="save_details btn btn-success">Save</button>
+
         </div>
 
         <!-- From html block -->
@@ -784,7 +784,7 @@
           .then(function (result) {
             index = results[1];
             mapValue = results[0];
-            console.log(results);
+
             $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = mapValue;
       }, function () {
 
