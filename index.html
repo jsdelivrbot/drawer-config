@@ -77,7 +77,7 @@
         <div class="col-sm-12">
           <div class="form-group" ng-class="{ 'has-error' : cellForm.headerText.$invalid && !cellForm.headerText.$pristine }">
             <label for="headerText">Drawer Header Text</label>
-            <input type="text" name="headerText" class="form-control" ng-model="promos.global.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1" ng-maxlength="24">
+            <input type="text" name="headerText" class="form-control" ng-model="promos.global.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1">
             <p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
             <p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
           </div>
