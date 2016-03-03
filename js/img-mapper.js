@@ -173,16 +173,16 @@ function imageMapper(index, dataUri, imageMap) {
 			map,
 			filename,
 			KEYS = {
-				F1     : 112,
-				ESC    : 27,
-				TOP    : 38,
-				BOTTOM : 40,
-				LEFT   : 37,
-				RIGHT  : 39,
-				DELETE : 46,
-				I      : 73,
-				S      : 83,
-				C      : 67
+				//F1     : 112,
+				//ESC    : 27,
+				//TOP    : 38,
+				//BOTTOM : 40,
+				//LEFT   : 37,
+				//RIGHT  : 39,
+				//DELETE : 46,
+				//I      : 73,
+				//S      : 83,
+				//C      : 67
 			};
 
 		function recalcOffsetValues() {
@@ -399,7 +399,7 @@ function imageMapper(index, dataUri, imageMap) {
 					break;
 
 				case KEYS.S: /* s (save) key */
-					app.saveInLocalStorage();
+					//app.saveInLocalStorage();
 
 					break;
 
@@ -743,6 +743,7 @@ function imageMapper(index, dataUri, imageMap) {
 		var form = utils.id('edit_details'),
 			header = utils.id('h5'),
 			href_attr = utils.id('href_attr'),
+			mlink_attr = utils.id('mlink_attr'),
 			alt_attr = utils.id('alt_attr'),
 			title_attr = utils.id('title_attr'),
 			content = utils.id('code_content'),
@@ -764,13 +765,14 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		function save(e) {
-			obj.href = href_attr.value;
+			obj.href = href_attr.value //+ "\&mlink=0," + mlink_attr.value;
+			obj.mlink = mlink_attr.value;
 			obj.alt = alt_attr.value;
 			obj.title = title_attr.value;
 
 			obj.href ? obj.with_href() : obj.without_href();
 
-			changedReset();
+			//changedReset();
 			code.print();
 			e.preventDefault();
 		}
@@ -785,7 +787,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 		function unload() {
 			obj = null;
-			changedReset();
+			//changedReset();
 			content.innerHTML = app.getHTMLCode(true);
 			utils.hide(form);
 		}
@@ -808,8 +810,8 @@ function imageMapper(index, dataUri, imageMap) {
 		}
 
 		function change() {
-			utils.addClass(form, 'changed');
-			utils.addClass(this.parentNode, 'changed');
+			//utils.addClass(form, 'changed');
+			//utils.addClass(this.parentNode, 'changed');
 		}
 
 		save_button.addEventListener('click', save, false);
@@ -841,6 +843,7 @@ function imageMapper(index, dataUri, imageMap) {
 				href_attr.value = object.href ? object.href : '';
 				alt_attr.value = object.alt ? object.alt : '';
 				title_attr.value = object.title ? object.title : '';
+				mlink_attr.value = object.mlink ? object.mlink : '';
 				utils.show(form);
 				if (new_x && new_y) {
 					x = new_x;
@@ -1231,7 +1234,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 		function onSaveButtonClick(e) {
 			// Save in localStorage
-			app.saveInLocalStorage();
+			//app.saveInLocalStorage();
 
 			e.preventDefault();
 		}
