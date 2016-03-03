@@ -663,7 +663,10 @@
       $scope.renderJSON = function(file) {
         var fr = new FileReader();
         fr.onload = function(e) {
-          var newArr = JSON.parse(e.target.result);
+
+          // this removes the jsonp callback stuff
+
+          var newArr = JSON.parse(e.target.result.substring(e.target.result.indexOf('{'), e.target.result.lastIndexOf(');')));
           $scope.$apply($scope.promos = newArr);
           cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
           fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
