@@ -185,7 +185,7 @@
                             class="btn btn-info mapButton"
                             ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap)"
                             >Edit Image Map</button>
-                            <br /><br />
+                            <br ng-show="promo.bannerContent.img.contentParameters.useMap"/><br ng-show="promo.bannerContent.img.contentParameters.useMap"/>
                             <textarea
                               ng-show="promo.bannerContent.img.contentParameters.useMap"
                               class="form-control mapCode"
@@ -228,24 +228,34 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">Banner Footer</div>
                   <div class="panel-body">
-                    <div class="form-group">
-                      <div class="radio">
-                        <label class="radio-inline">
-                          <input type="radio" ng-model="promo.tapContent.displayType" value="generic" name="tapType_{{$index}}">
-                          <strong>Generic</strong> - display generic code
-                        </label>
-                      </div>
-                      <div class="radio">
-                        <label class="radio-inline">
-                          <input type="radio" ng-model="promo.tapContent.displayType" value="tap" name="tapType_{{$index}}" ng-change="attachRedeem()">
-                          <strong>Tap to apply</strong> - display a "redeem now" button which applies the code
-                        </label>
-                      </div>
-                      <div class="radio">
-                        <label class="radio-inline">
-                          <input type="radio" ng-model="promo.tapContent.displayType" value="none" name="tapType_{{$index}}">
-                          <strong>None</strong> - display "No code required"
-                        </label>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <div class="radio">
+                            <label class="radio-inline">
+                              <input type="radio" ng-model="promo.tapContent.displayType" value="generic" name="tapType_{{$index}}" ng-click="promo.tapContent.redeemMessage = 'Use code <generic> at checkout'">
+                              <strong>Generic</strong> - display generic code
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label class="radio-inline">
+                              <input type="radio" ng-model="promo.tapContent.displayType" value="auto" name="tapType_{{$index}}" ng-click="promo.tapContent.redeemMessage = 'discount automatically applied at checkout'">
+                              <strong>Auto apply</strong> - only display Redeem Message
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label class="radio-inline">
+                              <input type="radio" ng-model="promo.tapContent.displayType" value="tap" name="tapType_{{$index}}" ng-change="attachRedeem()">
+                              <strong>Tap to apply</strong> - display a button to apply code
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label class="radio-inline">
+                              <input type="radio" ng-model="promo.tapContent.displayType" value="none" name="tapType_{{$index}}" ng-click="promo.tapContent.redeemMessage = 'No code required'">
+                              <strong>None</strong> - custom Redeem Message
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <form class="form">
@@ -255,19 +265,25 @@
                         <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
                       </div>
 
-                      <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'">
+                      <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
                         <label for="genericCode">Generic code</label>
                         <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
                       </div>
                     </form>
-                    <div class="form-group">
+                    <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'">
                       <label>
-                        <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override Legal Text? If unchecked, legal will be pulled from PPC through ecom if a PPC code is in use.
+                        <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override Legal Text in popup? If unchecked, legal will be pulled from PPC through ecom if a PPC code is in use.
                       </label>
                     </div>
+
+
                     <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
                       <label for="inputUrl">Legal popup text override</label>
                       <textarea class="form-control" rows="3" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Manually written legal"></textarea>
+                    </div>
+                    <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
+                      <label for="inputUrl">Redeem message</label>
+                      <textarea class="form-control" rows="1" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
                     </div>
                     <div class="form-group" ng-show="promo.tapContent.genericCode && promo.tapContent.genericCodeId && promo.tapContent.displayType != 'none'">
                       <label for="preview">iframe preview</label>
@@ -582,6 +598,7 @@
             tapContent: {
               displayType: "generic",
               legalOverride: "",
+              redeemMessage: "discount automatically applied at checkout",
               useLegalOverride: false,
               genericCodeId: "",
               genericCode: ""
@@ -642,6 +659,7 @@
             displayType: "generic",
             legalOverride: "",
             useLegalOverride: false,
+            redeemMessage: "discount automatically applied at checkout",
             genericCodeId: "",
             genericCode: ""
           }
