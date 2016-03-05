@@ -267,39 +267,55 @@
                     <div class="panel panel-default" ng-hide="promo.tapContent.displayType == 'none'">
                       <div class="panel-body">
                         <form class="form">
-                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
-                            <label for="genericCodeId">PPC ID</label>
-                            <input type="text" name="genericCodeId" ng-model="promo.tapContent.genericCodeId" class="form-control" id="genericCodeId" ng-pattern="/^[0-9]*$/" placeholder="123456">
-                            <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
+                          <div class="col-sm-6">
+                            <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
+                              <label for="genericCodeId">PPC ID</label>
+                              <input type="text" name="genericCodeId" ng-model="promo.tapContent.genericCodeId" class="form-control" id="genericCodeId" ng-pattern="/^[0-9]*$/" placeholder="123456">
+                              <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
+                            </div>
                           </div>
+                          <div class="col-sm-6">
+                            <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
+                              <label for="genericCode">Generic code</label>
+                              <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <button
+                              ng-show="promo.tapContent.genericCodeId"
+                              class="btn btn-info btn-block"
+                              ng-click="ppcCheckModal(promo.tapContent.genericCodeId,$index,'bananarepublic')">Validate PPC ID</button>
 
-                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
-                            <label for="genericCode">Generic code</label>
-                            <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
                           </div>
                         </form>
                       </div>
                     </div>
                     <div class="panel panel-default">
                       <div class="panel-body">
-                        <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
-                          <label for="inputUrl">Redeem message</label>
-                          <textarea class="form-control" rows="1" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
+                        <div class="col-sm-8">
+                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
+                            <label for="inputUrl">Redeem message</label>
+                            <textarea class="form-control" rows="2" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label for="popupTextLink">Popup Link Text</label>
-                          <input type="text" name="popupTextLink" ng-model="promo.tapContent.popupTextLink" class="form-control">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="popupTextLink">Popup Link</label>
+                            <input type="text" name="popupTextLink" ng-model="promo.tapContent.popupTextLink" class="form-control">
+                          </div>
                         </div>
+
                         <div class="form-group">
                           <label>
                             <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override popup text? If unchecked, legal will be pulled from PPC through ecom if a PPC code is in use.
                           </label>
                         </div>
+
                         <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
                           <label for="inputUrl">Legal popup text override</label>
-                          <textarea class="form-control" rows="3" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Little promotion
-    that makes the website sing,
-    specific are your details"></textarea>
+                          <textarea class="form-control" rows="12" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Little promotion
+that makes the business sing,
+what are your details?"></textarea>
                         </div>
                       </div>
                     </div>
@@ -415,7 +431,28 @@
   </div>
   </form>
 
+  <script type="text/ng-template" id="ppcCodeCheck.html">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="dismiss()">&times;</button>
+      <h4 class="modal-title">PPC code check for {{ppcId}} at {{brand}}</h4>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div id="progress-bar" class="progress" style="width:400px;margin:0 auto">
+        <div id="progress-bar-info" class="progress-bar progress-bar-info" style="transition: all 6s ease-in-out;"></div>
+      </div>
 
+      <iframe ng-src="{{cleanUrl()}}" id="myframe" onload="frameLoaded();" style="display:none;border:none;width:400px;height:300px;margin:0 auto"></iframe>
+      <script>
+      function frameLoaded() {
+        console.log("hello")
+        jQuery("#progress-bar").css('display','none');jQuery("#myframe").css('display','block');
+      }
+      </script>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="dismiss()">Close</button>
+    </div>
+  </script>
 
     <script type="text/ng-template" id="myMapperContent.html">
       <div class="modal-header">
@@ -803,6 +840,7 @@
           return false;
         });
       }
+
       $scope.mapImgModal = function(index, dataURI, mapHTML){
         var el = document.getElementsByClassName('mapCode')[index];
         mapHTML = el.value;
@@ -833,33 +871,71 @@
             mapValue = results[0];
 
             $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = mapValue;
-      }, function () {
-
-      })
+          })
       }
 
-
+      $scope.ppcCheckModal = function(ppcId, index, brand){
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'ppcCodeCheck.html',
+          controller: 'ppcModalInstanceCtrl',
+          size: 'lg',
+          resolve: {
+            ppcId: function () {
+              return $scope.promos.global.promos[index].tapContent.genericCodeId;
+            },
+            brand: function () {
+              return brand;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+            jQuery("#progress-bar-info").css('width','100%')
+        })
+      }
     }]);
 
-    angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, index, imageMapCode) {
+      angular.module('JSConfigApp').controller('ppcModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, ppcId, brand) {
 
-      $scope.imageMap = imageMapCode;
+        $scope.ppcId = ppcId;
+        $scope.brand = brand;
 
-      $scope.ok = function () {
-        map = document.getElementsByClassName('code_content');
-        $scope.imageMap = map[0].innerHTML//.replace('&lt;',/</).replace('&gt;',/>/);
+        $scope.cleanUrl = function() {
+          return $sce.trustAsResourceUrl("http://"+brand+".gap.com/buy/promo_legal_details.do?promoId="+ppcId);
+        }
 
-        results = [$scope.imageMap, index]
-        $uibModalInstance.close(results);
-      };
-      $scope.cancel = function () {
-        $uibModalInstance.dismiss();
-      };
-    });
+        $scope.dismiss = function () {
+          jQuery("#progress-bar").css('display','block');
+          jQuery("#myframe").css('display','none');
+          jQuery("#progress-bar-info").css('width','0%')
 
-    JSConfigApp.config(['$compileProvider', function($compileProvider) {
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
-    }]);
+          $uibModalInstance.dismiss();
+        };
+      });
+
+      angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, index, imageMapCode) {
+
+        $scope.imageMap = imageMapCode;
+
+        $scope.ok = function () {
+          map = document.getElementsByClassName('code_content');
+          $scope.imageMap = map[0].innerHTML//.replace('&lt;',/</).replace('&gt;',/>/);
+
+          results = [$scope.imageMap, index]
+          $uibModalInstance.close(results);
+        };
+        $scope.cancel = function () {
+          $uibModalInstance.dismiss();
+        };
+      });
+
+      JSConfigApp.config(['$compileProvider', function($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
+      }]);
+
+
+
 
 
 
