@@ -311,7 +311,7 @@
             <div class="panel-heading">
               <h2 class="panel-title">Preview : Iphone 4 resolution</h2>
             </div>
-            <div class="panel-body" style="width:350px;margin:15px auto; border: 1px solid #ddd;background:black;">
+            <div class="panel-body" style="width:350px;margin:15px auto; border: 1px solid #ddd;background:#e0e1e1;">
               <span class="label label-danger" ng-hide="promos.global.headerText">No header defined</span>
               <span class="offerspotlight-title-text">{{promos.global.headerText}}</span>
               <br>
@@ -339,11 +339,9 @@
                         <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link">
                       </div>
                       <div class="spotlight-footer">
-                        <div class="control-code column1" ng-hide="promo.tapContent.displayType == 'none'">
+                        <div class="control-code column1">
                           <a href="#" class="redeem" ng-show="promo.tapContent.displayType == 'tap'">TAP TO APPLY</a>
-                          <span class="gen" ng-show="promo.tapContent.displayType == 'generic'">Enter <span class="strong">{{promo.tapContent.genericCode}}</span>
-                          <br> at checkout</span>
-                          <span class="none" ng-show="promo.tapContent.displayType == 'none'">NO CODE REQUIRED</span>
+                          <span class="gen" ng-hide="promo.tapContent.displayType == 'tap'">{{promo.tapContent.redeemMessage}}</span>
                         </div>
                         <div class="control-apply column2">
                           <a href="#normal" class="legal-details">
