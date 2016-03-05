@@ -468,6 +468,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Rect.createFromSaved({
 									coords : x.coords,
 									href   : x.href,
+									mlink   : x.mlink,
 									alt    : x.alt,
 									title  : x.title
 								});
@@ -479,6 +480,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Circle.createFromSaved({
 									coords : x.coords,
 									href   : x.href,
+									mlink   : x.mlink,
 									alt    : x.alt,
 									title  : x.title
 								});
@@ -490,6 +492,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Polygon.createFromSaved({
 									coords : x.coords,
 									href   : x.href,
+									mlink   : x.mlink,
 									alt    : x.alt,
 									title  : x.title
 								});
@@ -772,6 +775,7 @@ function imageMapper(index, dataUri, imageMap) {
 
 			obj.href ? obj.with_href() : obj.without_href();
 
+
 			//changedReset();
 			code.print();
 			e.preventDefault();
@@ -818,10 +822,12 @@ function imageMapper(index, dataUri, imageMap) {
 	//	delete_button.addEventListener('click', deleteArea, false);
 
 		href_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
+		mlink_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
 		alt_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
 		title_attr.addEventListener('keydown', function(e) { e.stopPropagation(); }, false);
 
 		href_attr.addEventListener('change', change, false);
+		mlink_attr.addEventListener('change', change, false);
 		alt_attr.addEventListener('change', change, false);
 		title_attr.addEventListener('change', change, false);
 
@@ -865,17 +871,20 @@ function imageMapper(index, dataUri, imageMap) {
 			close_button = form.querySelector('.close_button'),
 			regexp_area = /<area(?=.*? shape="(rect|circle|poly)")(?=.*? coords="([\d ,]+?)")[\s\S]*?>/gmi,
 			regexp_href = / href="([\S\s]+?)"/,
+			regexp_mlink = / mlink="([\S\s]+?)"/,
 			regexp_alt = / alt="([\S\s]+?)"/,
 			regexp_title = / title="([\S\s]+?)"/;
 
 		function test(str) {
 			var result_area,
 				result_href,
+				result_mlink,
 				result_alt,
 				result_title,
 				type,
 				coords,
 				area,
+				mlink,
 				href,
 				alt,
 				title,
@@ -913,6 +922,13 @@ function imageMapper(index, dataUri, imageMap) {
 						title = '';
 					}
 
+					result_mlink = regexp_mlink.exec(area);
+					if (result_mlink) {
+						mlink = result_mlink[1];
+					} else {
+						mlink = '';
+					}
+
 					for (var i = 0, len = coords.length; i < len; i++) {
 						coords[i] = Number(coords[i]);
 					}
@@ -923,6 +939,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Rect.createFromSaved({
 									coords : coords,
 									href   : href,
+									mlink  : mlink,
 									alt    : alt,
 									title  : title
 								});
@@ -934,6 +951,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Circle.createFromSaved({
 									coords : coords,
 									href   : href,
+									mlink  : mlink,
 									alt    : alt,
 									title  : title
 								});
@@ -945,6 +963,7 @@ function imageMapper(index, dataUri, imageMap) {
 								Polygon.createFromSaved({
 									coords : coords,
 									href   : href,
+									mlink  : mlink,
 									alt    : alt,
 									title  : title
 								});
@@ -1423,7 +1442,8 @@ function imageMapper(index, dataUri, imageMap) {
 
 		this.href = ''; //href attribute - not required
 		this.alt = ''; //alt attribute - not required
-		this.title = ''; //title attribute - not required
+		this.title = '';
+		this.mlink = ''; //title attribute - not required
 
 		this.g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); //container
 		this.rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); //rectangle
@@ -1754,6 +1774,7 @@ code.print();
 			+ (this.href ? ' href="' + this.href + '"' : '')
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
+			+ (this.mlink ? ' mlink="' + this.mlink + '"' : '')
 			+ ' />';
 			code.print();
 	};
@@ -1761,6 +1782,7 @@ code.print();
 	Rect.createFromSaved = function(params) {
 		var coords = params.coords,
 			href = params.href,
+			mlink = params.mlink,
 			alt = params.alt,
 			title = params.title,
 			area = new Rect(coords[0], coords[1]);
@@ -1772,6 +1794,10 @@ code.print();
 
 		if (href) {
 			area.href = href;
+		}
+
+		if (mlink) {
+			area.mlink = mlink;
 		}
 
 		if (alt) {
@@ -1793,6 +1819,7 @@ code.print();
 				this.params.y + this.params.height
 			],
 			href   : this.href,
+			mlink   : this.mlink,
 			alt    : this.alt,
 			title  : this.title
 		}
@@ -1812,6 +1839,7 @@ code.print();
 		this.href = ''; //href attribute - not required
 		this.alt = ''; //alt attribute - not required
 		this.title = ''; //title attribute - not required
+		this.mlink = ''; //title attribute - not required
 
 		this.g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 		this.circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -1922,7 +1950,7 @@ code.print();
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius -= dy;
-code.print();
+		code.print();
 		return temp_params;
 	};
 
@@ -1930,7 +1958,7 @@ code.print();
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius += dy;
-code.print();
+		code.print();
 		return temp_params;
 	};
 
@@ -1938,7 +1966,7 @@ code.print();
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius -= dx;
-code.print();
+		code.print();
 		return temp_params;
 	};
 
@@ -1946,7 +1974,7 @@ code.print();
 		var temp_params = Object.create(this.params);
 
 		temp_params.radius += dx;
-	code.print();
+		code.print();
 		return temp_params;
 	};
 
@@ -1956,7 +1984,7 @@ code.print();
 		}
 
 		this.setCoords(temp_params);
-	code.print();
+		code.print();
 		return temp_params;
 	};
 
@@ -1989,7 +2017,7 @@ code.print();
 
 	Circle.prototype.deselect = function() {
 		utils.removeClass(this.circle, 'selected');
-	code.print();
+		code.print();
 		return this;
 	};
 
@@ -2014,13 +2042,15 @@ code.print();
 			+ (this.href ? ' href="' + this.href + '"' : '')
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
+			+ (this.mlink ? ' mlink="' + this.mlink + '"' : '')
 			+ ' />';
-				code.print();
+			code.print();
 	};
 
 	Circle.createFromSaved = function(params) {
 		var coords = params.coords,
 			href = params.href,
+			mlink = params.mlink,
 			alt = params.alt,
 			title = params.title,
 			area = new Circle(coords[0], coords[1]);
@@ -2034,6 +2064,10 @@ code.print();
 			area.href = href;
 		}
 
+		if (mlink) {
+			area.mlink = mlink;
+		}
+
 		if (alt) {
 			area.alt = alt;
 		}
@@ -2041,6 +2075,7 @@ code.print();
 		if (title) {
 			area.title = title;
 		}
+		code.print();
 	};
 
 	Circle.prototype.toJSON = function() {
@@ -2052,9 +2087,11 @@ code.print();
 				this.params.radius
 			],
 			href   : this.href,
+			mlink   : this.mlink,
 			alt    : this.alt,
 			title  : this.title
 		}
+		code.print();
 	};
 
 
@@ -2067,6 +2104,7 @@ code.print();
 		this.href = ''; //href attribute - not required
 		this.alt = ''; //alt attribute - not required
 		this.title = ''; //title attribute - not required
+		this.mlink = ''; //title attribute - not required
 
 		this.g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 		this.polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
@@ -2094,13 +2132,13 @@ code.print();
 		utils.foreach(this.helpers, function(x, i) {
 			x.setCoords(params[2*i], params[2*i+1]);
 		});
-			code.print();
+		code.print();
 		return this;
 	};
 
 	Polygon.prototype.setParams = function(arr) {
 		this.params = Array.prototype.slice.call(arr);
-
+		code.print();
 		return this;
 	};
 
@@ -2110,13 +2148,13 @@ code.print();
 		this.helpers.push(helper);
 		this.params.push(x, y);
 		this.redraw();
-			code.print();
+		code.print();
 		return this;
 	};
 
 	Polygon.prototype.redraw = function() {
 		this.setCoords(this.params);
-			code.print();
+		code.print();
 		return this;
 	};
 
@@ -2188,6 +2226,7 @@ code.print();
 		var right_angle = e.shiftKey ? true : false;
 
 		_n_f.dynamicDraw(utils.rightX(e.pageX), utils.rightY(e.pageY), right_angle);
+		code.print();
 	};
 
 	Polygon.prototype.onDrawAddPoint = function(e) {
@@ -2230,31 +2269,31 @@ code.print();
 		for (var i = 0, count = this.params.length; i < count; i++) {
 			i % 2 ? this.params[i] += y : this.params[i] += x;
 		}
-			code.print();
+		code.print();
 		return temp_params;
 	};
 
 	Polygon.prototype.pointMove = function(x, y){ //offset x and y
 		this.params[2 * this.selected_point] += x;
 		this.params[2 * this.selected_point + 1] += y;
-			code.print();
+		code.print();
 		return this.params;
 	};
 
 	Polygon.prototype.dynamicEdit = function(temp_params) {
 		this.setCoords(temp_params);
-			code.print();
+		code.print();
 		return temp_params;
 	};
 
 	Polygon.prototype.onEdit = function(e) {
 		var _s_f = app.getSelectedArea(),
-			edit_type = app.getEditType();
+		edit_type = app.getEditType();
 
 		_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y));
 		_s_f.delta.x = e.pageX;
 		_s_f.delta.y = e.pageY;
-			code.print();
+		code.print();
 	};
 
 	Polygon.prototype.onEditStop = function(e) {
@@ -2262,36 +2301,36 @@ code.print();
 			edit_type = app.getEditType();
 
 		_s_f.setParams(_s_f.dynamicEdit(_s_f[edit_type](e.pageX - _s_f.delta.x, e.pageY - _s_f.delta.y)));
-			code.print();
+		code.print();
 		app.removeAllEvents();
 	};
 
 	Polygon.prototype.remove = function(){
 		app.removeNodeFromSvg(this.g);
-			code.print();
+		code.print();
 	};
 
 	Polygon.prototype.select = function() {
 		utils.addClass(this.polygon, 'selected');
-
+		code.print();
 		return this;
 	};
 
 	Polygon.prototype.deselect = function() {
 		utils.removeClass(this.polygon, 'selected');
-			code.print();
+		code.print();
 		return this;
 	};
 
 	Polygon.prototype.with_href = function() {
 		utils.addClass(this.polygon, 'with_href');
-
+		code.print();
 		return this;
 	}
 
 	Polygon.prototype.without_href = function() {
 		utils.removeClass(this.polygon, 'with_href');
-
+		code.print();
 		return this;
 	}
 
@@ -2308,6 +2347,7 @@ code.print();
 			+ (this.href ? ' href="' + this.href + '"' : '')
 			+ (this.alt ? ' alt="' + this.alt + '"' : '')
 			+ (this.title ? ' title="' + this.title + '"' : '')
+			+ (this.mlink ? ' mlink="' + this.mlink + '"' : '')
 			+ ' />';
 				code.print();
 	};
@@ -2315,6 +2355,7 @@ code.print();
 	Polygon.createFromSaved = function(params) {
 		var coords = params.coords,
 			href = params.href,
+			mlink = params.mlink,
 			alt = params.alt,
 			title = params.title,
 			area = new Polygon(coords[0], coords[1]);
@@ -2336,6 +2377,10 @@ code.print();
 			area.href = href;
 		}
 
+		if (mlink) {
+			area.mlink = mlink;
+		}
+
 		if (alt) {
 			area.alt = alt;
 		}
@@ -2350,6 +2395,7 @@ code.print();
 			type   : 'polygon',
 			coords : this.params,
 			href   : this.href,
+			mlink  : this.mlink,
 			alt    : this.alt,
 			title  : this.title
 		}

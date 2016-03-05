@@ -312,11 +312,17 @@
               <h2 class="panel-title">Preview : Iphone 4 resolution</h2>
             </div>
             <div class="panel-body" style="width:350px;margin:15px auto; border: 1px solid #ddd;background:#e0e1e1;">
-              <span class="label label-danger" ng-hide="promos.global.headerText">No header defined</span>
-              <span class="offerspotlight-title-text">{{promos.global.headerText}}</span>
-              <br>
-              <span class="label label-danger" ng-hide="promos.global.subHeaderText">No subheader defined</span>
-              <span class="offerspotlight-title-subtext">{{promos.global.subHeaderText}}</span>
+
+              <div id="promoDrawer__handlebar">
+                <div id="promoDrawer__handlebar__text">
+                  <div class="promoDrawer__title closed" style="display: block;">{{promos.global.headerText}}</div>
+                  <div class="promoDrawer__subtitle closed" style="display: block;">{{promos.global.subHeaderText}}</div>
+                </div>
+              </div>
+
+
+
+
               <div class="offerspotlight-drawer" style="position:relative!important;">
                 <div class="offerspotlight-drawer-slider">
                   <div class="offerspotlight-drawer-slider-items">
@@ -332,11 +338,13 @@
                       </div>
                       <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'img'">
                         <a ng-href="{{promo.bannerContent.img.contentParameters.linkUrl}}" ng-show="promo.bannerContent.img.contentParameters.link">
-                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri">
+                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="promo.bannerContent.img.contentParameters.useMap">
                           <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path">
                         </a>
-                        <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link">
-                        <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link">
+                        <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link || promo.bannerContent.img.contentParameters.useMap">
+                        <img width="256" height="142" usemap="map_0" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-show="promo.bannerContent.img.contentParameters.useMap">
+                        {{promo.bannerContent.img.contentParameters.imageMap}}
+                        <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link || !promo.bannerContent.img.contentParameters.useMap">
                       </div>
                       <div class="spotlight-footer">
                         <div class="control-code column1">
