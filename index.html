@@ -341,9 +341,9 @@
                           <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="promo.bannerContent.img.contentParameters.useMap">
                           <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path">
                         </a>
-                        <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link || promo.bannerContent.img.contentParameters.useMap">
-                        <img width="256" height="142" usemap="map_0" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-show="promo.bannerContent.img.contentParameters.useMap">
-                        {{promo.bannerContent.img.contentParameters.imageMap}}
+                        <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link">
+
+
                         <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link || !promo.bannerContent.img.contentParameters.useMap">
                       </div>
                       <div class="spotlight-footer">
