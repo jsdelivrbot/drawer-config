@@ -27,11 +27,12 @@
 
 .promoDrawer__title {
   font-size: 1.1em;
-  margin: 3px 0 0 12px;
+  margin: 0 0 0 12px;
   font-family: futura, 'Avante Garde';
   text-transform: uppercase;
   color: #FFF;
   letter-spacing: 2px;
+  padding: 3px 0 0 0;
 }
 .promoDrawer__subtitle {
   font-family: futura, 'Avante Garde';
@@ -140,7 +141,7 @@
 .offerspotlight-drawer-slider {
   white-space: nowrap;
   overflow-x: auto;
-  padding: 20px 0px 9px 6px;
+  padding: 12px 0px 9px 6px;
   -webkit-overflow-scrolling: touch;
   background-color:#e0e1e1;
   width:100%;
@@ -165,7 +166,7 @@
   display: inline-block;
   position:relative;
 
-  border: 1px solid #666;
+  border: 1px solid #AAA;
   background-color: #fff;
 
 }

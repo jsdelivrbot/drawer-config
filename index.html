@@ -125,7 +125,7 @@
                               ng-model="promo.bannerContent.imgOrHTML"
                               value="img"
                               name="group_{{$index}}">
-                            <strong>Image</strong> - Cell loads an image with options for a single link, image mapping or no link.
+                            <strong>Image</strong> - Cell loads an image with options for linking.
                           </label>
                         </div>
                         <div class="radio">
@@ -135,7 +135,7 @@
                               ng-model="promo.bannerContent.imgOrHTML"
                               value="html"
                               name="group_{{$index}}">
-                            <strong>HTML</strong> - cell loads HTML content or iframe to display advanced messaging
+                            <strong>HTML</strong> - edit banner contents
                           </label>
                         </div>
                       </div>
@@ -159,6 +159,7 @@
                             <p>{{imgError}}</p>
                           </div>
                         </div>
+                        <!--
                         <div class="form-group" ng-hide="promo.bannerContent.img.images.dataUri">
                           <label for="inputImageUrl">Cell image path</label>
                           <input
@@ -168,6 +169,7 @@
                             id="inputImageUrl"
                             placeholder="URL">
                         </div>
+                        -->
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
                           <div class="checkbox">
                             <label>
@@ -176,7 +178,7 @@
                           </div>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap">Image mapped</input>
+                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap">Map links over image</input>
                             </label>
                           </div>
                           <button
@@ -188,6 +190,7 @@
                             <br ng-show="promo.bannerContent.img.contentParameters.useMap"/><br ng-show="promo.bannerContent.img.contentParameters.useMap"/>
                             <textarea
                               ng-show="promo.bannerContent.img.contentParameters.useMap"
+                              ng-hide="!promo.bannerContent.img.contentParameters.imageMap"
                               class="form-control mapCode"
                               rows="5" id="textArea"
                               ng-model="promo.bannerContent.img.contentParameters.imageMap"
@@ -201,17 +204,20 @@
                       </div>
 
                       <div class="HTML-container" ng-show="promo.bannerContent.imgOrHTML == 'html'">
+
+                        <!--
                         <div class="form-group">
                           <label>
                             <input type="checkbox" ng-model="promo.bannerContent.HTML.useLocal"> Generate HTML
                           </label>
                         </div>
+
                         <div class="form-group" ng-hide="promo.bannerContent.HTML.useLocal">
                           <label for="inputImageUrl">HTML path</label>
                           <input type="text" ng-model="promo.bannerContent.HTML.path" class="form-control" placeholder="URL">
                         </div>
+                        -->
                         <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
-                          <label for="html">HTML Content</label>
                           <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-br"></text-angular>
                         </div>
                         <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
@@ -258,37 +264,51 @@
                         </div>
                       </div>
                     </div>
-                    <form class="form">
-                      <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
-                        <label for="genericCodeId">PPC ID</label>
-                        <input type="text" name="genericCodeId" ng-model="promo.tapContent.genericCodeId" class="form-control" id="genericCodeId" ng-pattern="/^[0-9]*$/" placeholder="123456">
-                        <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
+                    <div class="panel panel-default" ng-hide="promo.tapContent.displayType == 'none'">
+                      <div class="panel-body">
+                        <form class="form">
+                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
+                            <label for="genericCodeId">PPC ID</label>
+                            <input type="text" name="genericCodeId" ng-model="promo.tapContent.genericCodeId" class="form-control" id="genericCodeId" ng-pattern="/^[0-9]*$/" placeholder="123456">
+                            <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
+                          </div>
+
+                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
+                            <label for="genericCode">Generic code</label>
+                            <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
+                          </div>
+                        </form>
                       </div>
-
-                      <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
-                        <label for="genericCode">Generic code</label>
-                        <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
+                          <label for="inputUrl">Redeem message</label>
+                          <textarea class="form-control" rows="1" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="popupTextLink">Popup Link Text</label>
+                          <input type="text" name="popupTextLink" ng-model="promo.tapContent.popupTextLink" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label>
+                            <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override popup text? If unchecked, legal will be pulled from PPC through ecom if a PPC code is in use.
+                          </label>
+                        </div>
+                        <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
+                          <label for="inputUrl">Legal popup text override</label>
+                          <textarea class="form-control" rows="3" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Little promotion
+    that makes the website sing,
+    specific are your details"></textarea>
+                        </div>
                       </div>
-                    </form>
-                    <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'">
-                      <label>
-                        <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override Legal Text in popup? If unchecked, legal will be pulled from PPC through ecom if a PPC code is in use.
-                      </label>
                     </div>
-
-
-                    <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
-                      <label for="inputUrl">Legal popup text override</label>
-                      <textarea class="form-control" rows="3" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Manually written legal"></textarea>
-                    </div>
-                    <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
-                      <label for="inputUrl">Redeem message</label>
-                      <textarea class="form-control" rows="1" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
-                    </div>
+                    <!--
                     <div class="form-group" ng-show="promo.tapContent.genericCode && promo.tapContent.genericCodeId && promo.tapContent.displayType != 'none'">
                       <label for="preview">iframe preview</label>
-                      <!-- <iframe name="preview" frameborder="0" scrolling="yes" ng-src="{{cleanUrl($index)}}"></iframe> -->
+                      <iframe name="preview" frameborder="0" scrolling="yes" ng-src="{{cleanUrl($index)}}"></iframe>
                     </div>
+                    -->
                   </div>
                 </div>
               </div>
@@ -311,24 +331,19 @@
             <div class="panel-heading">
               <h2 class="panel-title">Preview : Iphone 4 resolution</h2>
             </div>
-            <div class="panel-body" style="width:350px;margin:15px auto; border: 1px solid #ddd;background:#e0e1e1;">
-
+            <div class="panel-body" style="width:350px;margin:15px auto;padding:0;background:#e0e1e1;">
               <div id="promoDrawer__handlebar">
                 <div id="promoDrawer__handlebar__text">
                   <div class="promoDrawer__title closed" style="display: block;">{{promos.global.headerText}}</div>
                   <div class="promoDrawer__subtitle closed" style="display: block;">{{promos.global.subHeaderText}}</div>
                 </div>
               </div>
-
-
-
-
               <div class="offerspotlight-drawer" style="position:relative!important;">
                 <div class="offerspotlight-drawer-slider">
                   <div class="offerspotlight-drawer-slider-items">
                     <div class="offerspotlight-drawer-slider-item" ng-repeat="promo in promos.global.promos track by $index" ng-show="promo.bannerContent.img.images.path || promo.bannerContent.img.images.dataUri || promo.bannerContent.HTML.path || promo.bannerContent.HTML.useLocal">
                       <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'html' && promo.bannerContent.HTML.useLocal">
-                        <div style="vertical-align:middle;width:256px;height:142px;border:1px solid #AAA;-moz-box-sizing:border-box;-webkit-box-sizing: border-box;box-sizing:border-box;">
+                        <div style="vertical-align:middle;width:256px;height:142px;">
                           <div ng-bind-html="promo.bannerContent.HTML.localHTML" class="html-banner-br html-preview" style="height:100%">
                           </div>
                         </div>
@@ -337,14 +352,14 @@
                         <iframe frameborder="0" scrolling="no" style="width:256px;height:142px;" ng-src="{{promo.bannerContent.HTML.path}}"></iframe>
                       </div>
                       <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'img'">
-                        <a ng-href="{{promo.bannerContent.img.contentParameters.linkUrl}}" ng-show="promo.bannerContent.img.contentParameters.link">
-                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="promo.bannerContent.img.contentParameters.useMap">
-                          <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path">
-                        </a>
-                        <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link">
-
-
-                        <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link || !promo.bannerContent.img.contentParameters.useMap">
+                        <div style="width:256px;height:142px;">
+                          <a ng-href="{{promo.bannerContent.img.contentParameters.linkUrl}}" ng-show="promo.bannerContent.img.contentParameters.link">
+                            <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="promo.bannerContent.img.contentParameters.useMap">
+                            <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path">
+                          </a>
+                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link">
+                          <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link || !promo.bannerContent.img.contentParameters.useMap">
+                        </div>
                       </div>
                       <div class="spotlight-footer">
                         <div class="control-code column1">
@@ -353,7 +368,7 @@
                         </div>
                         <div class="control-apply column2">
                           <a href="#normal" class="legal-details">
-                            <span class="legal">details</span>
+                            <span class="legal">{{promo.tapContent.popupTextLink}}</span>
                           </a>
                         </div>
                       </div>
@@ -384,7 +399,7 @@
         </div>
       </div>
 
-
+<!--
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
@@ -393,7 +408,7 @@
 				</div>
 				</div>
 			</div>
-
+-->
       <div class="row">
         <div class="col-sm-12"></div>
       </div>
@@ -448,7 +463,7 @@
             <input type="text" id="href_attr" class="href_attr" />
           </p>
           <p>
-            <label for="mlink_attr">Tracking ID (evar 6) BETA, do not use yet</label>
+            <label for="mlink_attr">Tracking ID (evar 6)</label>
             <input type="text" id="mlink_attr" class="mlink_attr" />
           </p>
           <p>
@@ -589,7 +604,7 @@
                 }
               },
               HTML: {
-                useLocal: false,
+                useLocal: true,
                 localHTML: '<h1 style="text-align: center;">Headline</h1>\
     <h4 style="text-align: center;">Subheader</h4>\
     <p style="text-align: center;">Some optional info</p>\
@@ -602,12 +617,13 @@
               }
             },
             tapContent: {
-              displayType: "generic",
-              legalOverride: "",
-              redeemMessage: "discount automatically applied at checkout",
-              useLegalOverride: false,
-              genericCodeId: "",
-              genericCode: ""
+              displayType       : "generic",
+              legalOverride     : "",
+              redeemMessage     : "Use code <generic> at checkout",
+              useLegalOverride  : false,
+              genericCodeId     : "",
+              genericCode       : "",
+              popupTextLink     : "DETAILS"
             }
           }]
         }
@@ -649,7 +665,7 @@
               }
             },
             HTML: {
-              useLocal: false,
+              useLocal: true,
               localHTML: '<h1 style="text-align: center;">Headline</h1>\
       <h4 style="text-align: center;">Subheader</h4>\
       <p style="text-align: center;">Some optional info</p>\
@@ -662,12 +678,13 @@
             }
           },
           tapContent: {
-            displayType: "generic",
-            legalOverride: "",
-            useLegalOverride: false,
-            redeemMessage: "discount automatically applied at checkout",
-            genericCodeId: "",
-            genericCode: ""
+            displayType       : "generic",
+            legalOverride     : "",
+            redeemMessage     : "Use code <generic> at checkout",
+            useLegalOverride  : false,
+            genericCodeId     : "",
+            genericCode       : "",
+            popupTextLink     : "DETAILS"
           }
         });
         cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
@@ -693,7 +710,6 @@
         fr.onload = function(e) {
 
           // this removes the jsonp callback stuff
-
           var newArr = JSON.parse(e.target.result.substring(e.target.result.indexOf('{'), e.target.result.lastIndexOf(');')));
           $scope.$apply($scope.promos = newArr);
           cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
