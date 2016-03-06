@@ -675,7 +675,7 @@ function imageMapper(index, dataUri, imageMap) {
 				var html_code = '';
 				if (arg) {
 					if (!objects.length) {
-						return '0 objects';
+						return '';
 					}
 					html_code += utils.encode('<map name="map_'+index+'">');
 					utils.foreachReverse(objects, function(x) {

@@ -23,6 +23,11 @@
     display: none;
   }
 
+  body.modal-open {
+    overflow: inherit;
+    padding-right: 0 !important;
+  }
+
   .btn-file {
     position: relative;
     overflow: hidden;
@@ -66,10 +71,16 @@
 <body ng-controller="JSConfigAppCtrl">
   <div class="container">
     <div class="row">
-      <div class="col-sm-8">
-        <h1>Promo Drawer Configuration Tool v6</h1>
+      <div class="col-sm-12">
+        <div class="jumbotron" ng-hide="promos.global.headerText || promos.global.subHeaderText">
+          <h1 style="">Promo Drawer Builder</h1>
+        </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-12">
+        <div class="jumbotron" ng-show="promos.global.headerText || promos.global.subHeaderText">
+          <h1 style="text-transform:uppercase">{{promos.global.headerText}}</h1>
+          <p style="text-transform:uppercase">{{promos.global.subHeaderText}}</p>
+        </div>
       </div>
     </div>
     <form name="cellForm" ng-submit="submitForm(cellForm.$valid)" novalidate>
@@ -171,33 +182,37 @@
                         </div>
                         -->
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
-                          <div class="checkbox">
+                          <div class="radio">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.link">Single link image</input>
+                              <input type="radio" name="linkType_{{$index}}" value="none" ng-model="promo.bannerContent.img.contentParameters.linkType">No link</input>
                             </label>
                           </div>
-                          <div class="checkbox">
+                          <div class="radio">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.useMap">Map links over image</input>
+                              <input type="radio" name="linkType_{{$index}}" value="single" ng-model="promo.bannerContent.img.contentParameters.linkType">Single link image</input>
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="linkType_{{$index}}" value="map" ng-model="promo.bannerContent.img.contentParameters.linkType">Map links over image</input>
                             </label>
                           </div>
                           <button
-                            ng-show="promo.bannerContent.img.contentParameters.useMap"
+                            ng-show="promo.bannerContent.img.contentParameters.linkType == 'map'"
                             type="button"
                             class="btn btn-info mapButton"
                             ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap)"
                             >Edit Image Map</button>
-                            <br ng-show="promo.bannerContent.img.contentParameters.useMap"/><br ng-show="promo.bannerContent.img.contentParameters.useMap"/>
+                            <br ng-show="promo.bannerContent.img.contentParameters.linkType == 'map'"/><br ng-show="promo.bannerContent.img.contentParameters.linkType == 'map'"/>
                             <textarea
-                              ng-show="promo.bannerContent.img.contentParameters.useMap"
-                              ng-hide="!promo.bannerContent.img.contentParameters.imageMap"
+                              ng-show="promo.bannerContent.img.contentParameters.imageMap && promo.bannerContent.img.contentParameters.linkType == 'map'"
                               class="form-control mapCode"
                               rows="5" id="textArea"
                               ng-model="promo.bannerContent.img.contentParameters.imageMap"
                               ></textarea>
                         </div>
 
-                        <div class="form-group" ng-show="promo.bannerContent.img.contentParameters.link == true">
+                        <div class="form-group" ng-show="promo.bannerContent.img.contentParameters.linkType == 'single'">
                           <label for="inputUrl">Cell link URL</label>
                           <input ng-model="promo.bannerContent.img.contentParameters.linkUrl" type="text" class="form-control" id="inputUrl" placeholder="URL">
                         </div>
@@ -368,13 +383,18 @@ what are your details?"></textarea>
                         <iframe frameborder="0" scrolling="no" style="width:256px;height:142px;" ng-src="{{promo.bannerContent.HTML.path}}"></iframe>
                       </div>
                       <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'img'">
-                        <div style="width:256px;height:142px;">
-                          <a ng-href="{{promo.bannerContent.img.contentParameters.linkUrl}}" ng-show="promo.bannerContent.img.contentParameters.link">
-                            <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="promo.bannerContent.img.contentParameters.useMap">
-                            <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path">
+                        <div style="width:256px;height:142px;" ng-show="promo.bannerContent.img.contentParameters.linkType == 'map'">
+
+                            <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}">
+
+                        </div>
+                        <div style="width:256px;height:142px;" ng-show="promo.bannerContent.img.contentParameters.linkType == 'single'">
+                          <a ng-href="{{promo.bannerContent.img.contentParameters.linkUrl}}">
+                            <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}">
                           </a>
-                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}" ng-hide="!promo.bannerContent.img.images.dataUri || promo.bannerContent.img.contentParameters.link">
-                          <img width="256" height="142" class="bannerimg" ng-src="{{promo.bannerContent.img.images.path}}" ng-hide="!promo.bannerContent.img.images.path || promo.bannerContent.img.contentParameters.link || !promo.bannerContent.img.contentParameters.useMap">
+                        </div>
+                        <div style="width:256px;height:142px;" ng-show="promo.bannerContent.img.contentParameters.linkType == 'none'">
+                          <img width="256" height="142" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}">
                         </div>
                       </div>
                       <div class="spotlight-footer">
@@ -438,16 +458,11 @@ what are your details?"></textarea>
     </div>
     <div class="modal-body" id="modal-body">
       <div id="progress-bar" class="progress" style="width:400px;margin:0 auto">
-        <div id="progress-bar-info" class="progress-bar progress-bar-info" style="transition: all 6s ease-in-out;"></div>
+        <div id="progress-bar-info" class="progress-bar progress-bar-info" style="transition: all 3s;"></div>
       </div>
 
       <iframe ng-src="{{cleanUrl()}}" id="myframe" onload="frameLoaded();" style="display:none;border:none;width:400px;height:300px;margin:0 auto"></iframe>
-      <script>
-      function frameLoaded() {
-        console.log("hello")
-        jQuery("#progress-bar").css('display','none');jQuery("#myframe").css('display','block');
-      }
-      </script>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" ng-click="dismiss()">Close</button>
@@ -631,6 +646,7 @@ what are your details?"></textarea>
               img: {
                 contentParameters: {
                   link: false,
+                  linkType : "none",
                   linkUrl: "",
                   imageMap: "",
                   useMap: false
@@ -693,6 +709,7 @@ what are your details?"></textarea>
               contentParameters: {
                 link: false,
                 linkUrl: "",
+                linkType : "none",
                 imageMap: "",
                 useMap: false
               },
@@ -749,14 +766,16 @@ what are your details?"></textarea>
           // this removes the jsonp callback stuff
           var newArr = JSON.parse(e.target.result.substring(e.target.result.indexOf('{'), e.target.result.lastIndexOf(');')));
           $scope.$apply($scope.promos = newArr);
-          cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
-          fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
-          jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth + "px");
-          jQuery('.redeem').on('click', function() {
-            jQuery(this).toggleClass('applied');
-            jQuery(this).toggleText('Applied At Bag', 'Redeem Now')
-            return false;
-          });
+          setTimeout(function(){
+            cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
+            fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
+            jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth + "px");
+            jQuery('.redeem').on('click', function() {
+              jQuery(this).toggleClass('applied');
+              jQuery(this).toggleText('Applied At Bag', 'Redeem Now')
+              return false;
+            });
+          }, 300);  
         }
         fr.readAsText(file);
       }
@@ -879,7 +898,7 @@ what are your details?"></textarea>
           animation: $scope.animationsEnabled,
           templateUrl: 'ppcCodeCheck.html',
           controller: 'ppcModalInstanceCtrl',
-          size: 'lg',
+          size: 'md',
           resolve: {
             ppcId: function () {
               return $scope.promos.global.promos[index].tapContent.genericCodeId;
@@ -938,7 +957,11 @@ what are your details?"></textarea>
 
 
 
-
+      function frameLoaded() {
+        setTimeout(function(){
+          jQuery("#progress-bar").css('display','none');jQuery("#myframe").css('display','block');
+        }, 3000);
+      }
 
 
     jQuery.fn.toggleText = function(t1, t2) {
