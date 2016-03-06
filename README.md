@@ -1,6 +1,6 @@
 # drawer-config
 tool for building a promo drawer
 
-So angular. Wow. Such fun. Test update.
+So promo. Wow. Such fun.
 
 https://rawgit.com/stuartdixon/drawer-config/master/index.html
