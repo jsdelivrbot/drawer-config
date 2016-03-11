@@ -298,13 +298,13 @@
                     </div>
                     <div class="panel panel-default">
                       <div class="panel-body">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                           <div class="form-group" ng-hide="promo.tapContent.displayType == 'tap'">
                             <label for="inputUrl">Redeem message</label>
                             <textarea class="form-control" rows="2" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
                           </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                           <div class="form-group">
                             <label for="popupTextLink">Popup Link</label>
                             <input type="text" name="popupTextLink" ng-model="promo.tapContent.popupTextLink" class="form-control">
@@ -816,6 +816,9 @@ what are your details?"></textarea>
 
       $scope.erasePic = function(index) {
         $scope.promos.global.promos[index].bannerContent.img.images.dataUri = "";
+        var el = document.getElementsByClassName('bannerimg');
+        console.log(el[index])
+        $(el[index]).attr("src","");
       }
 
 
