@@ -10,10 +10,6 @@
 
 "use strict";
 
-//onclick="imageMapper(image_$index, {{promo.bannerContent.img.images.dataUri}})"
-
-
-
 function imageMapper(index, dataUri, imageMap) {
 
 	/* Utilities */
@@ -82,9 +78,6 @@ function imageMapper(index, dataUri, imageMap) {
 			return this;
 		},
 		addClass : function(node, str) {
-			// node.className.baseVal for SVG-elements
-			// or
-			// node.className for HTML-elements
 			var is_svg = node.className.baseVal !== undefined ? true : false,
 				arr = is_svg ? node.className.baseVal.split(' ') : node.className.split(' '),
 				isset = false;
@@ -173,16 +166,7 @@ function imageMapper(index, dataUri, imageMap) {
 			map,
 			filename,
 			KEYS = {
-				//F1     : 112,
-				//ESC    : 27,
-				//TOP    : 38,
-				//BOTTOM : 40,
-				//LEFT   : 37,
-				//RIGHT  : 39,
-				//DELETE : 46,
-				//I      : 73,
-				//S      : 83,
-				//C      : 67
+
 			};
 
 		function recalcOffsetValues() {
