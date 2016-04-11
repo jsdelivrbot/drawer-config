@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html ng-app="JSConfigApp">
 
@@ -5,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-  <!-- inportant: this css should remain linked by brand -->
+  <!-- important: this css should remain linked by brand -->
   <link rel="stylesheet" href="css/spotlight-drawer.css" />
   <link rel="stylesheet" href="brand-css-files/br-style.css" />
 
@@ -73,11 +74,38 @@
 </style>
 
 <body ng-controller="JSConfigAppCtrl">
-  <div class="container">
+  <div class="container" ng-hide="promos.global.brand">
     <div class="row">
       <div class="col-sm-12">
         <div class="jumbotron" ng-hide="promos.global.headerText || promos.global.subHeaderText">
           <h1 style="">Promo Drawer Builder</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="form-group">
+        <label for="select" class="col-sm-2 control-label">Brand</label>
+        <div class="col-sm-4">
+          <select class="form-control" id="select" ng-model="promos.global.brand">
+            <option value="BR-US">Banana Republic</option>
+            <option value="BRFS-US">Banana Republic Factory Store</option>
+            <option value="ON-US">Old Navy</option>
+            <option value="GP-US">Gap</option>
+            <option value="GPFS-US">Gap Factory Store</option>
+            <option value="AT-US">Athleta</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="promos.global.brand">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="jumbotron" ng-hide="promos.global.headerText || promos.global.subHeaderText">
+          <h1 style="">Promo Drawer Builder ({{promos.global.brand}})</h1>
         </div>
       </div>
       <div class="col-sm-12">
@@ -293,6 +321,7 @@
                               <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
                             </div>
                           </div>
+                          <!--
                           <div class="col-sm-12">
                             <button
                               ng-show="promo.tapContent.genericCodeId"
@@ -300,6 +329,7 @@
                               ng-click="ppcCheckModal(promo.tapContent.genericCodeId,$index,'bananarepublic')">Validate PPC ID</button>
 
                           </div>
+                        -->
                         </form>
                       </div>
                     </div>
@@ -613,6 +643,31 @@ what are your details?"></textarea>
 
 
   <script>
+  var QueryString = function () {
+    // This function is anonymous, is executed immediately and
+    // the return value is assigned to QueryString!
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+          // If first entry with this name
+      if (typeof query_string[pair[0]] === "undefined") {
+        query_string[pair[0]] = decodeURIComponent(pair[1]);
+          // If second entry with this name
+      } else if (typeof query_string[pair[0]] === "string") {
+        var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+        query_string[pair[0]] = arr;
+          // If third or later entry with this name
+      } else {
+        query_string[pair[0]].push(decodeURIComponent(pair[1]));
+      }
+    }
+      return query_string;
+  }();
+
+
+
     //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
     var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
 
@@ -628,6 +683,7 @@ what are your details?"></textarea>
       $scope.promos = {
         global: {
           launchDate: "",
+          brand : "",
           headerText: "",
           subHeaderText: "",
           promos: [{
@@ -667,6 +723,10 @@ what are your details?"></textarea>
             }
           }]
         }
+      }
+
+      if(QueryString.brand) {
+        $scope.promos.global.brand = QueryString.brand
       }
 
       $scope.delete = function(idx) {
