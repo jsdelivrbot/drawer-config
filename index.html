@@ -8,7 +8,7 @@
 
   <!-- important: this css should remain linked by brand -->
   <link rel="stylesheet" href="css/spotlight-drawer.css" />
-  <link rel="stylesheet" href="brand-css-files/br-style.css" />
+
 
   <link rel="stylesheet" href="css/textAngular.css" />
   <link rel="stylesheet" href="css/font-awesome.min.css" />
@@ -87,7 +87,7 @@
       <div class="form-group">
         <label for="select" class="col-sm-2 control-label">Brand</label>
         <div class="col-sm-4">
-          <select class="form-control" id="select" ng-model="promos.global.brand">
+          <select class="form-control" id="select" ng-model="promos.global.brand" ng-change="loadBrandCss(promos.global.brand)">
             <option value="BR-US">Banana Republic</option>
             <option value="BRFS-US">Banana Republic Factory Store</option>
             <option value="ON-US">Old Navy</option>
@@ -633,11 +633,13 @@ what are your details?"></textarea>
   <script src="js/angular-touch-1.5.0.js"></script>
   <script src="js/angular-spectrum-colorpicker.min.js"></script>
   <script src="js/spectrum.js"></script>
+  <script src='js/angular-css-injector.min.js'></script>
   <script src="js/textAngular-dropdownToggle.js"></script>
   <script src='js/textAngular-rangy.min.js'></script>
   <script src='js/textAngular-sanitize.min.js'></script>
   <script src="js/textAngularSetup.js"></script>
   <script src='js/textAngular.js'></script>
+
 
   <script src='js/img-mapper.js'></script>
 
@@ -669,7 +671,7 @@ what are your details?"></textarea>
 
 
     //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
-    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
+    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap','angular.css.injector']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
 
       //globals
       var cellOuterWidth;
@@ -726,7 +728,11 @@ what are your details?"></textarea>
       }
 
       if(QueryString.brand) {
-        $scope.promos.global.brand = QueryString.brand
+        $scope.promos.global.brand = QueryString.brand;
+      };
+
+      $scope.loadBrandCss = function(cssInjector, brand){
+        cssInjector.add('brand-css-files/'+brand+'.css')
       }
 
       $scope.delete = function(idx) {
