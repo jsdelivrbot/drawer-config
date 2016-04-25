@@ -237,26 +237,29 @@
                       </div>
 
                       <div class="HTML-container" ng-show="promo.bannerContent.imgOrHTML == 'html'">
-
-                        <!--
-                        <div class="form-group">
-                          <label>
-                            <input type="checkbox" ng-model="promo.bannerContent.HTML.useLocal"> Generate HTML
-                          </label>
-                        </div>
-
-                        <div class="form-group" ng-hide="promo.bannerContent.HTML.useLocal">
-                          <label for="inputImageUrl">HTML path</label>
-                          <input type="text" ng-model="promo.bannerContent.HTML.path" class="form-control" placeholder="URL">
-                        </div>
-                        -->
-                        <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
-                          <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-branded ON-style"></text-angular>
-                        </div>
-                        <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
-                          <label for="bgcolor">Background Color</label>
-                          <br>
-                          <spectrum-colorpicker name="bgcolor" ng-model="promo.bannerContent.HTML.backgroundColor" format="'hex'" class="bg-colorpicker" on-change="bgColorChange($index)" options="{replacerClassName: 'fa fa-eyedropper', showButtons: true, showInput: true, preferredFormat: 'hex'}"></spectrum-colorpicker>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a href="#editor{{$index}}" data-toggle="tab" aria-expanded="true">Editor</a></li>
+                          <li class=""><a href="#css{{$index}}" data-toggle="tab" aria-expanded="false">CSS</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div class="tab-pane fade active in" id="editor{{$index}}" style="margin-top:24px;">
+                            <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
+                              <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-branded ON-style"></text-angular>
+                            </div>
+                            <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
+                              <label for="bgcolor">Background Color</label>
+                              <br>
+                              <spectrum-colorpicker name="bgcolor" ng-model="promo.bannerContent.HTML.backgroundColor" format="'hex'" class="bg-colorpicker" on-change="bgColorChange($index)" options="{replacerClassName: 'fa fa-eyedropper', showButtons: true, showInput: true, preferredFormat: 'hex'}"></spectrum-colorpicker>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="css{{$index}}" style="margin-top:24px;">
+                            <div class="form-group">
+                              <label for="textArea" class="col-lg-1 control-label">CSS</label>
+                              <div class="col-lg-11">
+                                <textarea class="form-control" rows="24" id="textArea" ng-model="promo.bannerContent.HTML.css"></textarea>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -692,6 +695,7 @@ what are your details?"></textarea>
     <a href="/cat.html">Link 2</a>\
     </p>',
                 backgroundColor: "#FFFFFF",
+                css: "",
                 path: ""
               }
             },
@@ -744,13 +748,14 @@ what are your details?"></textarea>
             HTML: {
               useLocal: true,
               localHTML: '<h1 style="text-align: center;">Headline</h1>\
-      <h4 style="text-align: center;">Subheader</h4>\
-      <p style="text-align: center;">Some optional info</p>\
-      <p style="text-align: center;">\
-      <a href="/category.html">Link 1</a>&nbsp;\
-      <a href="/cat.html">Link 2</a>\
-      </p>',
+  <h2 style="text-align: center;">Subheader</h2>\
+  <p style="text-align: center;">Some optional info</p>\
+  <p style="text-align: center;">\
+  <a href="/category.html" target="">Link 1</a>&nbsp;\
+  <a href="/cat.html">Link 2</a>\
+  </p>',
               backgroundColor: "#FFFFFF",
+              css: "",
               path: ""
             }
           },

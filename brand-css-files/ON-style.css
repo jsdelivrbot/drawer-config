@@ -1,9 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
-.ON-style h1, h2, h3, h4, h5, p {
-    line-height: 1.1;
-    font-weight: 300;
-}
 .ON-style h1 {
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
@@ -13,6 +9,7 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
 }
 .ON-style h2 {
   font-family: 'Open Sans', sans-serif;
@@ -23,6 +20,7 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   font-weight: 400;
+  line-height: 1.1;
 }
 .ON-style h3 {
   font-family: 'Open Sans', sans-serif;
@@ -35,6 +33,7 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   font-weight: 700;
+  line-height: 1.1;
 }
 .ON-style h4 {
   font-family: 'Open Sans', sans-serif;
@@ -44,6 +43,8 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .ON-style h5 {
   font-family: 'Open Sans', sans-serif;
@@ -52,6 +53,8 @@
   text-transform: uppercase;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .ON-style p {
   font-family: 'Open Sans', sans-serif;
@@ -61,6 +64,8 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   padding: .07em 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .ON-style a, .ON-style a:link, .ON-style a:visited {
   font-family: 'Open Sans', sans-serif;
@@ -69,4 +74,6 @@
   text-decoration: underline;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }

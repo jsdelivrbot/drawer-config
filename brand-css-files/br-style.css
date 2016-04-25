@@ -1,8 +1,5 @@
 
-.BR-style h1, h2, h3, h4, h5 {
-    line-height: 1.1;
-    font-weight: 300;
-}
+
 .BR-style h1 {
   font-family: Futura, "Avant Garde", sans-serif;
   font-size:1.75em;
@@ -11,6 +8,8 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .BR-style h2 {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -21,6 +20,7 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   font-weight: 600;
+  line-height: 1.1;
 }
 .BR-style h3 {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -32,6 +32,8 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .BR-style h4 {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -41,6 +43,8 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .BR-style h5 {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -49,6 +53,8 @@
   text-transform: uppercase;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .BR-style p {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -58,6 +64,8 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   padding: .07em 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .BR-style a, .BR-style a:link, .BR-style a:visited {
   font-family: Futura, "Avant Garde", sans-serif;
@@ -66,4 +74,6 @@
   text-decoration: underline;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }

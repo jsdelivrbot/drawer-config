@@ -1,15 +1,13 @@
 @font-face {
-  font-family: 'Sofia';
-  src:  url('http://athleta.gap.com/static_content/fonts/SofiaProLight-webfont.woff2') format('woff2'),
-        url('http://athleta.gap.com/Asset_Archive/ATWeb/content/0010/131/442/assets/fonts/SofiaProSemiBold-webfont.woff') format('woff');
+  font-family: Sofia;
+  src:  url('SofiaProLight-webfont.woff2') format('woff2'),
+        url('SofiaProSemiBold-webfont.woff') format('woff');
 }
 
-.AT-style h1, h2, h3, h4, h5, p {
-    line-height: 1.1;
-    font-weight: 300;
-}
 .AT-style h1 {
-  font-family: Sofia, sans-serif;
+  line-height: 1.1;
+  font-weight: 300;
+  font-family: 'Sofia', sans-serif;
   font-size:1.75em;
   color: #000000;
   padding-top: 12px;
@@ -18,7 +16,7 @@
   -webkit-margin-after: 0;
 }
 .AT-style h2 {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:1.55em;
   color: #000000;
   padding-top: 12px;
@@ -26,9 +24,10 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   font-weight: 600;
+  line-height: 1.1;
 }
 .AT-style h3 {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:18px;
   color: #000000;
   text-transform: uppercase;
@@ -37,38 +36,48 @@
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .AT-style h4 {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:1.25em;
   color: #000000;
   padding-top: 9px;
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .AT-style h5 {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:1em;
   color: #929292;
   text-transform: uppercase;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .AT-style p {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:1em;
   color: #000000;
   margin: 0 0 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
   padding: .07em 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
 .AT-style a, .AT-style a:link, .AT-style a:visited {
-  font-family: Sofia, sans-serif;
+  font-family: 'Sofia', sans-serif;
   font-size:1em;
   color: #000000;
   text-decoration: underline;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  line-height: 1.1;
+  font-weight: 300;
 }
