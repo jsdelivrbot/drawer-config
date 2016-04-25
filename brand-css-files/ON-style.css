@@ -1,10 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
-.BR-style h1, h2, h3, h4, h5 {
+.ON-style h1, h2, h3, h4, h5, p {
     line-height: 1.1;
     font-weight: 300;
 }
-.BR-style h1 {
-  font-family: Futura, "Avant Garde", sans-serif;
+.ON-style h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
   font-size:1.75em;
   color: #000000;
   padding-top: 12px;
@@ -12,29 +14,30 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
-.BR-style h2 {
-  font-family: Futura, "Avant Garde", sans-serif;
-  font-size:1.55em;
-  color: #000000;
+.ON-style h2 {
+  font-family: 'Open Sans', sans-serif;
+  font-size:1.6em;
+  color: #666666;
   padding-top: 12px;
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-  font-weight: 600;
+  font-weight: 400;
 }
-.BR-style h3 {
-  font-family: Futura, "Avant Garde", sans-serif;
-  font-size:18px;
-  color: #000000;
+.ON-style h3 {
+  font-family: 'Open Sans', sans-serif;
+  font-size:1.37em;
+  color: #979797;
   text-transform: uppercase;
   letter-spacing: .1em;
   padding-top: 9px;
   padding-bottom: 9px;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  font-weight: 700;
 }
-.BR-style h4 {
-  font-family: Futura, "Avant Garde", sans-serif;
+.ON-style h4 {
+  font-family: 'Open Sans', sans-serif;
   font-size:1.25em;
   color: #000000;
   padding-top: 9px;
@@ -42,16 +45,16 @@
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
-.BR-style h5 {
-  font-family: Futura, "Avant Garde", sans-serif;
+.ON-style h5 {
+  font-family: 'Open Sans', sans-serif;
   font-size:1em;
   color: #929292;
   text-transform: uppercase;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
-.BR-style p {
-  font-family: Futura, "Avant Garde", sans-serif;
+.ON-style p {
+  font-family: 'Open Sans', sans-serif;
   font-size:1em;
   color: #000000;
   margin: 0 0 9px;
@@ -59,8 +62,8 @@
   -webkit-margin-after: 0;
   padding: .07em 0;
 }
-.BR-style a, .BR-style a:link, .BR-style a:visited {
-  font-family: Futura, "Avant Garde", sans-serif;
+.ON-style a, .ON-style a:link, .ON-style a:visited {
+  font-family: 'Open Sans', sans-serif;
   font-size:1em;
   color: #000000;
   text-decoration: underline;

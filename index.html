@@ -6,9 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-  <!-- important: this css should remain linked by brand -->
+  <!-- inportant: this css should remain linked by brand -->
   <link rel="stylesheet" href="css/spotlight-drawer.css" />
-
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="brand-css-files/ON-style.css">
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="brand-css-files/AT-style.css">
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="brand-css-files/GAP-style.css">
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="brand-css-files/BR-style.css">
 
   <link rel="stylesheet" href="css/textAngular.css" />
   <link rel="stylesheet" href="css/font-awesome.min.css" />
@@ -67,6 +70,11 @@
     margin-bottom: 12px;
   }
 
+  ul#brand-selector li {
+    display: inline;
+    padding: 0 8px
+  }
+
   [ta-button] {
     height: 44px;
     margin-bottom: 5px;
@@ -74,44 +82,31 @@
 </style>
 
 <body ng-controller="JSConfigAppCtrl">
-  <div class="container" ng-hide="promos.global.brand">
+  <div class="container">
     <div class="row">
       <div class="col-sm-12">
         <div class="jumbotron" ng-hide="promos.global.headerText || promos.global.subHeaderText">
           <h1 style="">Promo Drawer Builder</h1>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3"></div>
-      <div class="form-group">
-        <label for="select" class="col-sm-2 control-label">Brand</label>
-        <div class="col-sm-4">
-          <select class="form-control" id="select" ng-model="promos.global.brand" ng-change="loadBrandCss(promos.global.brand)">
-            <option value="BR-US">Banana Republic</option>
-            <option value="BRFS-US">Banana Republic Factory Store</option>
-            <option value="ON-US">Old Navy</option>
-            <option value="GP-US">Gap</option>
-            <option value="GPFS-US">Gap Factory Store</option>
-            <option value="AT-US">Athleta</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-sm-3"></div>
-    </div>
-  </div>
-
-  <div class="container" ng-show="promos.global.brand">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="jumbotron" ng-hide="promos.global.headerText || promos.global.subHeaderText">
-          <h1 style="">Promo Drawer Builder ({{promos.global.brand}})</h1>
-        </div>
-      </div>
       <div class="col-sm-12">
         <div class="jumbotron" ng-show="promos.global.headerText || promos.global.subHeaderText">
           <h1 style="text-transform:uppercase">{{promos.global.headerText}}</h1>
           <p style="text-transform:uppercase">{{promos.global.subHeaderText}}</p>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Brand selector</h2>
+          </div>
+          <div class="panel-body">
+            <ul id="brand-selector">
+              <li ng-repeat="brandChoice in brandChoices">
+                <input type="radio" name="brand-selector" ng-click="brandUpdate(brandChoices[$index])" ng-model="assignedBrand" ng-value="brandChoices[$index]" /> {{brandChoice}}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -256,7 +251,7 @@
                         </div>
                         -->
                         <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
-                          <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-br"></text-angular>
+                          <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-branded ON-style"></text-angular>
                         </div>
                         <div class="form-group" ng-show="promo.bannerContent.HTML.useLocal">
                           <label for="bgcolor">Background Color</label>
@@ -321,7 +316,6 @@
                               <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
                             </div>
                           </div>
-                          <!--
                           <div class="col-sm-12">
                             <button
                               ng-show="promo.tapContent.genericCodeId"
@@ -329,7 +323,6 @@
                               ng-click="ppcCheckModal(promo.tapContent.genericCodeId,$index,'bananarepublic')">Validate PPC ID</button>
 
                           </div>
-                        -->
                         </form>
                       </div>
                     </div>
@@ -411,7 +404,7 @@ what are your details?"></textarea>
                     <div class="offerspotlight-drawer-slider-item" ng-repeat="promo in promos.global.promos track by $index" ng-show="promo.bannerContent.img.images.path || promo.bannerContent.img.images.dataUri || promo.bannerContent.HTML.path || promo.bannerContent.HTML.useLocal">
                       <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'html' && promo.bannerContent.HTML.useLocal">
                         <div style="vertical-align:middle;width:256px;height:142px;">
-                          <div ng-bind-html="promo.bannerContent.HTML.localHTML" class="html-banner-br html-preview" style="height:100%">
+                          <div ng-bind-html="promo.bannerContent.HTML.localHTML" class="html-banner-branded ON-style html-preview" style="height:100%">
                           </div>
                         </div>
                       </div>
@@ -633,46 +626,35 @@ what are your details?"></textarea>
   <script src="js/angular-touch-1.5.0.js"></script>
   <script src="js/angular-spectrum-colorpicker.min.js"></script>
   <script src="js/spectrum.js"></script>
-  <script src='js/angular-css-injector.min.js'></script>
   <script src="js/textAngular-dropdownToggle.js"></script>
   <script src='js/textAngular-rangy.min.js'></script>
   <script src='js/textAngular-sanitize.min.js'></script>
-  <script src="js/textAngularSetup.js"></script>
+  <script src="js/textAngularSetup-beta.js"></script>
   <script src='js/textAngular.js'></script>
-
 
   <script src='js/img-mapper.js'></script>
 
 
   <script>
-  var QueryString = function () {
-    // This function is anonymous, is executed immediately and
-    // the return value is assigned to QueryString!
-    var query_string = {};
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-      var pair = vars[i].split("=");
-          // If first entry with this name
-      if (typeof query_string[pair[0]] === "undefined") {
-        query_string[pair[0]] = decodeURIComponent(pair[1]);
-          // If second entry with this name
-      } else if (typeof query_string[pair[0]] === "string") {
-        var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-        query_string[pair[0]] = arr;
-          // If third or later entry with this name
-      } else {
-        query_string[pair[0]].push(decodeURIComponent(pair[1]));
-      }
-    }
-      return query_string;
-  }();
-
-
-
     //angular.module('JSConfigApp', ['ngAnimate', 'ui.bootstrap']);
-    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap','angular.css.injector']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
+    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce', function($scope, $uibModal, $sce) {
 
+      $scope.brandChoices = ["ON","BR","GAP","AT"];
+      $scope.assignedBrand = "ON";
+
+      $scope.brandUpdate = function(brand) {
+        var cssUpdate = brand+"-style";
+        var elList = document.getElementsByClassName('html-banner-branded');
+        for (x=0;x<elList.length;x++) {
+          var classList = elList[x].className.split(/\s+/);
+          for (y=0;y<classList.length;y++) {
+            if (classList[y].match(/style/)) {
+              jQuery('.html-banner-branded').removeClass(classList[y])
+            }
+          }
+        }
+        jQuery(".html-banner-branded").addClass(cssUpdate);
+      }
       //globals
       var cellOuterWidth;
       var fullSliderContainerWidth;
@@ -685,7 +667,6 @@ what are your details?"></textarea>
       $scope.promos = {
         global: {
           launchDate: "",
-          brand : "",
           headerText: "",
           subHeaderText: "",
           promos: [{
@@ -704,7 +685,7 @@ what are your details?"></textarea>
               HTML: {
                 useLocal: true,
                 localHTML: '<h1 style="text-align: center;">Headline</h1>\
-    <h4 style="text-align: center;">Subheader</h4>\
+    <h2 style="text-align: center;">Subheader</h2>\
     <p style="text-align: center;">Some optional info</p>\
     <p style="text-align: center;">\
     <a href="/category.html" target="">Link 1</a>&nbsp;\
@@ -725,14 +706,6 @@ what are your details?"></textarea>
             }
           }]
         }
-      }
-
-      if(QueryString.brand) {
-        $scope.promos.global.brand = QueryString.brand;
-      };
-
-      $scope.loadBrandCss = function(cssInjector, brand){
-        cssInjector.add('brand-css-files/'+brand+'.css')
       }
 
       $scope.delete = function(idx) {
