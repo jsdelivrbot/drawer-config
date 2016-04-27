@@ -77,3 +77,32 @@
   line-height: 1.1;
   font-weight: 300;
 }
+
+.ON-style.promoDrawer__title {
+    font-size: 1.1em;
+    margin: 0 0 0 12px;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    color: #FFF;
+    letter-spacing: 2px;
+    padding: 3px 0 0 0;
+}
+
+.GAP-style.promoDrawer__title {
+    font-size: 1.1em;
+    margin: 0 0 0 12px;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    color: #FFF;
+    letter-spacing: 2px;
+    padding: 3px 0 0 0;
+}
+
+.ON-style.promoDrawer__subtitle {
+  font-family: 'Open Sans', sans-serif;
+  font-size: .8em;
+  margin: 0 3px 0 12px;
+  text-transform: uppercase;
+  color: #CCC;
+  letter-spacing: 1px;
+}
