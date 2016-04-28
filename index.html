@@ -97,34 +97,62 @@
       </div>
       <div class="col-sm-12">
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h2 class="panel-title">Brand selector</h2>
-          </div>
+          <div class="panel-heading">Drawer global settings</div>
           <div class="panel-body">
-            <ul id="brand-selector">
-              <li ng-repeat="brandChoice in brandChoices">
-                <input type="radio" name="brand-selector" ng-click="brandUpdate(brandChoices[$index])" ng-model="assignedBrand" ng-value="brandChoices[$index]" /> {{brandChoice}}
-              </li>
-            </ul>
+            <div class="form-group">
+              <label for="brand-selector">Brand selector:</label>
+              <ul id="brand-selector">
+                <li ng-repeat="brandChoice in brandChoices">
+                  <input type="radio" name="brand-selector" ng-click="brandUpdate(brandChoices[$index])" ng-model="assignedBrand" ng-value="brandChoices[$index]" /> {{brandChoice}}
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group" ng-class="{ 'has-error' : cellForm.headerText.$invalid && !cellForm.headerText.$pristine }">
+                <label for="headerText">Drawer Header Text</label>
+                <input type="text" name="headerText" class="form-control" ng-model="promos.global.textElements.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1">
+                <p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
+                <p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="headerSubText">Drawer Header Sub Text</label>
+                <input type="text" class="form-control" ng-model="promos.global.textElements.subHeaderText" id="headerSubText" placeholder="Enter Header Sub Text">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="focusedInput">Tap Button text</label>
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="focusedInput">Tap overlay text</label>
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="focusedInput">Rewards text</label>
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="focusedInput">Rewards CTA text</label>
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsCTA">
+              </div>
+            </div>
+            <label>
+              <input type="checkbox" ng-model="promos.global.autoFire"> Autofire?
+            </label>
           </div>
         </div>
       </div>
     </div>
     <form name="cellForm" ng-submit="submitForm(cellForm.$valid)" novalidate>
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group" ng-class="{ 'has-error' : cellForm.headerText.$invalid && !cellForm.headerText.$pristine }">
-            <label for="headerText">Drawer Header Text</label>
-            <input type="text" name="headerText" class="form-control" ng-model="promos.global.textElements.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1">
-            <p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
-            <p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
-          </div>
-          <div class="form-group">
-            <label for="headerSubText">Drawer Header Sub Text</label>
-            <input type="text" class="form-control" ng-model="promos.global.textElements.subHeaderText" id="headerSubText" placeholder="Enter Header Sub Text">
-          </div>
-        </div>
-      </div>
       <div class="row" ng-repeat="promo in promos.global.promos track by $index">
         <div class="col-sm-12">
           <div class="panel panel-info">
@@ -386,38 +414,7 @@ what are your details?"></textarea>
           <br>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">Drawer global settings</div>
-            <div class="panel-body">
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label class="control-label" for="focusedInput">Tap Button text: </label>
-                  <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText">
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label class="control-label" for="focusedInput">Tap overlay text: </label>
-                  <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay">
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label class="control-label" for="focusedInput">Rewards text: </label>
-                  <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText">
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label class="control-label" for="focusedInput">Rewards CTA text: </label>
-                  <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsCTA">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       <div class="row">
         <div class="col-sm-3">
         </div>
@@ -427,7 +424,7 @@ what are your details?"></textarea>
               <h2 class="panel-title">Preview : Iphone 4 resolution</h2>
             </div>
             <div class="panel-body" style="width:350px;margin:15px auto;padding:0;background:#e0e1e1;">
-              <div id="promoDrawer__handlebar">
+              <div class="promoDrawer__handlebar ON-style">
                 <div id="promoDrawer__handlebar__text">
                   <div class="promoDrawer__title closed ON-style" style="display: block;">{{promos.global.textElements.headerText}}</div>
                   <div class="promoDrawer__subtitle closed ON-style" style="display: block;">{{promos.global.textElements.subHeaderText}}</div>
@@ -683,6 +680,7 @@ what are your details?"></textarea>
         updateBrandClass('html-banner-branded', cssUpdate);
         updateBrandClass('promoDrawer__title', cssUpdate);
         updateBrandClass('promoDrawer__subtitle', cssUpdate);
+        updateBrandClass('promoDrawer__handlebar', cssUpdate);
 
         function updateBrandClass(elementClass) {
           var elList = document.getElementsByClassName(elementClass, cssUpdate);
@@ -696,7 +694,7 @@ what are your details?"></textarea>
               }
             }
           }
-          console.log(elementClass + " " + cssUpdate)
+
           jQuery('.'+elementClass).addClass(cssUpdate);
         }
       }

@@ -100,3 +100,7 @@
   color: #CCC;
   letter-spacing: 1px;
 }
+
+.AT-style.promoDrawer__handlebar {
+    background-color: #63666A;
+}

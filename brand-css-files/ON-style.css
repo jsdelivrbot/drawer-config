@@ -106,3 +106,7 @@
   color: #CCC;
   letter-spacing: 1px;
 }
+
+.ON-style.promoDrawer__handlebar {
+    background-color: #004779;
+}

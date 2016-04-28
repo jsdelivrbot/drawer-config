@@ -95,3 +95,7 @@
   color: #CCC;
   letter-spacing: 1px;
 }
+
+.GAP-style.promoDrawer__handlebar {
+    background-color: #000;
+}

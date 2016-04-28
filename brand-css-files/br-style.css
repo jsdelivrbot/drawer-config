@@ -96,3 +96,7 @@
   color: #CCC;
   letter-spacing: 1px;
 }
+
+.BR-style.promoDrawer__handlebar {
+    background-color: #333;
+}
