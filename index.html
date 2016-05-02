@@ -149,7 +149,7 @@
               <label>
                 <input type="checkbox" ng-model="promos.global.autoFire"> Auto-open drawer at the beginning of each session?
               </label>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -707,8 +707,15 @@ what are your details?"></textarea>
       $scope.setPageNumber = function(index) {
         $scope.pageNumber = index;
       }
+      $scope.cssRule1 = "";
 
       // this object has all the parameters for our drawer
+      jQuery.get('brand-css-files/ON-style.css', function(data) {
+        cssRule1 = data;
+      })
+
+      console.log($scope.cssRule1);
+
       $scope.promos = {
         global: {
           launchDate: "",
