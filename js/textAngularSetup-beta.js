@@ -596,10 +596,13 @@ angular.module('textAngularSetup', [])
             var urlTID;
             urlLink = $window.prompt(taTranslations.insertLink.dialogPrompt, 'http://');
             urlTID = $window.prompt(taTranslations.insertLink.dialogPrompt, 'Insert TID');
+            if (!linkText) {
+              linkText = $window.prompt(taTranslations.insertLink.dialogPrompt, 'Link Text');
+            }
             if (urlLink && urlLink !== '' && urlLink !== 'http://') {
                 //return this.$editor().wrapSelection('createLink', urlLink, true);
-                console.log($element)
-                return this.$editor().wrapSelection('insertHTML', '<a href='+urlLink+'tid='+urlTID+'></a>', true);
+
+                return this.$editor().wrapSelection('insertHTML', '<a href='+urlLink+' tid='+urlTID+'>'+linkText+'</a>', true);
             }
         },
         activeState: function (commonElement) {
@@ -630,7 +633,7 @@ angular.module('textAngularSetup', [])
                 var reLinkButton = angular.element('<button type="button" class="btn btn-blue btn-sm btn-small" tabindex="-1" unselectable="on" title="' + taTranslations.editLink.reLinkButton.tooltip + '"><i class="fa fa-edit"></i></button>');
                 reLinkButton.on('click', function (event) {
                     event.preventDefault();
-                    tid = "TID123"
+
                     var urlLink = $window.prompt(taTranslations.insertLink.dialogPrompt, $element.attr('href'));
                     var urlTID = $window.prompt(taTranslations.insertLink.dialogPrompt, tid);
                     if (urlLink && urlLink !== '' && urlLink !== 'http://') {
