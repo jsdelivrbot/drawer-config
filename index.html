@@ -103,14 +103,22 @@
               <label for="brand-selector">Brand selector:</label>
               <ul id="brand-selector">
                 <li ng-repeat="brandChoice in brandChoices">
-                  <input type="radio" name="brand-selector" ng-click="brandUpdate(brandChoices[$index])" ng-model="assignedBrand" ng-value="brandChoices[$index]" ng-change="analytics('Brand', brandChoices[$index], 'Production')"/> {{brandChoice}}
+                  <input type="radio" name="brand-selector" ng-click="brandUpdate(brandChoices[$index])" ng-model="assignedBrand" ng-value="brandChoices[$index]" ng-change="analytics('Brand', brandChoices[$index])"/> {{brandChoice}}
                 </li>
               </ul>
             </div>
             <div class="col-sm-6">
               <div class="form-group" ng-class="{ 'has-error' : cellForm.headerText.$invalid && !cellForm.headerText.$pristine }">
                 <label for="headerText">Drawer Header Text</label>
-                <input type="text" name="headerText" class="form-control" ng-model="promos.global.textElements.headerText" id="headerText" placeholder="Enter Header Text" required ng-minlength="1">
+                <input
+                  type="text"
+                  name="headerText"
+                  class="form-control"
+                  ng-model="promos.global.textElements.headerText"
+                  id="headerText"
+                  placeholder="Enter Header Text"
+                  required ng-minlength="1"
+                  ng-blur="analytics('Header text',promos.global.textElements.headerText)">
                 <p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
                 <p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
               </div>
@@ -124,19 +132,19 @@
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Tap Button text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText" ng-blur="analytics('Tap button text',promos.global.textElements.tapButtonText,'Production')">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText" ng-blur="analytics('Tap button text',promos.global.textElements.tapButtonText)">
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Tap overlay text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay" ng-blur="analytics('Tap overlay text',promos.global.textElements.tapOverlay,'Production')">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay" ng-blur="analytics('Tap overlay text',promos.global.textElements.tapOverlay)">
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Rewards text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText" ng-blur="analytics('Rewards text',promos.global.textElements.rewardsText,'Production')">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText" ng-blur="analytics('Rewards text',promos.global.textElements.rewardsText)">
               </div>
             </div>
             <div class="col-sm-3">
@@ -147,7 +155,7 @@
             </div>
             <div class="col-sm-12">
               <label>
-                <input type="checkbox" ng-model="promos.global.autoFire" ng-click="analytics('Global settings', 'auto open', 'Production')"> Auto-open drawer at the beginning of each session?
+                <input type="checkbox" ng-model="promos.global.autoFire" ng-click="analytics('Global settings', 'auto open')"> Auto-open drawer at the beginning of each session?
               </label>
             </div>
           </div>
@@ -193,7 +201,7 @@
                               ng-model="promo.bannerContent.imgOrHTML"
                               value="img"
                               name="group_{{$index}}"
-                              ng-change="analytics('Content type', 'image', 'Production')">
+                              ng-change="analytics('Content type', 'image')">
                             <strong>Image</strong> - Cell loads an image with options for linking.
                           </label>
                         </div>
@@ -204,7 +212,7 @@
                               ng-model="promo.bannerContent.imgOrHTML"
                               value="html"
                               name="group_{{$index}}"
-                              ng-change="analytics('Content type', 'HTML', 'Production')">
+                              ng-change="analytics('Content type', 'HTML')">
                             <strong>HTML</strong> - edit banner contents
                           </label>
                         </div>
@@ -215,17 +223,17 @@
                             class="btn btn-success btn-file"
                             ng-hide="promo.bannerContent.img.images.dataUri">
 														Import image (600w x 332h, 48kb max)
-                            <input id="the-img-input" ng-click="setPageNumber($index)" type="file" >
+                            <input id="the-img-input" ng-click="setPageNumber($index); analytics('Image Banner','Import image button')" type="file" >
 													</span>
                           <span
                             class="btn btn-warning btn-file"
                             ng-show="promo.bannerContent.img.images.dataUri">
 														Update image (600w x 332h, 48kb max)
-                            <input id="the-img-input" ng-click="setPageNumber($index)" type="file" >
+                            <input id="the-img-input" ng-click="setPageNumber($index); analytics('Image Banner','Update image')" type="file" >
 													</span>
                           <button
                             class="btn btn-danger"
-                            ng-click="erasePic($index)"
+                            ng-click="erasePic($index); analytics('Image Banner','Update image')"
                             ng-show="promo.bannerContent.img.images.dataUri">Delete image</button>
                         </div>
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
@@ -249,14 +257,14 @@
                         <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.linkType">Link image</input>
+                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.linkType" ng-change="; analytics('Image Banner','Link image checkbox')">Link image</input>
                             </label>
                           </div>
                           <button
                             ng-show="promo.bannerContent.img.contentParameters.linkType"
                             type="button"
                             class="btn btn-info mapButton"
-                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap)"
+                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap); analytics('Image Banner','Map image button')"
                             >Edit Image Map</button>
                             <br ng-show="promo.bannerContent.img.contentParameters.linkType"/><br ng-show="promo.bannerContent.img.contentParameters.linkType"/>
                             <textarea
@@ -309,25 +317,25 @@
                           <div class="form-group">
                             <div class="radio">
                               <label class="radio-inline">
-                                <input type="radio" ng-model="promo.tapContent.displayType" value="generic" name="tapType_{{$index}}" ng-click="analytics('Promotion type', 'generic', 'Production'); promo.tapContent.redeemMessage = 'Use code <generic> at checkout'">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="generic" name="tapType_{{$index}}" ng-click="analytics('Promotion type', 'generic'); promo.tapContent.redeemMessage = 'Use code <generic> at checkout'">
                                 <strong>Generic</strong> - display generic code and popup link containing terms & condtions
                               </label>
                             </div>
                             <div class="radio">
                               <label class="radio-inline">
-                                <input type="radio" ng-model="promo.tapContent.displayType" value="auto" name="tapType_{{$index}}" ng-click="analytics('Promotion type', 'auto', 'Production'); promo.tapContent.redeemMessage = 'discount automatically applied at checkout'">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="auto" name="tapType_{{$index}}" ng-click="analytics('Promotion type', 'auto'); promo.tapContent.redeemMessage = 'discount automatically applied at checkout'">
                                 <strong>Auto apply</strong> - display redeem message and popup link containing terms & condtions
                               </label>
                             </div>
                             <div class="radio">
                               <label class="radio-inline">
-                                <input type="radio" ng-model="promo.tapContent.displayType" value="tap" name="tapType_{{$index}}" ng-change="attachRedeem()" ng-click="analytics('Promotion type', 'tap', 'Production')">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="tap" name="tapType_{{$index}}" ng-change="attachRedeem()" ng-click="analytics('Promotion type', 'tap')">
                                 <strong>Tap to apply</strong> - display a button to apply code and popup link containing terms & condtions
                               </label>
                             </div>
                             <div class="radio">
                               <label class="radio-inline">
-                                <input type="radio" ng-model="promo.tapContent.displayType" value="none" name="tapType_{{$index}}" ng-click="ganalytics('Promotion type', 'none', 'Production'); promo.tapContent.redeemMessage = 'No code required'">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="none" name="tapType_{{$index}}" ng-click="ganalytics('Promotion type', 'none'); promo.tapContent.redeemMessage = 'No code required'">
                                 <strong>None</strong> - custom Redeem Message and popup link with manually entered terms & conditions. For events with no PPC ID
                               </label>
                             </div>
@@ -935,7 +943,7 @@ what are your details?"></textarea>
       }
 
       $scope.analytics = function(ec,ea,el) {
-        ga('send','event',ec,ea,el);
+        ga('send','event',ec,ea,'Production v2');
       }
 
       // handle the changing of the background in editor and preview
