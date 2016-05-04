@@ -124,25 +124,25 @@
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Tap Button text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonText" ng-blur="analytics('Tap button text',promos.global.textElements.tapButtonText,'Production')">
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Tap overlay text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay" ng-blur="analytics('Tap overlay text',promos.global.textElements.tapOverlay,'Production')">
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Rewards text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText" ng-blur="analytics('Rewards text',promos.global.textElements.rewardsText,'Production')">
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
                 <label class="control-label" for="focusedInput">Rewards CTA text</label>
-                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsCTA">
+                <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsCTA" ng-blur="analytics('Rewards CTA text',promos.global.textElements.rewardsCTA,'Production')">
               </div>
             </div>
             <div class="col-sm-12">
