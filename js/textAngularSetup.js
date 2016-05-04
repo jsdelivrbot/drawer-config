@@ -11,8 +11,8 @@ angular.module('textAngularSetup', [])
 // Here we set up the global display defaults, to set your own use a angular $provider#decorator.
 .value('taOptions', {
     toolbar: [
-        ['h1', 'h2', 'h3','h4','h5','h6', 'p'],
-        ['bold', 'italics', 'underline', 'ul', 'ol', 'redo', 'undo'],
+        ['h1', 'h2', 'h3','h4','h5','p'],
+        ['ul', 'ol', 'redo', 'undo'],
         ['justifyLeft', 'justifyCenter', 'justifyRight', 'insertLink','html'],
         ['fontSize', 'fontColor']
     ],
@@ -193,9 +193,10 @@ angular.module('textAngularSetup', [])
         return function () { return this.$editor().queryFormatBlockState(q); };
     };
     var headerAction = function () {
-        return this.$editor().wrapSelection("formatBlock", "<" + this.name.toUpperCase() + ">");
+        return this.$editor().wrapSelection("formatBlock", "<" + this.name + ">");
     };
-    angular.forEach(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], function (h) {
+    angular.forEach(['H1', 'H2', 'H3', 'H4', 'H5'], function (h) {
+
         taRegisterTool(h.toLowerCase(), {
             buttontext: h.toUpperCase(),
             tooltiptext: taTranslations.heading.tooltip + h.charAt(1),
@@ -317,6 +318,7 @@ angular.module('textAngularSetup', [])
             return result;
         }
     });
+
     taRegisterTool('indent', {
         iconclass: 'fa fa-indent',
         tooltiptext: taTranslations.indent.tooltip,
@@ -591,9 +593,15 @@ angular.module('textAngularSetup', [])
         iconclass: 'fa fa-link',
         action: function () {
             var urlLink;
+            var urlTID;
             urlLink = $window.prompt(taTranslations.insertLink.dialogPrompt, 'http://');
+            urlTID = $window.prompt(taTranslations.insertLink.dialogPrompt, 'Insert TID');
+            var linkText = window.getSelection().toString();
+            if (!linkText) {
+              var linkText = $window.prompt(taTranslations.insertLink.dialogPrompt, 'Link Text');
+            }
             if (urlLink && urlLink !== '' && urlLink !== 'http://') {
-                return this.$editor().wrapSelection('createLink', urlLink, true);
+                return this.$editor().wrapSelection('insertHTML', '<a href='+urlLink+' tid='+urlTID+'>'+linkText+'</a>', true);
             }
         },
         activeState: function (commonElement) {
@@ -610,7 +618,7 @@ angular.module('textAngularSetup', [])
                 var container = editorScope.displayElements.popoverContainer;
                 container.empty();
                 container.css('line-height', '28px');
-                var link = angular.element('<a href="' + $element.attr('href') + '" target="_blank">' + $element.attr('href') + '</a>');
+                var link = angular.element('<a href="' + $element.attr('href') + '" target="_blank">' + $element.attr('href') + '</a> <span> tid=' + $element.attr('tid') + '</span>');
                 link.css({
                     'display': 'inline-block',
                     'max-width': '325px',
@@ -624,9 +632,12 @@ angular.module('textAngularSetup', [])
                 var reLinkButton = angular.element('<button type="button" class="btn btn-blue btn-sm btn-small" tabindex="-1" unselectable="on" title="' + taTranslations.editLink.reLinkButton.tooltip + '"><i class="fa fa-edit"></i></button>');
                 reLinkButton.on('click', function (event) {
                     event.preventDefault();
+
                     var urlLink = $window.prompt(taTranslations.insertLink.dialogPrompt, $element.attr('href'));
+                    var urlTID = $window.prompt(taTranslations.insertLink.dialogPrompt, $element.attr('tid'));
                     if (urlLink && urlLink !== '' && urlLink !== 'http://') {
                         $element.attr('href', urlLink);
+                        $element.attr('tid', urlTID);
                         editorScope.updateTaBindtaTextElement();
                     }
                     editorScope.hidePopover();
@@ -681,7 +692,7 @@ angular.module('textAngularSetup', [])
             //Set editor scope
             this.$editor().wordcount = noOfWords;
 
-            return false; 
+            return false;
         }
     });
     taRegisterTool('charcount', {
@@ -703,10 +714,8 @@ angular.module('textAngularSetup', [])
     });
 
     taRegisterTool('fontSize', {
-        display: "<span class='bar-btn-dropdown dropdown'>" +
-                "<button class='btn btn-blue dropdown-toggle' type='button' ng-disabled='showHtml()' style='padding-top: 4px'><i class='fa fa-text-height'></i><i class='fa fa-caret-down'></i></button>" +
-                "<ul class='dropdown-menu'><li ng-repeat='o in options'><button class='btn btn-blue checked-dropdown' style='font-size: {{o.css}}; width: 100%' type='button' ng-click='action($event, o.value)'><i ng-if='o.active' class='fa fa-check'></i> {{o.name}}</button></li></ul>" +
-                "</span>",
+        display: "<button class='btn btn-blue dropdown-toggle' type='button' ng-disabled='showHtml()' style='padding-top: 4px'><i class='fa fa-text-height'></i><i class='fa fa-caret-down'></i></button>" +
+                "<ul class='dropdown-menu'><li ng-repeat='o in options'><button class='btn btn-blue checked-dropdown' style='font-size: {{o.css}}; width: 100%' type='button' ng-click='action($event, o.value)'><i ng-if='o.active' class='fa fa-check'></i> {{o.name}}</button></li></ul>",
         action: function (event, size) {
             //Ask if event is really an event.
             if (!!event.stopPropagation) {
@@ -726,6 +735,7 @@ angular.module('textAngularSetup', [])
             { name: 'x-large', css: 'x-large', value: 6 }
         ]
     });
+
     taRegisterTool('fontColor', {
         display: "<div spectrum-colorpicker ng-model='color' on-change='!!color && action(color)' format='\"hex\"' options='options'></div>",
         action: function (color) {

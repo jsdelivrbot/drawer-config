@@ -103,10 +103,10 @@
   font-size: .8em;
   margin: 0 3px 0 12px;
   text-transform: uppercase;
-  color: #CCC;
+  color: #FFF;
   letter-spacing: 1px;
 }
 
 .ON-style.promoDrawer__handlebar {
-    background-color: #004779;
+    background-color: #ff3300;
 }
