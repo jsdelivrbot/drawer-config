@@ -1,0 +1,79 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+@font-face {
+  font-family: Sofia;
+  src:  url('SofiaProLight-webfont.woff2') format('woff2'),
+        url('SofiaProSemiBold-webfont.woff') format('woff');
+}
+
+.promoDrawer__title {
+  font-size: 1.1em;
+  margin: 0 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 3px 0 0 0;
+}
+
+.ON-style.promoDrawer__title {
+    font-family: 'Open Sans', sans-serif;
+    color: #000;
+}
+
+.GAP-style.promoDrawer__title {
+  font-family: Helvetica, sans-serif;
+  color: #FFF;
+}
+
+.BR-style.promoDrawer__title {
+    font-family: Futura, "Avant Garde", sans-serif;
+    color: #FFF;
+}
+
+.AT-style.promoDrawer__title {
+    font-family: 'Sofia', sans-serif;
+    color: #FFF;
+}
+
+.promoDrawer__subtitle {
+  font-size: .8em;
+  margin: 0 3px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ON-style.promoDrawer__subtitle {
+  font-family: 'Open Sans', sans-serif;
+  color: #000;
+}
+
+.GAP-style.promoDrawer__subtitle {
+  font-family: Helvetica, sans-serif;
+  color: #CCC;
+}
+
+.BR-style.promoDrawer__subtitle {
+  font-family: Futura, "Avant Garde", sans-serif;
+  color: #CCC;
+}
+
+.AT-style.promoDrawer__subtitle {
+  font-family: 'Sofia', sans-serif;
+  color: #CCC;
+}
+
+
+.ON-style.promoDrawer__handlebar {
+    background-color: #CCC;
+}
+
+.GAP-style.promoDrawer__handlebar {
+    background-color: #000;
+}
+
+.BR-style.promoDrawer__handlebar {
+    background-color: #333;
+}
+
+.AT-style.promoDrawer__handlebar {
+    background-color: #63666A;
+}

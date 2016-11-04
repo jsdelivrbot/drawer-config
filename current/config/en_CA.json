@@ -1,0 +1,52 @@
+{
+  "global": {
+    "brands" : ["ON","BR","GAP"],
+    "autoFire" : true,
+    "textElements": {
+      "clicked"             : "clicked",
+      "rewardsText"         : "My Total Rewards",
+      "rewardsCTA"          : "View Now",
+      "tapButtonText"       : "tap to apply",
+      "tapButtonTextApplied": "applied at checkout",
+      "tapOverlay"          : "Code will be applied at bag",
+      "headerText"          : "",
+      "subHeaderText"       : "",
+      "openHeaderOffers"    : "my offers",
+      "openHeaderAvailable" : "available"
+      
+    },
+    "promos": [{
+      "bannerContent": {
+        "imgOrHTML": "html",
+        "img": {
+          "contentParameters": {
+            "linkType" : false,
+            "imageMap": ""
+          },
+          "images": {
+            "path": "",
+            "dataUri": ""
+          }
+        },
+        "HTML": {
+          "useLocal": true,
+          "localHTML": "",
+          "backgroundColor": "#FFFFFF",
+          "css": "",
+          "path": ""
+        }
+      },
+      "tapContent": {
+        "displayType"       : "generic",
+        "popupTextLink"     : "DETAILS",
+        "redeemMessage"     : "Use code <generic> at checkout",
+        "legalOverrideUrl"  : "",
+        "legalOverride"     : "",
+        "useLegalOverride"  : false,
+        "genericCodeId"     : "",
+        "genericCode"       : ""
+      }
+    }]
+  }
+}
+

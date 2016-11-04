@@ -1,0 +1,1613 @@
+
+
+<!DOCTYPE html>
+<html ng-app="JSConfigApp">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/spotlight-drawer.css" />
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="brand-css-files/brands.css">
+  <link rel="stylesheet" designation="brandedCSS" type="text/css" href="css/meta.css">
+  <link rel="stylesheet" href="css/textAngular.css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" href="css/spectrum.min.css" />
+  <link rel="stylesheet" href="css/image-mapper-main.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/datetimepicker.css"/>
+  <script src="js/jquery-2.2.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/moment.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src='js/ui-bootstrap-tpls-1.2.0.js'></script>
+  <script src="js/datetimepicker.js"></script>
+  <script src="js/datetimepicker.templates.js"></script>
+<script>
+(function(d) {
+  var config = {
+    kitId: 'zco2xls',
+    scriptTimeout: 3000,
+    async: true
+  },
+  h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+})(document);
+</script>
+<style>
+  .drawer-item {
+    margin-bottom: 22px;
+  }
+  .nav-tabs {
+      margin-bottom: 15px;
+  }
+  .hidden {
+    display: none;
+  }
+
+  body.modal-open {
+    overflow: inherit;
+    padding-right: 0 !important;
+  }
+
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+    }
+
+    .full-spectrum .sp-palette {
+      max-width: 200px;
+    }
+
+    .btn-blue {
+      border-color: #000;
+      border: 1px solid rgba(0, 0, 0, 0.13);
+    }
+
+    .btn-toolbar>.btn-group {
+      margin-bottom: 12px;
+    }
+
+    ul#brand-selector li {
+      display: inline;
+      padding: 0 8px
+    }
+
+    [ta-button] {
+      height: 44px;
+      margin-bottom: 5px;
+    }
+
+    /********************
+    Legal Popup
+    *********************/
+    #wcd-legal-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 0;
+      text-align: center;
+      width: 100%
+    }
+
+    #wcd-legal-popup {
+    position:fixed;
+    width:90%;
+    top : 30px;
+    left : calc(5% - 4px);
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,.23);
+    border-radius:6px;
+    background-color:#fff;
+    z-index:200001;
+    display:none;
+    }
+
+    #wcd-legal-popup-overlay {
+    width:100%;
+    background-color:#000;
+    opacity:0.6;
+    position:fixed;
+    top:0;
+    left:0;
+    display:none;
+    z-index:200000;
+    }
+
+    #wcd-legal-inner-wrapper {
+    width:100%;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    overflow-scrolling:touch;
+    }
+
+    #wcd-legal-inner-wrapper iframe {
+    width:92%;
+    overflow:auto;
+    border:none;
+    margin:50px 4%;
+    }
+
+    #wcd-legal-inner-wrapper div.legal-text {
+    font-size: 16px;
+    font-family: veranda,arial,sans-serif;
+    }
+
+    div.legal-text {
+    width:92%;
+    margin:50px auto;
+    }
+
+    #wcd-legal-close {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size:24px;
+    text-align:center;
+    height:24px;
+    width:24px;
+    position:absolute;
+    top:10px;
+    right:10px;
+    color : #333;
+    /*border:1px solid #333;*/
+    /*border-radius:50%;*/
+    padding:2px;
+    }
+
+    #cellLoader {
+      -webkit-transition: width 1s;
+      -moz-transition: width 1s;
+      -o-transition: width 1s;
+      transition: width 1s;
+    }
+
+  </style>
+</head>
+
+<body ng-controller="JSConfigAppCtrl">
+  <div class="container {{assignedBrand}} {{locale}}">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="jumbotron" >
+          <h1 style="">Promo Drawer Content Manager</h1>
+          <!--<div class="alert alert-dismissible alert-warning" id="soc_warning">
+            <h4>Warning!</h4>
+            <p>We are currently experiencing problems with Github. The config tool may load slowly and templates may not be available. Github is working to resolve the issue.</p>
+          </div>-->
+          <div class="alert alert-dismissible alert-warning" id="soc_warning" style="display:none;">
+            <h4>Warning!</h4>
+            <p>You're using an old link to get to this drawer (you've been redirected to the correct URL! Update your bookmark to
+              <ul>
+                <li><a href=http://tools.x7.org/drawerconfig/?locale=en_US>http://tools.x7.org/drawerconfig/?locale=en_US</a>
+                <li><a href=http://tools.x7.org/drawerconfig/?locale=en_CA>http://tools.x7.org/drawerconfig/?locale=en_CA</a>
+                <li><a href=http://tools.x7.org/drawerconfig/?locale=fr_CA>http://tools.x7.org/drawerconfig/?locale=fr_CA</a>
+              </ul>
+              </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" ng-hide="promos.global.promos">
+        <div class="progress">
+          <div class="progress-bar progress-bar-info" id="cellLoader" style="width:0%"></div>
+          <script>
+          jQuery( document ).ready(function() {
+            jQuery("#cellLoader").css('width','100%')
+            var ref = document.referrer;
+            if (ref.match(/^https?:\/\/([^\/]+\.)?chelvis\.com(\/|$)/i)) {
+              jQuery("#soc_warning").css('display','block');
+            }
+
+          });
+          </script>
+        </div>
+      </div>
+      <div class="col-sm-12" ng-show="promos.global.promos">
+        <div class="panel panel-default">
+          <div class="panel-heading">Global settings</div>
+          <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#brand" data-toggle="tab">Settings</a></li>
+              <li><a href="#text" data-toggle="tab">Text</a></li>
+              <li ng-show="null"><a href="#templates" data-toggle="tab">Templates</a></li>
+            </ul>
+              <div id="myTabContent" class="tab-content">
+              <div class="tab-pane fade" id="text">
+                <div class="col-sm-6">
+                  <div class="form-group" ng-class="{ 'has-error' : cellForm.headerText.$invalid && !cellForm.headerText.$pristine }">
+                    <label for="headerText">Header Text</label>
+                    <input
+                      type="text"
+                      name="headerText"
+                      class="form-control"
+                      ng-model="promos.global.textElements.headerText"
+                      id="headerText"
+                      placeholder="Enter Header Text"
+                      required ng-minlength="1"
+                      ng-blur="analytics('Header text',promos.global.textElements.headerText)">
+                    <p ng-show="cellForm.headerText.$error.minlength" class="help-block">Minimum of 1 character.</p>
+                    <p ng-show="cellForm.headerText.$error.maxlength" class="help-block">24 characters maximum.</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="headerSubText">Header Sub Text</label>
+                    <input type="text" class="form-control" ng-model="promos.global.textElements.subHeaderText" id="headerSubText" placeholder="Enter Header Sub Text">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="focusedInput">Tap Button text</label>
+                    <input
+                      class="form-control"
+                      id="focusedInput"
+                      type="text"
+                      ng-model="promos.global.textElements.tapButtonText"
+                      ng-blur="analytics('Tap button text',promos.global.textElements.tapButtonText)">
+                      <div style="display:none;" ng-if="promos.global.textElements.tapButtonText">
+                        <div ng-bind-html="promos.global.textElements.tapButtonText" class="tapButtonText" convert-value="textElements"></div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="focusedInput">Tap Button text (applied)</label>
+                    <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapButtonTextApplied" ng-blur="analytics('Tap button text overlay',promos.global.textElements.tapButtonText)">
+                    <div style="display:none;" ng-if="promos.global.textElements.tapButtonTextApplied">
+                        <div ng-bind-html="promos.global.textElements.tapButtonTextApplied" class="tapButtonTextApplied" convert-value="textElements"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="control-label" for="focusedInput">Card overlay text</label>
+                    <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.tapOverlay" ng-blur="analytics('Tap overlay text',promos.global.textElements.tapOverlay)">
+                    <div style="display:none;" ng-if="promos.global.textElements.tapOverlay">
+                        <div ng-bind-html="promos.global.textElements.tapOverlay" class="tapOverlay" convert-value="textElements"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="control-label" for="focusedInput">Rewards text</label>
+                    <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsText" ng-blur="analytics('Rewards text',promos.global.textElements.rewardsText)">
+                    <div style="display:none;" ng-if="promos.global.textElements.rewardsText">
+                        <div ng-bind-html="promos.global.textElements.rewardsText" class="rewardsText" convert-value="textElements"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="control-label" for="focusedInput">Rewards CTA text</label>
+                    <input class="form-control" id="focusedInput" type="text" ng-model="promos.global.textElements.rewardsCTA" ng-blur="analytics('Rewards CTA text',promos.global.textElements.rewardsCTA,'Production')">
+                    <div style="display:none;" ng-if="promos.global.textElements.rewardsCTA">
+                        <div ng-bind-html="promos.global.textElements.rewardsCTA" class="rewardsCTA" convert-value="textElements"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade active in" id="brand">
+                <div class="form-group">
+
+                  <label for="brand-selector">Brand selector:</label>
+                  <ul id="brand-selector">
+                    <li ng-repeat="brandChoice in promos.global.brands">
+                    <input type="radio" name="brand-selector" ng-click="brandUpdate(promos.global.brands[$index])" ng-model="assignedBrand" ng-value="promos.global.brands[$index]" ng-change="analytics('Brand', promos.global.brands[$index])"/> {{brandChoice}}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-sm-12">
+                  <label>
+                    <input type="checkbox" ng-model="promos.global.autoFire" ng-click="analytics('Global settings', 'auto open')"> Auto-open drawer at the beginning of each session?
+                  </label>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="templates">
+                <div class="form-group col-sm-12">
+                  <label for="repo">Template repository</label>
+                  <input class="form-control" type="text" name="repo" ng-model="repo">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form name="cellForm" ng-submit="submitForm(cellForm.$valid)" novalidate>
+      <div class="row" ng-repeat="promo in promos.global.promos track by $index" ng-show="promos.global.promos">
+        <div class="col-sm-12">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h2 class="panel-title">Content Cell {{$index + 1}}
+                <button
+                  ng-show="promos.global.promos.length > 1"
+                  style="margin-left:12px;line-height:18px;"
+                  ng-click="moveCell($index,1)"
+                  class="btn btn-info btn-xs fa fa-arrow-circle-down">
+                </button>
+                <button
+                  ng-show="promos.global.promos.length > 1"
+                  style="margin-left:12px;line-height:18px;"
+                  ng-click="moveCell($index,-1)"
+                  class="btn btn-info btn-xs fa fa-arrow-circle-up">
+                </button>
+                <button
+                  ng-show="promos.global.promos.length > 1"
+                  class="btn pull-right btn-info btn-xs fa fa-times"
+                  ng-click="delete($index)">
+                </button>
+              </h2>
+            </div>
+            <div class="panel-body">
+              <div class="col-sm-7">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Banner Content</div>
+                  <div class="panel-body">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <div class="radio">
+                          <label class="radio-inline">
+                            <input
+                              type="radio"
+                              ng-model="promo.bannerContent.imgOrHTML"
+                              value="img"
+                              name="group_{{$index}}"
+                              ng-change="analytics('Content type', 'image')">
+                            <strong>Image</strong> - Cell loads an image with options for linking.
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label class="radio-inline">
+                            <input
+                              type="radio"
+                              ng-model="promo.bannerContent.imgOrHTML"
+                              value="html"
+                              name="group_{{$index}}"
+                              ng-change="analytics('Content type', 'HTML')">
+                            <strong>HTML</strong> - edit banner contents
+                          </label>
+                        </div>
+                      </div>
+                      <div class="img-container" ng-show="promo.bannerContent.imgOrHTML == 'img'">
+                        <div class="form-group">
+                          <span
+                            class="btn btn-success btn-file"
+                            ng-hide="promo.bannerContent.img.images.dataUri">
+                            Import image (600w x 332h, 48kb max)
+                            <input id="the-img-input" ng-click="setPageNumber($index); analytics('Image Banner','Import image button')" type="file" >
+                          </span>
+                          <span
+                            class="btn btn-warning btn-file"
+                            ng-show="promo.bannerContent.img.images.dataUri">
+                            Update image (600w x 332h, 48kb max)
+                            <input id="the-img-input" ng-click="setPageNumber($index); analytics('Image Banner','Update image')" type="file" >
+                          </span>
+                          <button
+                            class="btn btn-danger"
+                            ng-click="erasePic($index); analytics('Image Banner','Update image')"
+                            ng-show="promo.bannerContent.img.images.dataUri">Delete image</button>
+                        </div>
+                        <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
+                          <img data-ng-src="{{promo.bannerContent.img.images.dataUri}}" class="img-responsive">
+                          <div style="margin-top:15px;" class="alert alert-warning" ng-show="imgError">
+                            <h4>Warning!</h4>
+                            <p>{{imgError}}</p>
+                          </div>
+                        </div>
+                        <!--
+                        <div class="form-group" ng-hide="promo.bannerContent.img.images.dataUri">
+                          <label for="inputImageUrl">Cell image path</label>
+                          <input
+                            type="text"
+                            ng-model="promo.bannerContent.img.images.path"
+                            class="form-control"
+                            id="inputImageUrl"
+                            placeholder="URL">
+                        </div>
+                        -->
+                        <div class="form-group" ng-show="promo.bannerContent.img.images.dataUri">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" ng-model="promo.bannerContent.img.contentParameters.linkType" ng-change="; analytics('Image Banner','Link image checkbox')">Link image</input>
+                            </label>
+                          </div>
+                          <button
+                            ng-show="promo.bannerContent.img.contentParameters.linkType"
+                            type="button"
+                            class="btn btn-info mapButton"
+                            ng-click="mapImgModal($index, promo.bannerContent.img.images.dataUri, promo.bannerContent.img.contentParameters.imageMap); analytics('Image Banner','Map image button')"
+                            >Edit Image Map</button>
+                            <br ng-show="promo.bannerContent.img.contentParameters.linkType"/><br ng-show="promo.bannerContent.img.contentParameters.linkType"/>
+                            <textarea
+                              ng-show="promo.bannerContent.img.contentParameters.imageMap && promo.bannerContent.img.contentParameters.linkType"
+                              class="form-control mapCode"
+                              rows="5" id="textArea"
+                              ng-model="promo.bannerContent.img.contentParameters.imageMap"
+                              ></textarea>
+                        </div>
+                      </div>
+
+                      <ul class="nav nav-tabs" ng-show="promo.bannerContent.imgOrHTML == 'html'">
+                        <li class="active"><a href="#editor{{$index}}" data-toggle="tab">Editor</a></li>
+                        <li ng-show="promo.bannerContent.HTML.localHTML"><a href="#HTML{{$index}}" data-toggle="tab">HTML</a></li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content" ng-show="promo.bannerContent.imgOrHTML == 'html'">
+                        <div class="tab-pane fade active in" id="editor{{$index}}">
+
+                          <div style="margin-bottom:12px">
+                            <button
+                              ng-click="cellTemplateModal($index)"
+                              class="btn fa fa-2x fa-cloud-download">
+                            </button> Import template
+                          </div>
+                          <div class="form-group" ng-show="promo.bannerContent.imgOrHTML == 'html'">
+
+                            <text-angular ng-model="promo.bannerContent.HTML.localHTML" class="html-banner-branded"></text-angular>
+                          </div>
+                          <!--
+                          <div class="form-group" ng-show="promo.bannerContent.imgOrHTML == 'html'">
+                            <label for="bgcolor">Background Color</label>
+                            <br>
+                            <spectrum-colorpicker name="bgcolor" ng-model="promo.bannerContent.HTML.backgroundColor" format="'hex'" class="bg-colorpicker" on-change="bgColorChange($index)" options="{replacerClassName: 'fa fa-eyedropper', showButtons: true, showInput: true, preferredFormat: 'hex'}"></spectrum-colorpicker>
+                          </div>
+                        -->
+                        </div>
+                          <div class="tab-pane fade" id="HTML{{$index}}">
+                            <textarea
+                              id="editor{{$index}}"
+                              rows="24"
+                              class="form-control mapCode editor"
+                              ng-model="promo.bannerContent.HTML.localHTML"
+                              data-editor-lang="xml"
+                              ></textarea>
+                          </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Content footer</div>
+                  <div class="panel-body">
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <div class="col-sm-12">
+                          <h2>Promotion Type</h2>
+                          <div class="form-group">
+                            <div class="radio">
+                              <label class="radio-inline">
+                                <input
+                                  type="radio"
+                                  ng-model="promo.tapContent.displayType"
+                                  value="generic" name="tapType_{{$index}}"
+                                  ng-click="analytics('Promotion type', 'generic'); promo.tapContent.redeemMessage = 'Use code {generic} at checkout'">
+                                <strong>Generic</strong> - display generic code and popup link containing terms & condtions
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label class="radio-inline">
+                                <input
+                                  type="radio"
+                                  ng-model="promo.tapContent.displayType"
+                                  value="auto"
+                                  name="tapType_{{$index}}"
+                                  ng-click="analytics('Promotion type', 'auto'); promo.tapContent.redeemMessage = 'discount automatically applied at checkout'">
+                                <strong>Auto apply</strong> - display redeem message and popup link containing terms & condtions
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="tap" name="tapType_{{$index}}" ng-change="attachRedeem()" ng-click="analytics('Promotion type', 'tap')">
+                                <strong>Tap to apply</strong> - display a button to apply code and popup link containing terms & condtions
+                              </label>
+                            </div>
+                            <div class="radio">
+                              <label class="radio-inline">
+                                <input type="radio" ng-model="promo.tapContent.displayType" value="none" name="tapType_{{$index}}" ng-click="ganalytics('Promotion type', 'none'); promo.tapContent.redeemMessage = 'No code required'">
+                                <strong>None</strong> - custom Redeem Message and popup link with manually entered terms & conditions. For events with no PPC ID
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default" ng-hide="promo.tapContent.displayType == 'none'">
+                      <div class="panel-body">
+                        <form class="form">
+                          <div class="col-sm-6">
+                            <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'" ng-class="{ 'has-error' : cellForm.genericCodeId.$invalid && !cellForm.genericCodeId.$pristine }">
+                              <label for="genericCodeId">PPC ID</label>
+                              <input type="text" name="genericCodeId" ng-model="promo.tapContent.genericCodeId" class="form-control" id="genericCodeId" ng-pattern="/^[0-9]*$/" placeholder="123456">
+                              <p ng-show="cellForm.genericCodeId.$error.pattern" class="help-block">Only numbers are allowed.</p>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group" ng-hide="promo.tapContent.displayType == 'none' || promo.tapContent.displayType == 'auto'">
+                              <label for="genericCode">Generic code</label>
+                              <input name="genericCode" type="text" ng-model="promo.tapContent.genericCode" class="form-control" id="genericCode" placeholder="SAVENOW">
+                            </div>
+                          </div>
+                          <!--
+                          <div class="col-sm-12">
+                            <button
+                              ng-show="promo.tapContent.genericCodeId"
+                              class="btn btn-info btn-block"
+                              ng-click="ppcCheckModal(promo.tapContent.genericCodeId,$index,'bananarepublic')">Validate PPC ID</button>
+                          </div>
+                        -->
+                        </form>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <div class="col-sm-7" ng-hide="promo.tapContent.displayType == 'tap'">
+                          <div class="form-group">
+                            <label for="inputUrl">Redeem message</label>
+                            <textarea class="form-control" rows="2" id="textArea" ng-model="promo.tapContent.redeemMessage"></textarea>
+                            <div style="display:none;" ng-if="promo.tapContent.redeemMessage">
+                              <div ng-bind-html="promo.tapContent.redeemMessage" class="redeemMessage" convert-value="tapContent"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-5">
+                          <div class="form-group">
+                            <label for="popupTextLink">Popup Link</label>
+                            <input type="text" name="popupTextLink" ng-model="promo.tapContent.popupTextLink" class="form-control">
+                            <div style="display:none;" ng-if="promo.tapContent.popupTextLink">
+                              <div ng-bind-html="promo.tapContent.popupTextLink" class="popupTextLink" convert-value="tapContent"></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                          <div class="form-group" ng-hide="promo.tapContent.displayType == 'none'">
+                            <label>
+                              <input type="checkbox" ng-model="promo.tapContent.useLegalOverride"> Override popup text? If unchecked, terms & conditions will be automatically pulled from PPC through ecom.
+                            </label>
+                          </div>
+                          <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
+                            <label for="inputUrl">Terms & conditions popup url (optional)</label>
+                            <textarea class="form-control" rows="1" id="textArea2" ng-model="promo.tapContent.legalOverrideUrl"></textarea>
+                          </div>
+                          <div class="form-group" ng-show="promo.tapContent.useLegalOverride">
+                            <label for="inputUrl">Terms & conditions popup text override</label>
+                            <textarea class="form-control" rows="12" id="textArea" ng-model="promo.tapContent.legalOverride" placeholder="Little promotion
+that makes the business sing,
+what are your details?"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--
+                    <div class="form-group" ng-show="promo.tapContent.genericCode && promo.tapContent.genericCodeId && promo.tapContent.displayType != 'none'">
+                      <label for="preview">iframe preview</label>
+                      <iframe name="preview" frameborder="0" scrolling="yes" ng-src="{{cleanUrl($index)}}"></iframe>
+                    </div>
+                    -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <button style="margin-bottom: 22px;" class="btn btn-success pull-right" ng-click="addItem()">Add promo cell</button>
+          <br>
+        </div>
+      </div>
+
+      <div class="row" ng-show="promos.global.promos">
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Preview : Iphone 5 resolution</h2>
+            </div>
+            <div class="panel-body" style="width:450px;margin:15px auto;padding:0;background:#e0e1e1;">
+              <div class="promoDrawer__handlebar">
+                <div id="promoDrawer__handlebar__text">
+                  <div class="promoDrawer__title closed" style="display: block;">{{promos.global.textElements.headerText}}</div>
+                  <div class="promoDrawer__subtitle closed" style="display: block;">{{promos.global.textElements.subHeaderText}}</div>
+                </div>
+              </div>
+              <div class="offerspotlight-drawer" style="position:relative!important;">
+                <div class="offerspotlight-drawer-slider">
+                  <div class="offerspotlight-drawer-slider-items">
+                    <div class="offerspotlight-drawer-slider-item" ng-repeat="promo in promos.global.promos track by $index" ng-show="promo.bannerContent.img.images.path || promo.bannerContent.img.images.dataUri || promo.bannerContent.HTML.path || promo.bannerContent.HTML.useLocal">
+                      <div class="item-banner-content promoDrawer__content__item__banner" ng-show="promo.bannerContent.imgOrHTML == 'html' && promo.bannerContent.HTML.useLocal">
+                        <div style="vertical-align:middle;width:337px;height:187px;">
+                          <div ng-bind-html="promo.bannerContent.HTML.localHTML" class="html-banner-branded html-preview" style="height:100%">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'html' && !promo.bannerContent.HTML.useLocal">
+                        <iframe frameborder="0" scrolling="no" style="width:256px;height:142px;" ng-src="{{promo.bannerContent.HTML.path}}"></iframe>
+                      </div>
+                      <div class="item-banner-content" ng-show="promo.bannerContent.imgOrHTML == 'img'">
+                          <img width="337" height="187" class="bannerimg" data-ng-src="{{promo.bannerContent.img.images.dataUri}}">
+                      </div>
+                      <div class="spotlight-footer">
+                        <div class="control-code column1">
+                          <a href="#" class="redeem" ng-show="promo.tapContent.displayType == 'tap'">{{promos.global.textElements.tapButtonText}}</a>
+                          <span class="gen" ng-hide="promo.tapContent.displayType == 'tap'">{{promo.tapContent.redeemMessage}}</span>
+                        </div>
+                        <div class="control-apply column2">
+                          <a href="#normal" class="legal-details">
+                            <span class="legal"><a href="javascript:void(0)" ng-show="promo.tapContent.genericCodeId || promo.tapContent.useLegalOverride" ng-click="showMarketingOverlay(promo.tapContent.genericCodeId)">{{promo.tapContent.popupTextLink}}</a></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="promoDrawer__footer" ng-hide="true">
+                <div id="promoDrawer__footer__inner-wrapper">
+                  <div id="pd__banner">
+                    <div id="pd__rewardsBannerShadow"></div>
+                    <div id="pd__rewardsBannerImg">
+                      <img id="pd__rewardsImg" src="http://usability.gap.com/BRWeb/content/skava/promo_drawer/assets/flag.svg">
+                      <div>
+                        <span id="pd__rewardsDollar">72</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="pd__rewardsTitle">{{promos.global.textElements.rewardsText}}</div>
+                  <div id="pd__rewardsDetails">
+                    <a href="#myRewards">{{promos.global.textElements.rewardsCTA}}</a>
+                  </div>
+                  <div style="clear:both"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Preview in WIP</h2>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <center>
+                    <datetimepicker data-ng-model="promos.global.previewDate" data-datetimepicker-config="{ startView:'day', minView:'day' }"></datetimepicker>
+                  </center>
+                  <br>
+                  <button ng-disabled="!promos.global.previewDate" class="btn btn-info btn-block preview-button" role="button" ng-click="preview(promos)" ng-click="analytics('IO','export','Production')">Generate WIP Link</button>
+                </div>
+                <div class="col-sm-12" ng-show="previewUrl">
+                  <br><br>
+                  <label for="preview_url">Preview URL</label>
+                  <textarea type="text" class="form-control" name="preview_url" id="preview_url" ng-model="previewUrl" rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="btn-group" ng-show="mode == 'ts'">
+                    <span class="btn btn-default btn-file">
+                      Import config <input ng-click="analytics('IO','import','Production')" id="the-file-input2" type="file">
+                    </span>
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" ng-repeat="temp in temp_items" ng-click="tempLoad($index)">Autosave: {{temp.timeStamp}}</a></li>
+                    </ul>
+                  </div>
+
+                  <span class="btn btn-default btn-block btn-file" ng-hide="mode == 'ts'">
+                    Import config.json file <input ng-click="analytics('IO','import','Production')" id="the-file-input" type="file">
+                  </span>
+                </div>
+                <div class="col-sm-6">
+                  <a download="config.json" class="btn btn-primary btn-block" role="button" ng-href="data:text/json;charset=utf-8,{{myEncodeJson(promos)}}" ng-click="analytics('IO','export','Production')">Export config.json file</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+          <div class="panel-heading">Output</div>
+          <div class="panel-body"><code>{{promos}}</code></div>
+        </div>
+        </div>
+      </div>
+-->
+      <div class="row">
+        <div class="col-sm-12"></div>
+      </div>
+  </div>
+  </form>
+
+  <script type="text/ng-template" id="myTemplateContents.html">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="dismiss()">&times;</button>
+      <h4 class="modal-title">Cell Templates</h4>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div class="form-group">
+        <label for="select" class="col-sm-12 control-label">Choose a template for cell {{index+1}}:</label>
+        <div class="">
+          <select ng-change="loadTemplate(index)" class="form-control" id="select" ng-model="templateUrl" ng-options="template.url as template.name for template in templates">
+          </select>
+        </div>
+      </div>
+      <div class="alert alert-dismissible alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Templates are created and edited in the <a target="_blank" href="https://github.com/pdtemplates">pdtemplates GitHub repositories</a>.
+      </div>
+<!-- <option ng-repeat="template in templates" ng-change="loadTemplate(index, template.url)">{{template.name}}</option> -->
+    </div>
+    <div class="modal-footer">
+        <button type="reset" class="btn btn-default" ng-click="dismiss()">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-click="ok()">Load Template</button>
+      </div>
+  </div>
+  </script>
+
+
+
+  <script type="text/ng-template" id="ppcCodeCheck.html">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="dismiss()">&times;</button>
+      <h4 class="modal-title">PPC code check for {{ppcId}} at {{brand}}</h4>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div id="progress-bar" class="progress" style="width:400px;margin:0 auto">
+        <div id="progress-bar-info" class="progress-bar progress-bar-info" style="transition: all 3s;"></div>
+      </div>
+
+      <iframe ng-src="{{cleanUrl()}}" id="myframe" onload="frameLoaded();" style="display:none;border:none;width:400px;height:300px;margin:0 auto"></iframe>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="dismiss()">Close</button>
+    </div>
+  </script>
+
+    <script type="text/ng-template" id="myMapperContent.html">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="ok()">&times;</button>
+        <h4 class="modal-title">Image Mapping Tool</h4>
+      </div>
+      <div class="modal-body">
+        <div id="wrapper" class="wrapper">
+          <header id="header" class="header">
+            <nav id="nav" class="clearfix nav">
+              <ul>
+                <li id="rect" class="rect"><a class="btn btn-default" href="#">rectangle</a></li>
+                <li id="circle" class="circle"><a class="btn btn-default" href="#">circle</a></li>
+                <li id="polygon" class="polygon"><a class="btn btn-default" href="#">polygon</a></li>
+                <li id="edit" class="edit"><a class="btn btn-default" href="#">edit</a></li>
+                <li id="del_btn" class="del_btn"><a class="btn btn-warning" href="#">delete</a></li>
+                <li id="clear" class="clear"><a class="btn btn-primary" href="#">clear</a></li>
+
+
+              </ul>
+            </nav>
+            <div id="coords" class="coords"></div>
+            <div id="debug" class="debug"></div>
+          </header>
+          <div id="image_wrapper" class="image_wrapper">
+            <div id="image" class="img-map-container">
+              <img src="" alt="#" id="img" class="img"/>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg" class="svg"></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- For html image map code -->
+        <div id="code" class="code">
+          <span class="close_button" title="close"></span>
+          <div id="code_content" class="code_content"></div>
+        </div>
+
+        <!-- Edit details block -->
+        <div id="edit_details" class="edit_details form-group">
+          <h5 id="h5" class="h5">Attributes</h5>
+          <span id="close_button" class="close_button" title="close"></span>
+          <p>
+            <label for="href_attr">href</label>
+            <input type="text" id="href_attr" class="form-control href_attr" />
+          </p>
+          <p>
+            <label for="plink_attr">Load link in popup?</label>
+            <select id="plink_attr" class="form-control plink_attr" style="font-size:12px;color:#000;">
+              <option value="false" selected="selected" >false</option>
+              <option value="true">true</option>
+            </select>
+          </p>
+          <p>
+            <label for="mlink_attr">Tracking ID</label>
+            <input type="text" id="mlink_attr" class="form-control mlink_attr" />
+          </p>
+          <p>
+            <label for="alt_attr">alt</label>
+            <input type="text" id="alt_attr" class="form-control alt_attr"/>
+          </p>
+          <p>
+            <label for="title_attr">title</label>
+            <input type="text" id="title_attr" class="form-control title_attr"/>
+          </p>
+          <button id="save_details" class="save_details btn btn-success disabled">Save</button>
+
+        </div>
+
+        <!-- From html block -->
+        <div id="from_html_wrapper" class="from_html_wrapper" ng-app="JSConfigApp">
+          <form id="from_html_form" class="from_html_form">
+            <h5>Loading areas</h5>
+            <span class="close_button" title="close"></span>
+            <p>
+              <label for="code_input">Enter your html code:</label>
+              <textarea id="code_input" class="code_input" ng-model="imageMap">{{imageMap}}</textarea>
+            </p>
+            <button id="load_code_button" class="load_code_button">Load</button>
+          </form>
+        </div>
+
+        <!-- Get image form -->
+        <div id="get_image_wrapper" class="get_image_wrapper">
+          <div id="get_image" class="get_image">
+            <div id="loading" class="loading">Loading</div>
+            <div id="file_reader_support" class="file_reader_support">
+              <div id="dropzone" class="dropzone">
+                <span class="clear_button" title="clear">x</span>
+                <img src alt="preview" id="sm_img" class="sm_img" />
+              </div>
+            </div>
+            <label for="url">type a url</label>
+            <span id="url_wrapper" class="url_wrapper">
+              <span class="clear_button" title="clear">x</span>
+            <input type="text" id="url" class="url" />
+            </span>
+            <button id="button" class="button" dataUri="promo.bannerContent.img.images.dataUri">OK</button>
+          </div>
+        </div>
+
+        <!-- Help block -->
+        <div id="overlay" class="overlay"></div>
+        <div id="help" class="help">
+          <span class="close_button" title="close"></span>
+          <div class="txt">
+            <section>
+              <h2>Main</h2>
+              <p><span class="key">F5</span> &mdash; reload the page and display the form for loading image again</p>
+              <p><span class="key">S</span> &mdash; save map params in localStorage</p>
+            </section>
+            <section>
+              <h2>Drawing mode (rectangle / circle / polygon)</h2>
+              <p><span class="key">ENTER</span> &mdash; stop polygon drawing (or click on first helper)</p>
+              <p><span class="key">ESC</span> &mdash; cancel drawing of a new area</p>
+              <p><span class="key">SHIFT</span> &mdash; square drawing in case of a rectangle and right angle drawing in case of a polygon</p>
+            </section>
+            <section>
+              <h2>Editing mode</h2>
+              <p><span class="key">DELETE</span> &mdash; remove a selected area</p>
+              <p><span class="key">ESC</span> &mdash; cancel editing of a selected area</p>
+              <p><span class="key">SHIFT</span> &mdash; edit and save proportions for rectangle</p>
+              <p><span class="key">I</span> &mdash; edit attributes of a selected area (or dblclick on an area)</p>
+              <p><span class="key">CTRL</span> + <span class="key">C</span> &mdash; a copy of the selected area</p>
+              <p><span class="key">&uarr;</span> &mdash; move a selected area up</p>
+              <p><span class="key">&darr;</span> &mdash; move a selected area down</p>
+              <p><span class="key">&larr;</span> &mdash; move a selected area to the left</p>
+              <p><span class="key">&rarr;</span> &mdash; move a selected area to the right</p>
+            </section>
+          </div>
+          <footer>
+
+          </footer>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="ok()">Close</button>
+      </div>
+
+      </script>
+
+
+
+  <script src="js/angular-animate-1.5.0.js"></script>
+  <script src="js/angular-touch-1.5.0.js"></script>
+  <script src="js/angular-spectrum-colorpicker.min.js"></script>
+  <script src="js/spectrum.js"></script>
+  <script src="js/textAngular-dropdownToggle.js"></script>
+  <script src='js/textAngular-rangy.min.js'></script>
+  <script src='js/textAngular-sanitize.js'></script>
+  <script src="js/textAngularSetup.js"></script>
+  <script src='js/textAngular.js'></script>
+  <script src='js/img-mapper.js'></script>
+
+  <script>
+    var QueryString = function () {
+      var query_string = {};
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if (typeof query_string[pair[0]] === "undefined") {
+          query_string[pair[0]] = decodeURIComponent(pair[1]);
+        } else if (typeof query_string[pair[0]] === "string") {
+          var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+          query_string[pair[0]] = arr;
+        } else {
+          query_string[pair[0]].push(decodeURIComponent(pair[1]));
+        }
+      }
+        return query_string;
+    }();
+
+
+
+
+    var JSConfigApp = angular.module('JSConfigApp', ['textAngular','ngAnimate','ui.bootstrap','ui.bootstrap.datetimepicker']).controller('JSConfigAppCtrl', ['$scope', '$uibModal', '$sce','$filter','$http','$interval', function($scope, $uibModal, $sce, $filter, $http, $interval) {
+      var pTemplate = ""
+
+      $scope.temp_items = [];
+      $scope.repo = "https://api.github.com/repos/pdtemplates/";
+      $scope.GHConfig = {
+         headers: {
+           'Accept': 'application/vnd.github.v3.text+json',
+           'Authorization' : 'Basic ' + btoa('pdtemplates:pdt3mplates!') // please forgive me
+         }
+      }
+
+      var locale = QueryString.locale;
+
+      if (!QueryString.locale || QueryString.locale == "undefined") {
+        locale = "en_US"
+      }
+      $scope.locale = locale.substr(0,2);
+
+      $http.get($scope.repo+'GLOBAL/contents/'+locale+'.json?ref=master', $scope.GHConfig)
+        .then( function successCallback(response) {
+          $scope.promos = JSON.parse(decodeFromBase64(response.data.content));
+          $scope.$broadcast('promosInserted');
+          pTemplate = JSON.stringify($scope.promos.global.promos[0])
+          if (!$scope.promos.global.pd_id) {
+            var d = new Date();
+            $scope.promos.global.pd_id = "pdid_"+d.getTime();
+          }
+        },
+        function errorCallback(response) {
+          console.log("Error connecting to resource: "+response+" Defaulting to backup config.")
+          $scope.promos = {
+            "global": {
+              "brands" : ["ON","BR","GAP","AT","GFOL","BRFOL"],
+              "autoFire" : true,
+              "textElements": {
+                "clicked"             : "clicked",
+                "rewardsText"         : "My Total Rewards",
+                "rewardsCTA"          : "View Now",
+                "tapButtonText"       : "tap to apply",
+                "tapButtonTextApplied": "applied at checkout",
+                "tapOverlay"          : "Code will be applied at bag",
+                "headerText"          : "",
+                "subHeaderText"       : "",
+                "openHeaderOffers"    : "my offers",
+                "openHeaderAvailable" : "available"
+              },
+              "promos": [{
+                "PASConditions" : [{
+                  "AttributeName" : "",
+                  "AttributeValue" : "",
+                  "substring" : false
+                }],
+                "bannerContent": {
+                  "imgOrHTML": "html",
+                  "img": {
+                    "contentParameters": {
+                      "linkType" : false,
+                      "imageMap": ""
+                    },
+                    "images": {
+                      "path": "",
+                      "dataUri": "",
+                      "url": ""
+                    }
+                  },
+                  "HTML": {
+                    "useLocal": true,
+                    "localHTML": "",
+                    "backgroundColor": "#FFFFFF",
+                    "css": "",
+                    "path": ""
+                  }
+                },
+                "tapContent": {
+                  "displayType"       : "generic",
+                  "redeemMessage"     : "Use code <generic> at checkout",
+                  "popupTextLink"     : "DETAILS",
+                  "legalOverrideUrl"  : "",
+                  "legalOverride"     : "",
+                  "useLegalOverride"  : false,
+                  "genericCodeId"     : "",
+                  "genericCode"       : ""
+                }
+              }]
+            }
+          }
+
+          pTemplate = JSON.stringify($scope.promos.global.promos[0])
+          if (!$scope.promos.global.pd_id) {
+            var d = new Date();
+            $scope.promos.global.pd_id = "pdid_"+d.getTime();
+          }
+        });
+
+      function decodeFromBase64(input) {
+        input = input.replace(/\s/g, '');
+        return atob(input);
+      }
+
+      if (localStorage.getItem('brand')) {
+        $scope.assignedBrand = localStorage.getItem('brand');
+      }
+      if (!localStorage.getItem('brand')) {
+        $scope.assignedBrand = "GAP";
+      }
+
+      $scope.tempSave = function() {
+        if (localStorage.getItem('pd_tempSave')) {
+          $scope.temp_items = JSON.parse(localStorage.getItem('pd_tempSave'));
+          if ($scope.temp_items.length > 4) {
+            $scope.temp_items.pop();
+          }
+        }
+        var d = $filter('date')(new Date(), "h:mm:ss a EEE, MMM d, y");
+        $scope.temp_items.unshift({
+          timeStamp : d,
+          data : JSON.stringify($scope.promos)
+        })
+        localStorage.setItem('pd_tempSave',JSON.stringify($scope.temp_items))
+        //console.log('updated log:\n\n'+$scope.temp_items[0].timeStamp)
+      }
+
+      //$interval($scope.tempSave, 30000);
+
+      $scope.tempLoad = function(idx) {
+        $scope.temp_items = JSON.parse(localStorage.getItem('pd_tempSave'))
+        $scope.promos = JSON.parse($scope.temp_items[idx].data)
+        $scope.tempSave()
+      }
+
+
+      var cellOuterWidth;
+      var fullSliderContainerWidth;
+      $scope.pageNumber = 0;
+      $scope.setPageNumber = function(index) {
+        $scope.pageNumber = index;
+      }
+
+      $scope.registerCSS = function(string,preset) {
+        var CSS = string.substring(string.indexOf('<style>')+7,string.indexOf('</style>'));
+        var existing = document.getElementById(preset);
+        if (existing) {
+          existing.parentNode.removeChild(existing);
+        }
+        var node = document.createElement('style');
+        node.innerHTML = CSS;
+        node.id = preset;
+        document.body.appendChild(node);
+        $scope.tempSave();
+      }
+
+      $scope.delete = function(idx) {
+        $scope.promos.global.promos.splice(idx, 1);
+        fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
+        jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth + "px");
+        $scope.tempSave();
+      };
+
+      $scope.moveCell = function(old_index, dir) {
+        var new_index = old_index + dir;
+        if (new_index >= $scope.promos.global.promos.length) {
+          var k = new_index - $scope.promos.global.promos.length;
+          while ((k--) + 1) {
+            $scope.promos.global.promos.push(undefined);
+          }
+        }
+        $scope.promos.global.promos.splice(new_index, 0, $scope.promos.global.promos.splice(old_index, 1)[0]);
+        $scope.tempSave();
+      };
+
+      $scope.addItem = function() {
+        $scope.promos.global.promos.push(JSON.parse(pTemplate));
+        cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
+        fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
+        jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth + "px");
+        $scope.tempSave();
+      };
+
+
+      $scope.brandUpdate = function(brand) {
+        var cssUpdate = brand+"-style";
+        localStorage.setItem('brand',brand);
+        $scope.assignedBrand = brand;
+        updateBrandClass('html-banner-branded', cssUpdate);
+        updateBrandClass('promoDrawer__title', cssUpdate);
+        updateBrandClass('promoDrawer__subtitle', cssUpdate);
+        updateBrandClass('promoDrawer__handlebar', cssUpdate);
+
+        function updateBrandClass(elementClass) {
+          var elList = document.getElementsByClassName(elementClass, cssUpdate);
+
+          for (x=0;x<elList.length;x++) {
+            var classList = elList[x].className.split(/\s+/);
+            for (y=0;y<classList.length;y++) {
+
+              if (classList[y].match(/style/)) {
+                jQuery('.'+elementClass).removeClass(classList[y])
+              }
+            }
+          }
+
+          jQuery('.'+elementClass).addClass(cssUpdate);
+        }
+        $scope.tempSave();
+      }
+      $scope.brandUpdate($scope.assignedBrand);
+
+      jQuery("#the-file-input").change(function() {
+        $scope.renderJSON(this.files[0]);
+        $scope.tempSave();
+      });
+      jQuery("#the-file-input2").change(function() {
+        $scope.renderJSON(this.files[0]);
+        $scope.tempSave();
+      });
+
+      $scope.renderJSON = function(file) {
+        var fr = new FileReader();
+        fr.onload = function(e) {
+
+          // this removes the jsonp callback stuff
+          var newArr = JSON.parse(e.target.result.substring(e.target.result.indexOf('{'), e.target.result.lastIndexOf(');')));
+          $scope.$apply($scope.promos = newArr);
+          setTimeout(function(){
+            cellOuterWidth = jQuery(".offerspotlight-drawer-slider-item").outerWidth(true);
+            fullSliderContainerWidth = cellOuterWidth * $scope.promos.global.promos.length;
+            jQuery(".offerspotlight-drawer-slider-items").css('width', fullSliderContainerWidth + "px");
+            jQuery('.redeem').on('click', function() {
+              jQuery(this).toggleClass('applied');
+              jQuery(this).toggleText($scope.promos.global.textElements.tapButtonTextApplied, $scope.promos.global.textElements.tapButtonText)
+              return false;
+            });
+          }, 300);
+        }
+        fr.readAsText(file);
+
+      }
+
+      // JSON export function
+      $scope.myEncodeJson = function(obj) {
+        newObj = this.stripClone(obj);
+        var stringedJSON = "promoObjCallback(" + JSON.stringify(newObj) + ");";
+        return stringedJSON;
+        $scope.tempSave();
+      };
+
+      $scope.wipUrl = function() {
+        var ulocale;var brandPreviewUrl;
+        switch (QueryString.locale) {
+          case "en_US":
+            ulocale = ".com"
+            break;
+          case "en_CA":
+            ulocale = ".ca"
+            break;
+          case "fr_CA":
+            ulocale = ".ca"
+            break;
+          case "en_GB":
+            ulocale = ".co.uk"
+            break;
+          case "en_EU":
+            ulocale = ".eu"
+            break;
+          case "ja_JP":
+            ulocale = ".co.jp"
+            break;
+          default:
+            ulocale = ".com"
+        }
+        switch($scope.assignedBrand) {
+            case "ON":
+              brandPreviewUrl = "onol.wip.gidapps";
+              break;
+            case "BR":
+              brandPreviewUrl = "brol.wip.gidapps"
+              break;
+            case "GAP":
+              brandPreviewUrl = "gol.wip.gidapps"
+              break;
+            case "AT":
+              brandPreviewUrl = "atol.wip.gidapps"
+              break;
+            case "GFOL":
+              brandPreviewUrl = "gfol.wip.gidfsapps"
+              break;
+            case "BRFOL":
+              brandPreviewUrl = "brfol.wip.gidfsapps"
+              break;
+            default:
+              brandPreviewUrl = "onol.wip.gidapps";
+        }
+        return brandPreviewUrl + ulocale;
+      }
+
+      $scope.preview = function(obj) {
+        newObj = this.stripClone(obj);
+        var stringedJSON = "promoObjCallback(" + JSON.stringify(obj) + ");";
+        var wipUrl = $scope.wipUrl();
+        var targetDate = $filter('date')($scope.promos.global.previewDate, "MM/dd/yyyy");
+        finalUrl = "http://www."+wipUrl+"/preview?date="+targetDate+"&targetURL=http://www."+wipUrl+"/%3Fpd_url%3D";
+
+        $http({
+            method: 'POST',
+            url: 'uploader/u.php',
+            data: $.param({string : stringedJSON, pd_id : $scope.promos.global.pd_id}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then( function success(r) {
+          $scope.previewUrl = finalUrl+encodeURIComponent(r.data);
+          $scope.tempSave();
+        }, function error(r){
+          console.log("Things didn't go as planned.")
+        })
+      };
+
+      $scope.stripClone = function(obj) {
+        if (null == obj || "object" != typeof obj) return obj;
+        var copy = obj.constructor();
+        for (var attr in obj) {
+          if (obj.hasOwnProperty(attr) && attr != '$$hashKey') {
+            var obj_attr = obj[attr];
+            if (typeof obj_attr == "object") {
+              copy[attr] = this.stripClone(obj_attr);
+            } else if (typeof obj_attr == "array") {
+              copy[attr] = [];
+              for (var i = 0; i < obj_attr.length; i++) {
+                copy[attr].push(this.stripClone(obj_attr));
+              }
+            } else {
+              copy[attr] = obj_attr;
+            }
+          }
+        }
+        return copy;
+      };
+
+
+      jQuery(document).on('change', '#the-img-input', function() {
+        $scope.renderURI(this, function(dataUri) {
+          $scope.$apply($scope.promos.global.promos[$scope.pageNumber].bannerContent.img.images.dataUri = dataUri);
+        });
+        $scope.tempSave()
+      });
+
+      $scope.showMarketingOverlay = function(ppcId,overrideText) {
+        var wipUrl = $scope.wipUrl();
+        var url = 'http://www.'+wipUrl+'/buy/promo_legal_details.do?promoId='+ppcId;
+        var windowHeight = jQuery(window).height();
+        var heightCalc = this.windowHeight - 68;
+        var overLay = jQuery('<div id="wcd-legal-popup-overlay"></div>').css('height', windowHeight + 500 + 'px').appendTo('body').fadeIn();
+        var popupHtml = '<div id="wcd-legal-popup"><div id="wcd-legal-inner-wrapper"><div id="wcd-legal-close" style="color:#000;"> X </div>';
+        if (overrideText) {
+          popupHtml += "<div class='legal-text'>" + url + "</div>";
+        }
+        else {
+          popupHtml += '<iframe src="' + url + '"></iframe>';
+        }
+        popupHtml += '</div></div>';
+        jQuery('body').prepend(popupHtml);
+        function setIframeHeight(e) {
+          if (typeof e.data.msgId != 'undefined') {
+            if (e.data.msgId=='legalHeight') {
+              jQuery('#wcd-legal-inner-wrapper iframe').css({'height':e.data.legalHeight + 200 + 'px'});
+            }
+          }
+          console.log(e);
+        }
+        window.addEventListener("message", setIframeHeight, false);
+        jQuery('#wcd-legal-inner-wrapper iframe').on('load',function() {
+          this.contentWindow.postMessage(location.hostname,url);
+        });
+        jQuery('#wcd-legal-popup').css({'display':'block','height':windowHeight - 68 + 'px'});
+        jQuery('#wcd-legal-inner-wrapper,#wcd-legal-inner-wrapper iframe').css({'height':windowHeight - 68 - 30 + 'px'});
+        jQuery('#wcd-legal-close').on('click',function() {
+          jQuery('#wcd-legal-popup-overlay,#wcd-legal-popup').remove();
+        });
+        jQuery('#wcd-legal-inner-wrapper,#wcd-legal-popup-overlay,#wcd-legal-popup').on('touchmove scroll',function(e) {
+          e.stopPropagation();
+        })
+      }
+
+
+      $scope.renderURI = function(input, callback) {
+        var image = new Image();
+        image.onload = function() {
+          var canvas = document.createElement('canvas');
+          canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+          canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+          canvas.getContext('2d').drawImage(this, 0, 0);
+          $scope.imgError = "";
+          if (canvas.width != 600 && canvas.height != 332) {
+            $scope.imgError = 'Your image is ' + canvas.width + ' pixels wide by ' + canvas.height + ' pixels high. Recommended dimensions are 600 pixels wide by 332 pixels high. Your image may be distorted.';
+          }
+
+          callback(canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg);base64,/, ''));
+
+        };
+
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            image.src = e.target.result;
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      $scope.erasePic = function(index) {
+        $scope.promos.global.promos[index].bannerContent.img.images.dataUri = "";
+        var el = document.getElementsByClassName('bannerimg');
+
+        $(el[index]).attr("src","");
+        $scope.tempSave()
+      }
+
+      $scope.analytics = function(ec,ea,el) {
+        ga('send','event',ec,ea,'Production v2');
+      }
+
+
+      // attach event to tap to apply button
+      $scope.attachRedeem = function() {
+        jQuery('.redeem').on('click', function() {
+          jQuery(this).toggleClass('applied');
+          jQuery(this).toggleText($scope.promos.global.textElements.tapButtonTextApplied, $scope.promos.global.textElements.tapButtonText)
+          return false;
+        });
+      }
+
+      $scope.mapImgModal = function(index, dataURI, mapHTML){
+        var el = document.getElementsByClassName('mapCode')[index];
+        mapHTML = el.value;
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myMapperContent.html',
+          controller: 'ModalInstanceCtrl',
+          size: 'lg',
+          resolve: {
+            index : function() {
+              return index;
+            },
+            imageMapCode: function () {
+              return $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+
+            var imageMap = $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap;
+
+            imageMapper(index, dataURI, imageMap);
+          })
+        modalInstance.result
+          .then(function (result) {
+            index = results[1];
+            mapValue = results[0];
+
+            $scope.promos.global.promos[index].bannerContent.img.contentParameters.imageMap = mapValue;
+            $scope.tempSave()
+          })
+      }
+
+      $scope.cellTemplateModal = function(index){
+
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myTemplateContents.html',
+          controller: 'templateModalInstanceCtrl',
+          size: 'md',
+          resolve: {
+            repoUrl: function () {
+              if ($scope.locale=='ja') {
+                return $scope.repo + "GAP_JP/contents";
+              }
+              else {
+                return $scope.repo + $scope.assignedBrand + "/contents";
+              }
+            },
+            index : function() {
+              return index;
+            },
+            html : function() {
+              return $scope.promos.global.promos[index].bannerContent.HTML.localHTML;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+          })
+        modalInstance.result
+          .then(function (content) {
+            $scope.promos.global.promos[index].bannerContent.HTML.localHTML = content;
+            var el = document.getElementsByClassName('ta-scroll-window');
+            if(!jQuery(el[index]).hasClass("promoDrawer__content__item__banner")) {
+                jQuery( el[index] ).addClass( "promoDrawer__content__item__banner" );
+            }
+            $scope.tempSave()
+          })
+      }
+
+      $scope.ppcCheckModal = function(ppcId, index, brand){
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'ppcCodeCheck.html',
+          controller: 'ppcModalInstanceCtrl',
+          size: 'md',
+          resolve: {
+            ppcId: function () {
+              return $scope.promos.global.promos[index].tapContent.genericCodeId;
+            },
+            brand: function () {
+              return brand;
+            }
+          }
+        })
+        modalInstance.rendered
+          .then(function() {
+            jQuery("#progress-bar-info").css('width','100%')
+        })
+      }
+    }]);
+
+      angular.module('JSConfigApp').controller('ppcModalInstanceCtrl', function ($scope, $sce, $uibModalInstance, ppcId, brand) {
+
+        $scope.ppcId = ppcId;
+        $scope.brand = brand;
+
+        $scope.cleanUrl = function() {
+          return $sce.trustAsResourceUrl("http://"+brand+".gap.com/buy/promo_legal_details.do?promoId="+ppcId);
+        }
+
+        $scope.dismiss = function () {
+          jQuery("#progress-bar").css('display','block');
+          jQuery("#myframe").css('display','none');
+          jQuery("#progress-bar-info").css('width','0%')
+
+          $uibModalInstance.dismiss();
+        };
+      });
+      
+      JSConfigApp.directive('convertValue',function(){
+        return {
+          //priority : 10,
+          link : function(scope,elem,attr) {
+            scope.$watch(attr.ngBindHtml,function(){
+              var convertedValue = jQuery(elem).html();
+              if (attr.convertValue=="tapContent") {
+                scope.promo.tapContent[attr.class] = convertedValue;
+              }
+              else {
+                
+                scope.promos.global[attr.convertValue][attr.class] = convertedValue;
+              }
+            });
+            
+          }
+        }
+      });
+      
+      angular.module('JSConfigApp').controller('templateModalInstanceCtrl', function ($scope, $uibModalInstance, repoUrl, index, html, $http) {
+        $scope.repoUrl = repoUrl;
+        $scope.index = index;
+        $scope.html = html;
+
+        $scope.GHConfig = {
+           headers: {
+             'Accept': 'application/vnd.github.v3.text+json',
+             'Authorization' : 'Basic ' + btoa('pdtemplates:pdt3mplates!') // please forgive me
+           }
+        }
+
+        $http.get($scope.repoUrl, $scope.GHConfig)
+          .then( function successCallback(response) {
+            for(x=0;x<response.data.length;x++){
+              if (response.data[x].name == 'README.md') {
+                response.data.splice(x,1)
+              }
+            }
+            $scope.templates = response.data;
+          });
+
+        $scope.loadTemplate = function (index) {
+          $http.get($scope.templateUrl, $scope.GHConfig)
+            .then( function successCallback(response){
+              $scope.html = atob(response.data.content);
+            });
+        };
+
+        $scope.ok = function () {
+          $uibModalInstance.close($scope.html);
+        };
+
+        $scope.dismiss = function () {
+          $uibModalInstance.dismiss();
+        };
+      });
+
+      angular.module('JSConfigApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, index, imageMapCode) {
+
+        $scope.imageMap = imageMapCode;
+
+        $scope.ok = function () {
+          map = document.getElementsByClassName('code_content');
+          $scope.imageMap = map[0].innerHTML//.replace('&lt;',/</).replace('&gt;',/>/);
+
+          results = [$scope.imageMap, index]
+          $uibModalInstance.close(results);
+        };
+        $scope.cancel = function () {
+          $uibModalInstance.dismiss();
+        };
+      });
+
+      JSConfigApp.config(['$compileProvider', function($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
+      }]);
+
+      function frameLoaded() {
+        setTimeout(function(){
+          jQuery("#progress-bar").css('display','none');jQuery("#myframe").css('display','block');
+        }, 3000);
+      }
+
+
+    jQuery.fn.toggleText = function(t1, t2) {
+      if (this.text() == t1) this.text(t2);
+      else this.text(t1);
+      return this;
+    };
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77236685-1', 'auto');
+  ga('send', 'pageview');
+
+
+</script>
+</body>
+</html>
